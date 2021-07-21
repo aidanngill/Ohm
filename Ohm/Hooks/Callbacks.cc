@@ -1,9 +1,9 @@
-#include "./Callbacks.hh"
-#include "./Hooks.hh"
-#include "../Interfaces.hh"
-#include "../Utility/Utilities.hh"
+#include "./Callbacks.h"
+#include "./Hooks.h"
+#include "../Interfaces.h"
+#include "../Utility/Utilities.h"
 
-#include "../SDK/IPanel.hh"
+#include "../SDK/IPanel.h"
 
 LRESULT __stdcall WndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (!hooks->IsWindowHooked())

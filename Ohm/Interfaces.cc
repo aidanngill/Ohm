@@ -42,8 +42,12 @@ bool GetInterfaceList(HMODULE module, std::vector<InterfaceReg*> &interface_reg_
 }
 
 std::vector<Module> GetModuleList() {
-	// __readfsdword(...) requires x86 build type
+#if _WIN64
+	PEB* peb = reinterpret_cast<TEB*>(__readgsdword(0x18))->ProcessEnvironmentBlock;
+#else
 	PEB* peb = reinterpret_cast<TEB*>(__readfsdword(0x18))->ProcessEnvironmentBlock;
+#endif
+
 	uintptr_t base_address = peb->ImageBaseAddress;
 
 	Module module;
@@ -100,11 +104,9 @@ Interfaces::~Interfaces() {
 }
 
 Interface Interfaces::FindInterface(std::string interface_name) {
-	for (Interface current : interfaces) {
-		if (strncmp(current.interface_name, interface_name.c_str(), interface_name.size()) == 0) {
+	for (Interface current : interfaces)
+		if (strncmp(current.interface_name, interface_name.c_str(), interface_name.size()) == 0)
 			return current;
-		}
-	}
 
 	return Interface{};
 }
