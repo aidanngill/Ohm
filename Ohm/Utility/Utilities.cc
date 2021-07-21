@@ -1,7 +1,7 @@
 #include <iostream>
 #include <Windows.h>
 
-#include "Utilities.h"
+#include "./Utilities.h"
 
 FILE* f;
 

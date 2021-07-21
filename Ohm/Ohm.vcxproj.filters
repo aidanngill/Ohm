@@ -1,14 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Ohm.cpp" />
-    <ClCompile Include="Hooks\Hooks.cpp" />
-    <ClCompile Include="Hooks\Callbacks.cpp" />
-    <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="Ohm.cc" />
+    <ClCompile Include="Hooks\Hooks.cc" />
+    <ClCompile Include="Hooks\Callbacks.cc" />
+    <ClCompile Include="Utility\Utilities.cc" />
+    <ClCompile Include="Interfaces.cc" />
+    <ClCompile Include="PE\Module.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h" />
     <ClInclude Include="Hooks\Callbacks.h" />
-    <ClInclude Include="Utilities.h" />
+    <ClInclude Include="Utility\Utilities.h" />
+    <ClInclude Include="Interfaces.h" />
+    <ClInclude Include="SDK\InterfaceReg.h" />
+    <ClInclude Include="PE\Module.h" />
+    <ClInclude Include="PE\Types.h" />
+    <ClInclude Include="SDK\IPanel.h" />
+    <ClInclude Include="Utility\VirtualFunc.h" />
+    <ClInclude Include="SDK\ISurface.h" />
+    <ClInclude Include="SDK\Color.h" />
+    <ClInclude Include="GUI\Font.h" />
   </ItemGroup>
 </Project>

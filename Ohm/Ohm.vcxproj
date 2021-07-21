@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,15 +140,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Hooks\Callbacks.cpp" />
-    <ClCompile Include="Hooks\Hooks.cpp" />
-    <ClCompile Include="Ohm.cpp" />
-    <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="Hooks\Callbacks.cc" />
+    <ClCompile Include="Hooks\Hooks.cc" />
+    <ClCompile Include="Interfaces.cc" />
+    <ClCompile Include="PE\Module.cc" />
+    <ClCompile Include="Ohm.cc" />
+    <ClCompile Include="Utility\Utilities.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GUI\Font.h" />
     <ClInclude Include="Hooks\Callbacks.h" />
     <ClInclude Include="Hooks\Hooks.h" />
-    <ClInclude Include="Utilities.h" />
+    <ClInclude Include="Interfaces.h" />
+    <ClInclude Include="PE\Module.h" />
+    <ClInclude Include="PE\Types.h" />
+    <ClInclude Include="SDK\Color.h" />
+    <ClInclude Include="SDK\InterfaceReg.h" />
+    <ClInclude Include="SDK\IPanel.h" />
+    <ClInclude Include="SDK\ISurface.h" />
+    <ClInclude Include="Utility\Utilities.h" />
+    <ClInclude Include="Utility\VirtualFunc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

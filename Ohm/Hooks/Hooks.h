@@ -5,16 +5,13 @@
 
 // Implementation of a Virtual Method Table (VMT) Hook.
 // https://en.wikipedia.org/wiki/Virtual_method_table
-class Hook {
+class VmtHook {
 public:
-	Hook(void* given_class_pointer);
-	~Hook();
-
+	VmtHook(void* class_ptr);
+	~VmtHook();
 	void SwapPointer(size_t index, void* new_function);
-
-	void Apply();
-	void Restore();
-
+	void ApplyNewTable();
+	void RestoreOldTable();
 	template<typename T>
 	T GetOriginal(size_t index);
 private:
@@ -29,15 +26,16 @@ public:
 	void Install();
 	void Restore();
 
-	// WndProc Functions
 	bool IsWindowHooked();
 	LRESULT ReturnWindowCallback(HWND window, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	VmtHook* VGUI;
 private:
 	WNDPROC original_wnd_proc = nullptr;
 	HWND window = nullptr;
 	HMODULE module = nullptr;
 };
 
-// Define hooks once. C++ 17 Standard is necessary
+// Define `hooks` once. C++ 17 Standard is necessary
 // for `inline` in this case.
 inline std::unique_ptr<Hooks> hooks;
