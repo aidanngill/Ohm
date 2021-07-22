@@ -9,14 +9,16 @@
 #include "../GUI/Font.h"
 #include "../GUI/Render.h"
 
+#include "../SDK/CUserCmd.h"
 #include "../SDK/IPanel.h"
 #include "../SDK/ISurface.h"
 
 #include "../Utility/Utilities.h"
 
-// In the future, I'd like to move this to `Callbacks.cc`.
 typedef void(__thiscall* PaintTraverseFn)(void*, unsigned int, bool, bool);
+typedef bool(__thiscall* CreateMoveFn)(void*, float, CUserCmd*);
 
+// In the future, I'd like to move this to `Callbacks.cc`.
 // https://github.com/ValveSoftware/source-sdk-2013/blob/master/mp/src/public/vgui/IPanel.h#L99
 void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bool forceRepaint, bool allowForce = true) {
 	if (hooks == nullptr || hooks->VGUI == nullptr)
@@ -42,6 +44,15 @@ void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bo
 
 	// Do draw functions on ISurface here.
 	render->Watermark();
+}
+
+static bool __stdcall CreateMove(float input_sample_frametime, CUserCmd* cmd) {
+	auto result = hooks->ClientInput->GetOriginal<CreateMoveFn>(24)(interfaces->BaseClient, input_sample_frametime, cmd);
+
+	if (!cmd || !cmd->command_number)
+		return result;
+
+	return false;
 }
 
 VmtHook::VmtHook(void* class_ptr) {
@@ -104,10 +115,15 @@ void Hooks::Install() {
 	VGUI = new VmtHook(interfaces->Panel);
 	VGUI->SwapPointer(41, reinterpret_cast<void*>(PaintTraverse));
 	VGUI->ApplyNewTable();
+
+	ClientInput = new VmtHook(interfaces->BaseClient);
+	ClientInput->SwapPointer(24, reinterpret_cast<void*>(CreateMove));
+	ClientInput->ApplyNewTable();
 }
 
 void Hooks::Restore() {
-	hooks->VGUI->RestoreOldTable();
+	VGUI->RestoreOldTable();
+	ClientInput->RestoreOldTable();
 
 	SetWindowLongPtr(window, GWLP_WNDPROC, LONG_PTR(original_wnd_proc));
 	HANDLE thread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Unload, module, NULL, NULL);

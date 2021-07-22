@@ -1,5 +1,3 @@
-#include <Windows.h>
-
 #include "./Interfaces.h"
 
 #include "./PE/Types.h"
@@ -94,16 +92,18 @@ Interfaces::Interfaces() {
 			interfaces.push_back(Interface{ module.GetModuleNameA(), current->m_pName, reinterpret_cast<uintptr_t>(current->m_CreateFn()) });
 	}
 
+	BaseClient = reinterpret_cast<IBaseClientDLL*>(FindInterface("VClient0").create_fn);
 	Panel = reinterpret_cast<IPanel*>(FindInterface("VGUI_Panel0").create_fn);
 	Surface = reinterpret_cast<ISurface*>(FindInterface("VGUI_Surface0").create_fn);
 }
 
-Interfaces::~Interfaces() {
-}
+Interfaces::~Interfaces() {}
 
-Interface Interfaces::FindInterface(std::string interface_name) {
+Interface Interfaces::FindInterface(const char* interface_name) {
+	int len = strlen(interface_name);
+
 	for (Interface current : interfaces)
-		if (strncmp(current.interface_name, interface_name.c_str(), interface_name.size()) == 0)
+		if (strncmp(current.interface_name, interface_name, len) == 0)
 			return current;
 
 	return Interface{};

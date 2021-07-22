@@ -30,6 +30,7 @@ public:
 	LRESULT ReturnWindowCallback(HWND window, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	VmtHook* VGUI;
+	VmtHook* ClientInput;
 private:
 	WNDPROC original_wnd_proc = nullptr;
 	HWND window = nullptr;

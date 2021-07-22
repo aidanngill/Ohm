@@ -8,6 +8,7 @@
     <ClCompile Include="Interfaces.cc" />
     <ClCompile Include="PE\Module.cc" />
     <ClCompile Include="GUI\Render.cc" />
+    <ClCompile Include="Features\Misc.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h" />
@@ -23,5 +24,10 @@
     <ClInclude Include="SDK\Color.h" />
     <ClInclude Include="GUI\Font.h" />
     <ClInclude Include="GUI\Render.h" />
+    <ClInclude Include="SDK\CUserCmd.h" />
+    <ClInclude Include="SDK\Math\QAngle.h" />
+    <ClInclude Include="SDK\IBaseClientDLL.h" />
+    <ClInclude Include="SDK\IClientClass.h" />
+    <ClInclude Include="Features\Misc.h" />
   </ItemGroup>
 </Project>
