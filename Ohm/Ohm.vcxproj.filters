@@ -9,6 +9,8 @@
     <ClCompile Include="PE\Module.cc" />
     <ClCompile Include="GUI\Render.cc" />
     <ClCompile Include="Features\Misc.cc" />
+    <ClCompile Include="Memory.cc" />
+    <ClCompile Include="Netvars.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h" />
@@ -29,5 +31,17 @@
     <ClInclude Include="SDK\IBaseClientDLL.h" />
     <ClInclude Include="SDK\IClientClass.h" />
     <ClInclude Include="Features\Misc.h" />
+    <ClInclude Include="Memory.h" />
+    <ClInclude Include="SDK\CClientState.h" />
+    <ClInclude Include="SDK\Math\Vector.h" />
+    <ClInclude Include="SDK\IClientEntityList.h" />
+    <ClInclude Include="SDK\IClientEntity.h" />
+    <ClInclude Include="SDK\IClientNetworkable.h" />
+    <ClInclude Include="SDK\IClientRenderable.h" />
+    <ClInclude Include="SDK\Math\Matrix.h" />
+    <ClInclude Include="SDK\Studio.h" />
+    <ClInclude Include="SDK\IClientUnknown.h" />
+    <ClInclude Include="SDK\IClientThinkable.h" />
+    <ClInclude Include="Netvars.h" />
   </ItemGroup>
 </Project>

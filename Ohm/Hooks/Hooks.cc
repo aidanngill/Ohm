@@ -5,11 +5,15 @@
 #include "./Callbacks.h"
 
 #include "../Interfaces.h"
+#include "../Memory.h"
+#include "../Netvars.h"
 
 #include "../GUI/Font.h"
 #include "../GUI/Render.h"
 
 #include "../SDK/CUserCmd.h"
+#include "../SDK/IClientEntity.h"
+#include "../SDK/IClientEntityList.h"
 #include "../SDK/IPanel.h"
 #include "../SDK/ISurface.h"
 
@@ -44,10 +48,21 @@ void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bo
 
 	// Do draw functions on ISurface here.
 	render->Watermark();
+
+	// Render the local player's health.
+	if (memory->LocalPlayer) {
+		wchar_t user_health[128];
+		swprintf_s(user_health, L"Health: %d", memory->LocalPlayer->Health());
+
+		render->Text(user_health, 10, 25, render->font_base, Color(255, 255, 255, 255));
+	}
 }
 
 static bool __stdcall CreateMove(float input_sample_frametime, CUserCmd* cmd) {
-	auto result = hooks->ClientInput->GetOriginal<CreateMoveFn>(24)(interfaces->BaseClient, input_sample_frametime, cmd);
+	if (hooks == nullptr || hooks->ClientInput == nullptr)
+		return false;
+
+	auto result = hooks->ClientInput->GetOriginal<CreateMoveFn>(24)(interfaces->ClientMode, input_sample_frametime, cmd);
 
 	if (!cmd || !cmd->command_number)
 		return result;
@@ -71,6 +86,7 @@ VmtHook::VmtHook(void* class_ptr) {
 
 VmtHook::~VmtHook() {
 	RestoreOldTable();
+
 	delete original_pointer;
 	delete new_table_pointer;
 }
@@ -104,8 +120,16 @@ Hooks::Hooks(HMODULE module) {
 	render = std::make_unique<Render>();
 	printf("[+] Initialized the renderer.\n");
 
+	memory = std::make_unique<Memory>();
+	printf("[+] Initialized the memory module.\n");
+
+	netvars = std::make_unique<Netvars>();
+	printf("[+] Initialized netvars.\n");
+
 	this->window = FindWindow(L"Valve001", nullptr);
 	this->original_wnd_proc = WNDPROC(SetWindowLongPtr(window, GWLP_WNDPROC, LONG_PTR(WndProc)));
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(25));
 
 	this->Install();
 	printf("[+] Initialized all hooks.\n");
@@ -116,7 +140,7 @@ void Hooks::Install() {
 	VGUI->SwapPointer(41, reinterpret_cast<void*>(PaintTraverse));
 	VGUI->ApplyNewTable();
 
-	ClientInput = new VmtHook(interfaces->BaseClient);
+	ClientInput = new VmtHook(interfaces->ClientMode);
 	ClientInput->SwapPointer(24, reinterpret_cast<void*>(CreateMove));
 	ClientInput->ApplyNewTable();
 }

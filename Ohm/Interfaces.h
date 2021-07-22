@@ -4,8 +4,10 @@
 #include <vector>
 #include <Windows.h>
 
+class CClientMode;
 class InterfaceReg;
 class IBaseClientDLL;
+class IClientEntityList;
 class IPanel;
 class ISurface;
 
@@ -27,7 +29,9 @@ public:
 	Interfaces();
 	~Interfaces();
 
+	CClientMode* ClientMode;
 	IBaseClientDLL* BaseClient;
+	IClientEntityList* ClientEntityList;
 	IPanel* Panel;
 	ISurface* Surface;
 
