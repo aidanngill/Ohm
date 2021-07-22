@@ -7,6 +7,7 @@
     <ClCompile Include="Utility\Utilities.cc" />
     <ClCompile Include="Interfaces.cc" />
     <ClCompile Include="PE\Module.cc" />
+    <ClCompile Include="GUI\Render.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h" />
@@ -21,5 +22,6 @@
     <ClInclude Include="SDK\ISurface.h" />
     <ClInclude Include="SDK\Color.h" />
     <ClInclude Include="GUI\Font.h" />
+    <ClInclude Include="GUI\Render.h" />
   </ItemGroup>
 </Project>

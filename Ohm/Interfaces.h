@@ -20,8 +20,6 @@ public:
 	Interfaces();
 	~Interfaces();
 
-	bool initialized = false;
-
 	IPanel* Panel;
 	ISurface* Surface;
 

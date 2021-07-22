@@ -148,6 +148,7 @@
     <ClCompile Include="Interfaces.cc" />
     <ClCompile Include="PE\Module.cc" />
     <ClCompile Include="Ohm.cc" />
+    <ClCompile Include="GUI\Render.cc" />
     <ClCompile Include="Utility\Utilities.cc" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +158,7 @@
     <ClInclude Include="Interfaces.h" />
     <ClInclude Include="PE\Module.h" />
     <ClInclude Include="PE\Types.h" />
+    <ClInclude Include="GUI\Render.h" />
     <ClInclude Include="SDK\Color.h" />
     <ClInclude Include="SDK\InterfaceReg.h" />
     <ClInclude Include="SDK\IPanel.h" />

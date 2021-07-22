@@ -96,8 +96,6 @@ Interfaces::Interfaces() {
 
 	Panel = reinterpret_cast<IPanel*>(FindInterface("VGUI_Panel0").create_fn);
 	Surface = reinterpret_cast<ISurface*>(FindInterface("VGUI_Surface0").create_fn);
-
-	this->initialized = true;
 }
 
 Interfaces::~Interfaces() {

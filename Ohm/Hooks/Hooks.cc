@@ -7,6 +7,7 @@
 #include "../Interfaces.h"
 
 #include "../GUI/Font.h"
+#include "../GUI/Render.h"
 
 #include "../SDK/IPanel.h"
 #include "../SDK/ISurface.h"
@@ -15,11 +16,10 @@
 
 // In the future, I'd like to move this to `Callbacks.cc`.
 typedef void(__thiscall* PaintTraverseFn)(void*, unsigned int, bool, bool);
-void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bool forceRepaint, bool allowForce) {
 
-	// Occasionally, hooks itself will also be a `nullptr` (?) and cause crashes.
-	// Perhaps `Install()` should be called outside of the initializer?
-	if (hooks->VGUI == nullptr)
+// https://github.com/ValveSoftware/source-sdk-2013/blob/master/mp/src/public/vgui/IPanel.h#L99
+void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bool forceRepaint, bool allowForce = true) {
+	if (hooks == nullptr || hooks->VGUI == nullptr)
 		return;
 
 	hooks->VGUI->GetOriginal<PaintTraverseFn>(41)(pPanels, vguiPanel, forceRepaint, allowForce);
@@ -40,21 +40,8 @@ void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bo
 	if (focus_overlay_panel != vguiPanel)
 		return;
 
-	// Do draw functions on Surface here.
-	static long watermark = 0;
-	static bool defined = false;
-
-	if (!defined) {
-		watermark = interfaces->Surface->CreateFont();
-		interfaces->Surface->SetFontGlyphSet(watermark, "Tahoma", 15, 400, 0, 0, FONTFLAG_OUTLINE | FONTFLAG_ANTIALIAS);
-
-		defined = true;
-	}
-
-	interfaces->Surface->DrawSetTextPos(10, 10);
-	interfaces->Surface->DrawSetTextColor(Color(255, 255, 255, 255));
-	interfaces->Surface->DrawSetTextFont(watermark);
-	interfaces->Surface->DrawPrintText(L"Ohm", 3);
+	// Do draw functions on ISurface here.
+	render->Watermark();
 }
 
 VmtHook::VmtHook(void* class_ptr) {
@@ -96,19 +83,21 @@ T VmtHook::GetOriginal(size_t index) {
 
 Hooks::Hooks(HMODULE module) {
 	AttachGameConsole();
-	printf("[%%] Initializing hooks for module %#08x...\n", reinterpret_cast<int>(module));
+	printf("[+] Started the cheat on module %#08p.\n", module);
 
 	this->module = module;
+
 	interfaces = std::make_unique<Interfaces>();
+	printf("[+] Initialized all interfaces.\n");
+
+	render = std::make_unique<Render>();
+	printf("[+] Initialized the renderer.\n");
 
 	this->window = FindWindow(L"Valve001", nullptr);
 	this->original_wnd_proc = WNDPROC(SetWindowLongPtr(window, GWLP_WNDPROC, LONG_PTR(WndProc)));
 
-	while (!interfaces->initialized)
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
 	this->Install();
-	printf("[+] Initialized all hooks successfully.\n");
+	printf("[+] Initialized all hooks.\n");
 }
 
 void Hooks::Install() {
