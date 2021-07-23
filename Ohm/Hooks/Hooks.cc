@@ -5,17 +5,17 @@
 #include "./Callbacks.h"
 
 #include "../Interfaces.h"
+#include "../InterfaceDep.h"
+
 #include "../Memory.h"
 #include "../Netvars.h"
+
+#include "../Features/Visuals.h"
 
 #include "../GUI/Font.h"
 #include "../GUI/Render.h"
 
 #include "../SDK/CUserCmd.h"
-#include "../SDK/IClientEntity.h"
-#include "../SDK/IClientEntityList.h"
-#include "../SDK/IPanel.h"
-#include "../SDK/ISurface.h"
 
 #include "../Utility/Utilities.h"
 
@@ -49,14 +49,7 @@ void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bo
 	// Do draw functions on ISurface here.
 	render->Watermark();
 
-	IClientEntity* local_player = GetLocalPlayer();
-
-	if (local_player) {
-		wchar_t user_health[128];
-		swprintf_s(user_health, L"Health: %d", local_player->Health());
-
-		render->Text(user_health, 10, 25, render->font_base, Color(255, 255, 255, 255));
-	}
+	RenderVisuals();
 }
 
 static bool __stdcall CreateMove(float input_sample_frametime, CUserCmd* cmd) {

@@ -153,6 +153,7 @@
     <ClCompile Include="Ohm.cc" />
     <ClCompile Include="GUI\Render.cc" />
     <ClCompile Include="Utility\Utilities.cc" />
+    <ClCompile Include="Features\Visuals.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI\Font.h" />
@@ -176,15 +177,20 @@
     <ClInclude Include="SDK\IClientRenderable.h" />
     <ClInclude Include="SDK\IClientThinkable.h" />
     <ClInclude Include="SDK\IClientUnknown.h" />
+    <ClInclude Include="SDK\ICollideable.h" />
+    <ClInclude Include="InterfaceDep.h" />
     <ClInclude Include="SDK\InterfaceReg.h" />
     <ClInclude Include="SDK\IPanel.h" />
     <ClInclude Include="SDK\ISurface.h" />
+    <ClInclude Include="SDK\IVDebugOverlay.h" />
+    <ClInclude Include="SDK\IVEngineClient.h" />
     <ClInclude Include="SDK\Math\Matrix.h" />
     <ClInclude Include="SDK\Math\QAngle.h" />
     <ClInclude Include="SDK\Math\Vector.h" />
     <ClInclude Include="SDK\Studio.h" />
     <ClInclude Include="Utility\Utilities.h" />
     <ClInclude Include="Utility\VirtualFunc.h" />
+    <ClInclude Include="Features\Visuals.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

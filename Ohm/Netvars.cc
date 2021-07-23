@@ -34,5 +34,11 @@ intptr_t GetNetvarOffset(const char* table_name, const char* netvar_name, IClien
 Netvars::Netvars() {
 	IClientClass* client_class = interfaces->BaseClient->GetAllClasses();
 
+	// DT_BasePlayer
 	m_iHealth = GetNetvarOffset("DT_BasePlayer", "m_iHealth", client_class);
+	m_vecOrigin = GetNetvarOffset("DT_BasePlayer", "m_vecOrigin", client_class);
+	m_Collision = GetNetvarOffset("DT_BasePlayer", "m_Collision", client_class);
+	
+	// DT_CSPlayer
+	m_lifeState = GetNetvarOffset("DT_CSPlayer", "m_lifeState", client_class);
 }

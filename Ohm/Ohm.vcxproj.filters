@@ -11,6 +11,7 @@
     <ClCompile Include="Features\Misc.cc" />
     <ClCompile Include="Memory.cc" />
     <ClCompile Include="Netvars.cc" />
+    <ClCompile Include="Features\Visuals.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h" />
@@ -43,5 +44,10 @@
     <ClInclude Include="SDK\IClientUnknown.h" />
     <ClInclude Include="SDK\IClientThinkable.h" />
     <ClInclude Include="Netvars.h" />
+    <ClInclude Include="Features\Visuals.h" />
+    <ClInclude Include="SDK\ICollideable.h" />
+    <ClInclude Include="SDK\IVDebugOverlay.h" />
+    <ClInclude Include="SDK\IVEngineClient.h" />
+    <ClInclude Include="InterfaceDep.h" />
   </ItemGroup>
 </Project>

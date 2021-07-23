@@ -10,6 +10,8 @@ class IBaseClientDLL;
 class IClientEntityList;
 class IPanel;
 class ISurface;
+class IVDebugOverlay;
+class IVEngineClient;
 
 class Module;
 
@@ -34,6 +36,8 @@ public:
 	IClientEntityList* ClientEntityList;
 	IPanel* Panel;
 	ISurface* Surface;
+	IVDebugOverlay* DebugOverlay;
+	IVEngineClient* Engine;
 
 	Interface FindInterface(const char* interface_name);
 private:
