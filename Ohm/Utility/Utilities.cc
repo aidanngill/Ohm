@@ -3,6 +3,7 @@
 #include <Windows.h>
 
 #include "./Utilities.h"
+#include "../Memory.h"
 
 FILE* f;
 
@@ -63,4 +64,9 @@ uint8_t* PatternScan(void* module, const char* signature) {
 	}
 
 	return nullptr;
+}
+
+// Local player must be de-referenced once more to get the *current* local player.
+IClientEntity* GetLocalPlayer() {
+	return *reinterpret_cast<IClientEntity**>(memory->LocalPlayer);
 }

@@ -49,10 +49,11 @@ void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bo
 	// Do draw functions on ISurface here.
 	render->Watermark();
 
-	// Render the local player's health.
-	if (memory->LocalPlayer) {
+	IClientEntity* local_player = GetLocalPlayer();
+
+	if (local_player) {
 		wchar_t user_health[128];
-		swprintf_s(user_health, L"Health: %d", memory->LocalPlayer->Health());
+		swprintf_s(user_health, L"Health: %d", local_player->Health());
 
 		render->Text(user_health, 10, 25, render->font_base, Color(255, 255, 255, 255));
 	}
