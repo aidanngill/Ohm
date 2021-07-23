@@ -3,6 +3,7 @@
 #include <Windows.h>
 
 #include "./Utilities.h"
+
 #include "../Memory.h"
 
 FILE* f;

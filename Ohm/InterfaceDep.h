@@ -5,6 +5,7 @@
 
 #include "./SDK/IClientEntity.h"
 #include "./SDK/IClientEntityList.h"
+#include "./SDK/IInputSystem.h"
 #include "./SDK/IPanel.h"
 #include "./SDK/ISurface.h"
 #include "./SDK/IVDebugOverlay.h"

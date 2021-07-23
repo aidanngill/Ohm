@@ -16,7 +16,9 @@ public:
 	void Visuals();
 	
 	const wchar_t* watermark_text = L"Ohm";
-	Font font_base;
+
+	Font font_base = 0x5; // One of the default CS:GO fonts.
+	Font font_small;
 };
 
 inline std::unique_ptr<Render> render;

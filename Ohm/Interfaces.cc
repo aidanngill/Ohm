@@ -1,4 +1,5 @@
 #include "./Interfaces.h"
+#include "./InterfaceDep.h"
 
 #include "./PE/Types.h"
 #include "./PE/Module.h"
@@ -99,9 +100,12 @@ Interfaces::Interfaces() {
     Surface             = reinterpret_cast<ISurface*>(FindInterface("VGUI_Surface0").create_fn);
     DebugOverlay        = reinterpret_cast<IVDebugOverlay*>(FindInterface("VDebugOverlay0").create_fn);
     Engine              = reinterpret_cast<IVEngineClient*>(FindInterface("VEngineClient0").create_fn);
+    InputSystem         = reinterpret_cast<IInputSystem*>(FindInterface("InputSystemVersion0").create_fn);
 }
 
-Interfaces::~Interfaces() {}
+Interfaces::~Interfaces() {
+    this->InputSystem->EnableInput(true);
+}
 
 Interface Interfaces::FindInterface(const char* interface_name) {
     int len = strlen(interface_name);

@@ -148,6 +148,7 @@
     <ClCompile Include="Interfaces.cc" />
     <ClCompile Include="Features\Misc.cc" />
     <ClCompile Include="Memory.cc" />
+    <ClCompile Include="GUI\Menu.cpp" />
     <ClCompile Include="Netvars.cc" />
     <ClCompile Include="PE\Module.cc" />
     <ClCompile Include="Ohm.cc" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Interfaces.h" />
     <ClInclude Include="Features\Misc.h" />
     <ClInclude Include="Memory.h" />
+    <ClInclude Include="GUI\Menu.h" />
     <ClInclude Include="Netvars.h" />
     <ClInclude Include="PE\Module.h" />
     <ClInclude Include="PE\Types.h" />
@@ -169,6 +171,7 @@
     <ClInclude Include="SDK\CClientState.h" />
     <ClInclude Include="SDK\Color.h" />
     <ClInclude Include="SDK\CUserCmd.h" />
+    <ClInclude Include="SDK\IAppSystem.h" />
     <ClInclude Include="SDK\IBaseClientDLL.h" />
     <ClInclude Include="SDK\IClientClass.h" />
     <ClInclude Include="SDK\IClientEntity.h" />
@@ -179,6 +182,7 @@
     <ClInclude Include="SDK\IClientUnknown.h" />
     <ClInclude Include="SDK\ICollideable.h" />
     <ClInclude Include="InterfaceDep.h" />
+    <ClInclude Include="SDK\IInputSystem.h" />
     <ClInclude Include="SDK\InterfaceReg.h" />
     <ClInclude Include="SDK\IPanel.h" />
     <ClInclude Include="SDK\ISurface.h" />

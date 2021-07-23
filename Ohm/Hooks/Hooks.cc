@@ -13,6 +13,7 @@
 #include "../Features/Visuals.h"
 
 #include "../GUI/Font.h"
+#include "../GUI/Menu.h"
 #include "../GUI/Render.h"
 
 #include "../SDK/CUserCmd.h"
@@ -48,6 +49,8 @@ void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bo
 
 	render->Watermark();
 	render->Visuals();
+
+	menu->Render();
 }
 
 static bool __stdcall CreateMove(float input_sample_frametime, CUserCmd* cmd) {
@@ -102,21 +105,15 @@ T VmtHook::GetOriginal(size_t index) {
 
 Hooks::Hooks(HMODULE module) {
 	AttachGameConsole();
-	printf("[+] Started the cheat on module %#08p.\n", module);
+	printf("[#] Cheat\t-> %#08p\n", module);
 
 	this->module = module;
 
 	interfaces = std::make_unique<Interfaces>();
-	printf("[+] Initialized all interfaces.\n");
-
-	render = std::make_unique<Render>();
-	printf("[+] Initialized the renderer.\n");
-
-	memory = std::make_unique<Memory>();
-	printf("[+] Initialized the memory module.\n");
-
 	netvars = std::make_unique<Netvars>();
-	printf("[+] Initialized netvars.\n");
+	render = std::make_unique<Render>();
+	memory = std::make_unique<Memory>();
+	menu = std::make_unique<Menu>();
 
 	this->window = FindWindow(L"Valve001", nullptr);
 	this->original_wnd_proc = WNDPROC(SetWindowLongPtr(window, GWLP_WNDPROC, LONG_PTR(WndProc)));
@@ -124,7 +121,6 @@ Hooks::Hooks(HMODULE module) {
 	std::this_thread::sleep_for(std::chrono::milliseconds(25));
 
 	this->Install();
-	printf("[+] Initialized all hooks.\n");
 }
 
 void Hooks::Install() {

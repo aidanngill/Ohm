@@ -12,6 +12,7 @@
     <ClCompile Include="Memory.cc" />
     <ClCompile Include="Netvars.cc" />
     <ClCompile Include="Features\Visuals.cc" />
+    <ClCompile Include="GUI\Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h" />
@@ -49,5 +50,8 @@
     <ClInclude Include="SDK\IVDebugOverlay.h" />
     <ClInclude Include="SDK\IVEngineClient.h" />
     <ClInclude Include="InterfaceDep.h" />
+    <ClInclude Include="GUI\Menu.h" />
+    <ClInclude Include="SDK\IInputSystem.h" />
+    <ClInclude Include="SDK\IAppSystem.h" />
   </ItemGroup>
 </Project>

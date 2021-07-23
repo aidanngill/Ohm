@@ -8,6 +8,7 @@ class CClientMode;
 class InterfaceReg;
 class IBaseClientDLL;
 class IClientEntityList;
+class IInputSystem;
 class IPanel;
 class ISurface;
 class IVDebugOverlay;
@@ -34,6 +35,7 @@ public:
 	CClientMode* ClientMode;
 	IBaseClientDLL* BaseClient;
 	IClientEntityList* ClientEntityList;
+	IInputSystem* InputSystem;
 	IPanel* Panel;
 	ISurface* Surface;
 	IVDebugOverlay* DebugOverlay;

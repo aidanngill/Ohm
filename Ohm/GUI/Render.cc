@@ -1,17 +1,18 @@
 #include "./Render.h"
+
 #include "../Interfaces.h"
 #include "../InterfaceDep.h"
 
 #include "../Features/Visuals.h"
 
-#include "../SDK/Color.h"
-#include "../SDK/ISurface.h"
-
 #include "../Utility/Utilities.h"
 
 Render::Render() {
-	font_base = interfaces->Surface->CreateFont();
-	interfaces->Surface->SetFontGlyphSet(font_base, "Tahoma", 15, 400, 0, 0, FONTFLAG_OUTLINE | FONTFLAG_ANTIALIAS);
+	// this->font_base = interfaces->Surface->CreateFont();
+	this->font_small = interfaces->Surface->CreateFont();
+
+	// interfaces->Surface->SetFontGlyphSet(this->font_base, "Tahoma", 15, 400, 0, 0, FONTFLAG_OUTLINE | FONTFLAG_ANTIALIAS);
+	interfaces->Surface->SetFontGlyphSet(this->font_small, "Small Fonts", 14, 400, 0, 0, FONTFLAG_OUTLINE);
 }
 
 void Render::Text(const wchar_t* text, int x, int y, Font font, Color color = Color(255, 255, 255, 255)) {
