@@ -68,30 +68,3 @@ void DrawBoundingBox(int x, int y, int w, int h, Color color) {
 	interfaces->Surface->DrawSetColor(color);
 	interfaces->Surface->DrawOutlinedRect(x, y, x + w, y + h);
 }
-
-void RenderVisuals() {
-	if (!interfaces->Engine->IsInGame())
-		return;
-
-	IClientEntity* local_player = GetLocalPlayer();
-	int max_clients = interfaces->Engine->GetMaxClients();
-
-	for (int i = 0; i < interfaces->ClientEntityList->GetHighestEntityIndex(); i++) {
-		IClientEntity* entity = reinterpret_cast<IClientEntity*>(interfaces->ClientEntityList->GetClientEntity(i));
-
-		if (!entity || !entity->IsAlive() || entity == local_player)
-			continue;
-
-		if (i <= max_clients) {
-			if (entity->GetDormant())
-				continue;
-
-			int x, y, w, h;
-
-			if (!GetBoundingBox(entity, x, y, w, h))
-				continue;
-
-			DrawBoundingBox(x, y, w, h, Color(255, 255, 255, 255));
-		}
-	}
-}

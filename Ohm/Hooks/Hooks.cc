@@ -46,10 +46,8 @@ void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bo
 	if (focus_overlay_panel != vguiPanel)
 		return;
 
-	// Do draw functions on ISurface here.
 	render->Watermark();
-
-	RenderVisuals();
+	render->Visuals();
 }
 
 static bool __stdcall CreateMove(float input_sample_frametime, CUserCmd* cmd) {
