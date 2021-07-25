@@ -31,16 +31,18 @@ void Render::Visuals() {
 		return;
 
 	IClientEntity* local_player = GetLocalPlayer();
+
+	int max_entities = interfaces->ClientEntityList->GetHighestEntityIndex();
 	int max_clients = interfaces->Engine->GetMaxClients();
 
-	for (int i = 0; i < interfaces->ClientEntityList->GetHighestEntityIndex(); i++) {
-		IClientEntity* entity = reinterpret_cast<IClientEntity*>(interfaces->ClientEntityList->GetClientEntity(i));
+	for (int i = 0; i < max_entities; i++) {
+		IClientEntity* entity = interfaces->ClientEntityList->GetClientEntity(i);
 
-		if (!entity || !entity->IsAlive() || entity == local_player)
+		if (!entity || entity == local_player)
 			continue;
 
 		if (i <= max_clients) {
-			if (entity->GetDormant())
+			if (entity->GetDormant() || !entity->IsAlive())
 				continue;
 
 			int x, y, w, h;
@@ -49,6 +51,9 @@ void Render::Visuals() {
 				continue;
 
 			DrawBoundingBox(x, y, w, h, Color(255, 255, 255, 255));
+		}
+		else if (entity->IsC4()) {
+			DrawBombTimer(entity);
 		}
 	}
 }

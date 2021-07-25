@@ -57,6 +57,10 @@ static bool __stdcall CreateMove(float input_sample_frametime, CUserCmd* cmd) {
 	if (hooks == nullptr || hooks->ClientInput == nullptr)
 		return false;
 
+	// We can only get the class IDs when we are in game.
+	if (interfaces->Engine->IsInGame() && !netvars->ci_initialized)
+		netvars->ci_initialized = netvars->InitializeClassIdentifiers();
+
 	auto result = hooks->ClientInput->GetOriginal<CreateMoveFn>(24)(interfaces->ClientMode, input_sample_frametime, cmd);
 
 	if (!cmd || !cmd->command_number)
@@ -105,7 +109,7 @@ T VmtHook::GetOriginal(size_t index) {
 
 Hooks::Hooks(HMODULE module) {
 	AttachGameConsole();
-	printf("[#] Cheat\t-> %#08p\n", module);
+	printf("[#] 0x%08X -> Module\n", reinterpret_cast<int>(module));
 
 	this->module = module;
 

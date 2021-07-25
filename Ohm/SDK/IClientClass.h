@@ -2,7 +2,6 @@
 
 class RecvTable;
 class RecvProp;
-class ClientClass;
 
 class RecvTable {
 public:
@@ -40,5 +39,5 @@ public:
     const char*     m_pNetworkName;
     RecvTable*      m_pRecvTable;
     IClientClass*   m_pNext;
-    int				m_ClassID;
+    int 			m_ClassID;
 };

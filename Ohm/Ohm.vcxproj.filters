@@ -13,6 +13,7 @@
     <ClCompile Include="Netvars.cc" />
     <ClCompile Include="Features\Visuals.cc" />
     <ClCompile Include="GUI\Menu.cc" />
+    <ClCompile Include="SDK\CGlobalVars.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h" />
@@ -53,5 +54,7 @@
     <ClInclude Include="GUI\Menu.h" />
     <ClInclude Include="SDK\IInputSystem.h" />
     <ClInclude Include="SDK\IAppSystem.h" />
+    <ClInclude Include="SDK\ClientClass.h" />
+    <ClInclude Include="SDK\CGlobalVars.h" />
   </ItemGroup>
 </Project>

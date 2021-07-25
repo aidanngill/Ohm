@@ -31,14 +31,40 @@ intptr_t GetNetvarOffset(const char* table_name, const char* netvar_name, IClien
 	return 0;
 }
 
+bool Netvars::InitializeClassIdentifiers() {
+	IClientClass* current_node = client_class;
+	int probable_valid_count = 0;
+
+	for (auto current_node = client_class; current_node; current_node = current_node->m_pNext) {
+		if (current_node->m_ClassID > 0)
+			++probable_valid_count;
+
+		class_identifiers[current_node->m_pNetworkName] = current_node->m_ClassID;
+	}
+
+	if (probable_valid_count < 1)
+		return false;
+
+	printf("[+] Initialized %d class identifiers.\n", class_identifiers.size());
+
+	return true;
+}
+
 Netvars::Netvars() {
-	IClientClass* client_class = interfaces->BaseClient->GetAllClasses();
+	client_class = interfaces->BaseClient->GetAllClasses();
 
 	// DT_BasePlayer
-	m_iHealth = GetNetvarOffset("DT_BasePlayer", "m_iHealth", client_class);
-	m_vecOrigin = GetNetvarOffset("DT_BasePlayer", "m_vecOrigin", client_class);
 	m_Collision = GetNetvarOffset("DT_BasePlayer", "m_Collision", client_class);
+	m_iHealth = GetNetvarOffset("DT_BasePlayer", "m_iHealth", client_class);
+	m_iTeamNum = GetNetvarOffset("DT_BasePlayer", "m_iTeamNum", client_class);
+	m_nTickBase = GetNetvarOffset("DT_BasePlayer", "m_nTickBase", client_class);
+	m_vecOrigin = GetNetvarOffset("DT_BasePlayer", "m_vecOrigin", client_class);
 	
 	// DT_CSPlayer
+	m_ArmorValue = GetNetvarOffset("DT_CSPlayer", "m_ArmorValue", client_class);
 	m_lifeState = GetNetvarOffset("DT_CSPlayer", "m_lifeState", client_class);
+
+	// DT_PlantedC4
+	m_flC4Blow = GetNetvarOffset("DT_PlantedC4", "m_flC4Blow", client_class);
+	m_flTimerLength = GetNetvarOffset("DT_PlantedC4", "m_flTimerLength", client_class);
 }

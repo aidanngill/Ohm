@@ -3,13 +3,16 @@
 #include <iostream>
 
 class CClientState;
+class CGlobalVars;
 class IClientEntity;
 
 class Memory {
 public:
 	Memory();
-	IClientEntity* LocalPlayer;
+
 	CClientState* ClientState;
+	CGlobalVars* GlobalVars;
+	IClientEntity* LocalPlayer;
 };
 
 inline std::unique_ptr<Memory> memory;

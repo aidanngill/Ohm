@@ -1,12 +1,19 @@
+#include <string>
+
 #include "./Visuals.h"
+
 #include "../Interfaces.h"
 #include "../InterfaceDep.h"
+#include "../Memory.h"
 
-#include "../Utility/Utilities.h"
+#include "../GUI/Render.h"
 
+#include "../SDK/CGlobalVars.h"
 #include "../SDK/ICollideable.h"
 #include "../SDK/IClientEntity.h"
 #include "../SDK/Math/Vector.h"
+
+#include "../Utility/Utilities.h"
 
 bool GetBoundingBox(IClientEntity* entity, int& x, int& y, int& w, int& h) {
 	Vector origin, min, max, flb, brt, blb, frt, frb, brb, blt, flt;
@@ -67,4 +74,30 @@ bool GetBoundingBox(IClientEntity* entity, int& x, int& y, int& w, int& h) {
 void DrawBoundingBox(int x, int y, int w, int h, Color color) {
 	interfaces->Surface->DrawSetColor(color);
 	interfaces->Surface->DrawOutlinedRect(x, y, x + w, y + h);
+}
+
+void DrawBombTimer(IClientEntity* bomb_entity) {
+	float time = bomb_entity->BombTimer() - memory->GlobalVars->current_time;
+	
+	if (time < 0)
+		return;
+
+	int w, h;
+	interfaces->Surface->GetScreenSize(w, h);
+
+	float length = bomb_entity->BombLength();
+	float ratio = time / length;
+
+	interfaces->Surface->DrawSetColor(Color(32, 32, 32, 255));
+	interfaces->Surface->DrawFilledRect(w / 3, h / 3, (w / 3) * 2, (h / 3) + 3);
+
+	interfaces->Surface->DrawSetColor(Color(255 - (255 * ratio), 0 + (255 * ratio), 0, 255));
+	interfaces->Surface->DrawFilledRect((w / 3) + 1, (h / 3) + 1, ((w / 3) + ((w / 3) * 1) * ratio) - 1, ((h / 3) + 3) - 1);
+
+	int fw, fh;
+
+	std::wstring text = std::to_wstring(time);
+	interfaces->Surface->GetTextSize(render->font_base, text.c_str(), fw, fh);
+
+	render->Text(text.c_str(), ((w / 3) * 2) - ((w / 3) / 2) - (fw / 2), h / 3, render->font_base, Color(255, 255, 255, 255));
 }

@@ -153,6 +153,7 @@
     <ClCompile Include="PE\Module.cc" />
     <ClCompile Include="Ohm.cc" />
     <ClCompile Include="GUI\Render.cc" />
+    <ClCompile Include="SDK\CGlobalVars.cc" />
     <ClCompile Include="Utility\Utilities.cc" />
     <ClCompile Include="Features\Visuals.cc" />
   </ItemGroup>
@@ -169,6 +170,8 @@
     <ClInclude Include="PE\Types.h" />
     <ClInclude Include="GUI\Render.h" />
     <ClInclude Include="SDK\CClientState.h" />
+    <ClInclude Include="SDK\CGlobalVars.h" />
+    <ClInclude Include="SDK\ClientClass.h" />
     <ClInclude Include="SDK\Color.h" />
     <ClInclude Include="SDK\CUserCmd.h" />
     <ClInclude Include="SDK\IAppSystem.h" />
