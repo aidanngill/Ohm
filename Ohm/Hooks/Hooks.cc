@@ -13,8 +13,8 @@
 #include "../Features/Visuals.h"
 
 #include "../GUI/Font.h"
-#include "../GUI/Menu.h"
 #include "../GUI/Render.h"
+#include "../GUI/Menu/Menu.h"
 
 #include "../SDK/CUserCmd.h"
 
@@ -22,6 +22,7 @@
 
 typedef void(__thiscall* PaintTraverseFn)(void*, unsigned int, bool, bool);
 typedef bool(__thiscall* CreateMoveFn)(void*, float, CUserCmd*);
+typedef void(__thiscall* OnResolutionChangeFn)(ISurface*, int, int);
 
 // In the future, I'd like to move this to `Callbacks.cc`.
 // https://github.com/ValveSoftware/source-sdk-2013/blob/master/mp/src/public/vgui/IPanel.h#L99
@@ -67,6 +68,15 @@ static bool __stdcall CreateMove(float input_sample_frametime, CUserCmd* cmd) {
 		return result;
 
 	return false;
+}
+
+static void __stdcall OnResolutionChanged(int old_width, int old_height) {
+	hooks->Surface->GetOriginal<OnResolutionChangeFn>(116);
+	render->SetupFonts();
+}
+
+void __fastcall LockCursor(void* ecx) {
+
 }
 
 VmtHook::VmtHook(void* class_ptr) {
@@ -122,7 +132,7 @@ Hooks::Hooks(HMODULE module) {
 	this->window = FindWindow(L"Valve001", nullptr);
 	this->original_wnd_proc = WNDPROC(SetWindowLongPtr(window, GWLP_WNDPROC, LONG_PTR(WndProc)));
 
-	std::this_thread::sleep_for(std::chrono::milliseconds(25));
+	std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
 	this->Install();
 }
@@ -135,11 +145,16 @@ void Hooks::Install() {
 	ClientInput = new VmtHook(interfaces->ClientMode);
 	ClientInput->SwapPointer(24, reinterpret_cast<void*>(CreateMove));
 	ClientInput->ApplyNewTable();
+
+	Surface = new VmtHook(interfaces->Surface);
+	Surface->SwapPointer(116, reinterpret_cast<void*>(OnResolutionChanged));
+	Surface->ApplyNewTable();
 }
 
 void Hooks::Restore() {
 	VGUI->RestoreOldTable();
 	ClientInput->RestoreOldTable();
+	Surface->RestoreOldTable();
 
 	SetWindowLongPtr(window, GWLP_WNDPROC, LONG_PTR(original_wnd_proc));
 	HANDLE thread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Unload, module, NULL, NULL);

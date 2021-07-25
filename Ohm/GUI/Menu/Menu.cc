@@ -1,8 +1,10 @@
 #include "./Menu.h"
-#include "./Render.h"
+#include "./Tab.h"
 
-#include "../Interfaces.h"
-#include "../InterfaceDep.h"
+#include "../Render.h"
+
+#include "../../Interfaces.h"
+#include "../../InterfaceDep.h"
 
 #define MENU_WIDTH 300
 #define MENU_HEIGHT 200
@@ -14,7 +16,11 @@ bool IsInRegion(int x, int y, int tx, int ty, int tw, int th) {
 	return (tx <= x && x <= tx + tw) && (ty <= y && y <= ty + th);
 }
 
-Menu::Menu() {}
+Menu::Menu() {
+	std::wstring tab_visual_name = L"Visuals";
+	Tab tab_visual = Tab(tab_visual_name);
+	tabs.push_back(tab_visual);
+}
 
 void Menu::Render() {
 	if (!is_open)
@@ -68,6 +74,17 @@ void Menu::Render() {
 	// Titlebar [close button outline]
 	interfaces->Surface->DrawSetColor(Color(0, 0, 0, 255));
 	interfaces->Surface->DrawOutlinedRect(offset_x + TITLEBAR_WIDTH - 20, offset_y, offset_x + TITLEBAR_WIDTH, offset_y + 20);
+	
+	// Draw the tabs and their titles
+	for (size_t i = 0; i < tabs.size(); i++) {
+		interfaces->Surface->DrawSetColor(Color(86, 86, 86, 255));
+		interfaces->Surface->DrawFilledRect(offset_x, offset_y + TITLEBAR_HEIGHT + (i * 20), offset_x + 80, offset_y + TITLEBAR_HEIGHT + ((i + 1) * 20));
+
+		interfaces->Surface->DrawSetColor(Color(0, 0, 0, 255));
+		interfaces->Surface->DrawOutlinedRect(offset_x, offset_y + TITLEBAR_HEIGHT + (i * 20), offset_x + 80, offset_y + TITLEBAR_HEIGHT + ((i + 1) * 20));
+
+		render->Text(tabs[i].title.c_str(), offset_x + 6, offset_y + TITLEBAR_HEIGHT + (i * 20) + 6, render->font_base, Color(255, 255, 255, 255));
+	}
 }
 
 void Menu::Controls(UINT msg, WPARAM wParam, LPARAM lParam) {
@@ -85,9 +102,8 @@ void Menu::Controls(UINT msg, WPARAM wParam, LPARAM lParam) {
 
 // Check if the user is pressing the 'close' button at the top right.
 bool Menu::IsClosing() {
-	return
-		IsInRegion(mouse_x, mouse_y, offset_x + TITLEBAR_WIDTH - 20, offset_y, 20, 20) &&
-		is_clicking &&
+	return is_clicking &&
 		mouse_x == previous_mouse_x &&
-		mouse_y == previous_mouse_y;
+		mouse_y == previous_mouse_y &&
+		IsInRegion(mouse_x, mouse_y, offset_x + TITLEBAR_WIDTH - 20, offset_y, 20, 20);
 }

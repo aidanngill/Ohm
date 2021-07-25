@@ -5,7 +5,6 @@
 #include "./IClientThinkable.h"
 #include "./IClientUnknown.h"
 
-#include "./ClientClass.h"
 #include "./ICollideable.h"
 
 #include "../Netvars.h"

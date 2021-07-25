@@ -31,6 +31,7 @@ public:
 
 	VmtHook* VGUI;
 	VmtHook* ClientInput;
+	VmtHook* Surface;
 private:
 	WNDPROC original_wnd_proc = nullptr;
 	HWND window = nullptr;

@@ -9,6 +9,7 @@ class Color;
 class Render {
 public:
 	Render();
+	void SetupFonts();
 
 	void Text(const wchar_t* text, int x, int y, Font font, Color color);
 

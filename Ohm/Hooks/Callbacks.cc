@@ -4,7 +4,7 @@
 #include "../Interfaces.h"
 #include "../InterfaceDep.h"
 
-#include "../GUI/Menu.h"
+#include "../GUI/Menu/Menu.h"
 
 #include "../SDK/IPanel.h"
 

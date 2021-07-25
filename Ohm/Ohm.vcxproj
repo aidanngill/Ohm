@@ -104,12 +104,13 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -134,16 +135,18 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GUI\Menu.cc" />
+    <ClCompile Include="GUI\Menu\Menu.cc" />
+    <ClCompile Include="GUI\Menu\Tab.cc" />
     <ClCompile Include="Hooks\Callbacks.cc" />
     <ClCompile Include="Hooks\Hooks.cc" />
     <ClCompile Include="Interfaces.cc" />
@@ -159,19 +162,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI\Font.h" />
+    <ClInclude Include="GUI\Menu\Tab.h" />
     <ClInclude Include="Hooks\Callbacks.h" />
     <ClInclude Include="Hooks\Hooks.h" />
     <ClInclude Include="Interfaces.h" />
     <ClInclude Include="Features\Misc.h" />
     <ClInclude Include="Memory.h" />
-    <ClInclude Include="GUI\Menu.h" />
+    <ClInclude Include="GUI\Menu\Menu.h" />
     <ClInclude Include="Netvars.h" />
     <ClInclude Include="PE\Module.h" />
     <ClInclude Include="PE\Types.h" />
     <ClInclude Include="GUI\Render.h" />
     <ClInclude Include="SDK\CClientState.h" />
     <ClInclude Include="SDK\CGlobalVars.h" />
-    <ClInclude Include="SDK\ClientClass.h" />
     <ClInclude Include="SDK\Color.h" />
     <ClInclude Include="SDK\CUserCmd.h" />
     <ClInclude Include="SDK\IAppSystem.h" />

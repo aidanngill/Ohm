@@ -91,8 +91,18 @@ void DrawBombTimer(IClientEntity* bomb_entity) {
 	interfaces->Surface->DrawSetColor(Color(32, 32, 32, 255));
 	interfaces->Surface->DrawFilledRect(w / 3, h / 3, (w / 3) * 2, (h / 3) + 3);
 
-	interfaces->Surface->DrawSetColor(Color(255 - (255 * ratio), 0 + (255 * ratio), 0, 255));
-	interfaces->Surface->DrawFilledRect((w / 3) + 1, (h / 3) + 1, ((w / 3) + ((w / 3) * 1) * ratio) - 1, ((h / 3) + 3) - 1);
+	interfaces->Surface->DrawSetColor(Color(
+		static_cast<int>(255 - (255 * ratio)),
+		static_cast<int>(0 + (255 * ratio)),
+		0, 255
+	));
+
+	interfaces->Surface->DrawFilledRect(
+		(w / 3) + 1,
+		(h / 3) + 1,
+		((w / 3) + ((w / 3) * 1) * ratio) - 1,
+		((h / 3) + 3) - 1
+	);
 
 	int fw, fh;
 

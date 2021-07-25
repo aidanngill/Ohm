@@ -8,10 +8,13 @@
 #include "../Utility/Utilities.h"
 
 Render::Render() {
-	// this->font_base = interfaces->Surface->CreateFont();
+	this->SetupFonts();
+}
+
+void Render::SetupFonts() {
+	this->font_base = 0x5;
 	this->font_small = interfaces->Surface->CreateFont();
 
-	// interfaces->Surface->SetFontGlyphSet(this->font_base, "Tahoma", 15, 400, 0, 0, FONTFLAG_OUTLINE | FONTFLAG_ANTIALIAS);
 	interfaces->Surface->SetFontGlyphSet(this->font_small, "Small Fonts", 14, 400, 0, 0, FONTFLAG_OUTLINE);
 }
 

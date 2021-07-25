@@ -1,7 +1,11 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
+
 #include <Windows.h>
+
+#include "./Tab.h"
 
 class Menu {
 public:
@@ -17,9 +21,12 @@ public:
 	bool is_dragging = false;
 private:
 	int offset_x = 50, offset_y = 50;
+	int old_offset_x, old_offset_y;
+
 	int mouse_x, mouse_y;
 	int previous_mouse_x, previous_mouse_y;
-	int old_offset_x, old_offset_y;
+
+	std::vector<Tab> tabs;
 };
 
 inline std::unique_ptr<Menu> menu;
