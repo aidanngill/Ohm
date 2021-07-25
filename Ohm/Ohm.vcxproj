@@ -143,12 +143,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GUI\Menu.cc" />
     <ClCompile Include="Hooks\Callbacks.cc" />
     <ClCompile Include="Hooks\Hooks.cc" />
     <ClCompile Include="Interfaces.cc" />
     <ClCompile Include="Features\Misc.cc" />
     <ClCompile Include="Memory.cc" />
-    <ClCompile Include="GUI\Menu.cpp" />
     <ClCompile Include="Netvars.cc" />
     <ClCompile Include="PE\Module.cc" />
     <ClCompile Include="Ohm.cc" />

@@ -20,14 +20,19 @@ void Menu::Render() {
 	if (!is_open)
 		return;
 
-	// Check if we're dragging.
 	interfaces->InputSystem->GetCursorPosition(&mouse_x, &mouse_y);
+
+	if (IsClosing()) {
+		is_open = false;
+		return;
+	}
 
 	if (is_dragging) {
 		if (is_clicking) {
 			offset_x = (mouse_x - previous_mouse_x) + old_offset_x;
 			offset_y = (mouse_y - previous_mouse_y) + old_offset_y;
-		} else {
+		}
+		else {
 			previous_mouse_x = mouse_x;
 			previous_mouse_y = mouse_y;
 
@@ -36,7 +41,8 @@ void Menu::Render() {
 
 			is_dragging = false;
 		}
-	} else {
+	}
+	else {
 		is_dragging = IsInRegion(mouse_x, mouse_y, offset_x, offset_y, TITLEBAR_WIDTH, TITLEBAR_HEIGHT);
 	}
 
@@ -67,12 +73,21 @@ void Menu::Render() {
 void Menu::Controls(UINT msg, WPARAM wParam, LPARAM lParam) {
 	switch (msg) {
 	case WM_LBUTTONDOWN:
-		this->is_clicking = true;
+		is_clicking = true;
 		break;
 	case WM_LBUTTONUP:
-		this->is_clicking = false;
+		is_clicking = false;
 		break;
 	default:
 		break;
 	}
+}
+
+// Check if the user is pressing the 'close' button at the top right.
+bool Menu::IsClosing() {
+	return
+		IsInRegion(mouse_x, mouse_y, offset_x + TITLEBAR_WIDTH - 20, offset_y, 20, 20) &&
+		is_clicking &&
+		mouse_x == previous_mouse_x &&
+		mouse_y == previous_mouse_y;
 }

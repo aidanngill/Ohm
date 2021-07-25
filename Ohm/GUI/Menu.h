@@ -6,8 +6,11 @@
 class Menu {
 public:
 	Menu();
+
 	void Render();
 	void Controls(UINT msg, WPARAM wParam, LPARAM lParam);
+	
+	bool IsClosing();
 
 	bool is_open = true;
 	bool is_clicking = false;
