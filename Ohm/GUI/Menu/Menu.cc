@@ -5,34 +5,19 @@
 #include "../../Interfaces.h"
 #include "../../InterfaceDep.h"
 
-#define MENU_WIDTH 300
-#define MENU_HEIGHT 200
-
-#define TITLEBAR_WIDTH MENU_WIDTH
-#define TITLEBAR_HEIGHT 20
-
-#define BUTTON_HEIGHT TITLEBAR_HEIGHT
-#define BUTTON_WIDTH BUTTON_HEIGHT
-
-#define TAB_WIDTH 60
-#define TAB_HEIGHT TITLEBAR_HEIGHT
-#define TAB_WIDTH_EXTRA 10
-
-bool IsInRegion(int x, int y, int tx, int ty, int tw, int th) {
-	return (tx <= x && x <= tx + tw) && (ty <= y && y <= ty + th);
-}
+#include "../../Config.h"
 
 Menu::Menu() {
 	Tab tab_aim = Tab(L"Aim");
-
 	Tab tab_visual = Tab(L"Visuals");
-
 	Tab tab_misc = Tab(L"Misc");
 
-	// Miscellaneous
-	std::any misc_bhop_value = false;
+	Option vis_box(L"Box ESP", TYPE_BOOL);
+	vis_box.boolean_value = &config->visuals.box.enabled;
+	tab_visual.options.push_back(vis_box);
+
 	Option misc_bhop = Option(L"Bunny Hop", TYPE_BOOL);
-	misc_bhop.value = &misc_bhop_value;
+	misc_bhop.boolean_value = &config->misc.bunny_hop;
 
 	tab_misc.options.push_back(misc_bhop);
 
@@ -127,10 +112,8 @@ void Menu::Render() {
 
 	interfaces->Surface->DrawLine(sx, sy, ex + TAB_WIDTH_EXTRA, sy);
 
-	// Draw options within the tab.
-	std::vector<Option>* options = &tabs[current_tab].options;
-
-	for (int i = 0; i < options->size(); i++) {}
+	// Draw the options within the selected tab.
+	tabs[current_tab].Draw();
 
 	// Do all the outlines at the end.
 	interfaces->Surface->DrawSetColor(Color(0, 0, 0, 255));

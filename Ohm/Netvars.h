@@ -14,6 +14,7 @@ public:
 	Netvars();
 
 	std::ptrdiff_t m_Collision;
+	std::ptrdiff_t m_fFlags;
 	std::ptrdiff_t m_iHealth;
 	std::ptrdiff_t m_iTeamNum;
 	std::ptrdiff_t m_nTickBase;

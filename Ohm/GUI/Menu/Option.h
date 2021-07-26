@@ -16,5 +16,6 @@ public:
 
 	const wchar_t* title;
 	OptionType type;
-	std::any* value;
+
+	bool* boolean_value;
 };

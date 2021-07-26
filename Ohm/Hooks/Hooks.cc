@@ -7,9 +7,11 @@
 #include "../Interfaces.h"
 #include "../InterfaceDep.h"
 
+#include "../Config.h"
 #include "../Memory.h"
 #include "../Netvars.h"
 
+#include "../Features/Misc.h"
 #include "../Features/Visuals.h"
 
 #include "../GUI/Font.h"
@@ -67,6 +69,8 @@ static bool __stdcall CreateMove(float input_sample_frametime, CUserCmd* cmd) {
 
 	if (!cmd || !cmd->command_number)
 		return result;
+
+	Misc::BunnyHop(cmd);
 
 	return false;
 }
@@ -133,6 +137,7 @@ Hooks::Hooks(HMODULE module) {
 
 	interfaces = std::make_unique<Interfaces>();
 	netvars = std::make_unique<Netvars>();
+	config = std::make_unique<Config>();
 	render = std::make_unique<Render>();
 	memory = std::make_unique<Memory>();
 	menu = std::make_unique<Menu>();

@@ -30,6 +30,9 @@ public:
     int Team() {
         return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + netvars->m_iTeamNum);
     }
+    int Flags() {
+        return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + netvars->m_fFlags);
+    }
     int TickBase() {
         return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + netvars->m_nTickBase);
     }

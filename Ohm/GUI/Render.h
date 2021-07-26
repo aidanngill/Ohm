@@ -6,6 +6,8 @@
 
 class Color;
 
+bool IsInRegion(int x, int y, int tx, int ty, int tw, int th);
+
 class Render {
 public:
 	Render();

@@ -1,11 +1,16 @@
 #include "./Render.h"
 
+#include "../Config.h"
 #include "../Interfaces.h"
 #include "../InterfaceDep.h"
 
 #include "../Features/Visuals.h"
 
 #include "../Utility/Utilities.h"
+
+bool IsInRegion(int x, int y, int tx, int ty, int tw, int th) {
+	return (tx <= x && x <= tx + tw) && (ty <= y && y <= ty + th);
+}
 
 Render::Render() {
 	this->SetupFonts();
@@ -53,7 +58,8 @@ void Render::Visuals() {
 			if (!GetBoundingBox(entity, x, y, w, h))
 				continue;
 
-			DrawBoundingBox(x, y, w, h, Color(255, 255, 255, 255));
+			if (config->visuals.box.enabled)
+				DrawBoundingBox(x, y, w, h, Color(255, 255, 255, 255));
 		}
 		else if (entity->IsC4()) {
 			DrawBombTimer(entity);

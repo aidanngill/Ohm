@@ -55,6 +55,7 @@ Netvars::Netvars() {
 
 	// DT_BasePlayer
 	m_Collision = GetNetvarOffset("DT_BasePlayer", "m_Collision", client_class);
+	m_fFlags = GetNetvarOffset("DT_BasePlayer", "m_fFlags", client_class);
 	m_iHealth = GetNetvarOffset("DT_BasePlayer", "m_iHealth", client_class);
 	m_iTeamNum = GetNetvarOffset("DT_BasePlayer", "m_iTeamNum", client_class);
 	m_nTickBase = GetNetvarOffset("DT_BasePlayer", "m_nTickBase", client_class);
