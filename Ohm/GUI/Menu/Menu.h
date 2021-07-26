@@ -15,6 +15,7 @@ public:
 	void Controls(UINT msg, WPARAM wParam, LPARAM lParam);
 	
 	bool IsClosing();
+	void UpdateTab();
 
 	bool is_open = true;
 	bool is_clicking = false;
@@ -26,6 +27,7 @@ private:
 	int mouse_x, mouse_y;
 	int previous_mouse_x, previous_mouse_y;
 
+	int current_tab = 0;
 	std::vector<Tab> tabs;
 };
 

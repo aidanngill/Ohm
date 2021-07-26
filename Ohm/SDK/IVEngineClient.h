@@ -37,4 +37,16 @@ public:
         typedef bool(__thiscall* OriginalFn)(void*);
         return GetVFunc<OriginalFn>(this, 26)(this);
     }
+    bool IsConnected() {
+        typedef bool(__thiscall* OriginalFn)(void*);
+        return GetVFunc<OriginalFn>(this, 27)(this);
+    }
+    bool IsDrawingLoadingImage() {
+        typedef bool(__thiscall* OriginalFn)(void*);
+        return GetVFunc<OriginalFn>(this, 28)(this);
+    }
+    const char* GetLevelName() {
+        typedef const char* (__thiscall* OriginalFn)(void*);
+        return GetVFunc<OriginalFn>(this, 52)(this);
+    }
 };

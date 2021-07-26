@@ -9,6 +9,4 @@ public:
 	void Draw();
 
 	std::wstring title;
-private:
-	bool draw = false;
 };

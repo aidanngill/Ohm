@@ -23,6 +23,7 @@
 typedef void(__thiscall* PaintTraverseFn)(void*, unsigned int, bool, bool);
 typedef bool(__thiscall* CreateMoveFn)(void*, float, CUserCmd*);
 typedef void(__thiscall* OnResolutionChangeFn)(ISurface*, int, int);
+typedef void(__thiscall* LockCursorFn)(ISurface*);
 
 // In the future, I'd like to move this to `Callbacks.cc`.
 // https://github.com/ValveSoftware/source-sdk-2013/blob/master/mp/src/public/vgui/IPanel.h#L99
@@ -76,7 +77,14 @@ static void __stdcall OnResolutionChanged(int old_width, int old_height) {
 }
 
 void __fastcall LockCursor(void* ecx) {
+	if (hooks->Surface == nullptr)
+		return;
 
+	if (!menu->is_open)
+		return hooks->Surface->GetOriginal<LockCursorFn>(67)(interfaces->Surface);
+
+	interfaces->Surface->UnlockCursor();
+	interfaces->InputSystem->ResetInputState();
 }
 
 VmtHook::VmtHook(void* class_ptr) {
@@ -147,6 +155,7 @@ void Hooks::Install() {
 	ClientInput->ApplyNewTable();
 
 	Surface = new VmtHook(interfaces->Surface);
+	Surface->SwapPointer(67, reinterpret_cast<void*>(LockCursor));
 	Surface->SwapPointer(116, reinterpret_cast<void*>(OnResolutionChanged));
 	Surface->ApplyNewTable();
 }
@@ -163,7 +172,7 @@ void Hooks::Restore() {
 }
 
 bool Hooks::IsWindowHooked() {
-	return original_wnd_proc != nullptr;
+	return this != nullptr && original_wnd_proc != nullptr;
 }
 
 LRESULT Hooks::ReturnWindowCallback(HWND window, UINT msg, WPARAM wParam, LPARAM lParam) {

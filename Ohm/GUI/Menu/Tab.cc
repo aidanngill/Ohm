@@ -5,8 +5,4 @@ Tab::Tab(std::wstring tab_title) {
 }
 
 void Tab::Draw() {
-	if (!this->draw)
-		return;
-
-
 }
