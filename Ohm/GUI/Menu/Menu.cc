@@ -112,18 +112,19 @@ void Menu::Render() {
 	}
 
 	// Do all the outlines at the end.
+	interfaces->Surface->DrawSetColor(Color(0, 0, 0, 255));
 
 	// Background [outline]
-	interfaces->Surface->DrawSetColor(Color(0, 0, 0, 255));
 	interfaces->Surface->DrawOutlinedRect(offset_x, offset_y, offset_x + MENU_WIDTH, offset_y + MENU_HEIGHT);
 
 	// Titlebar [outline]
-	interfaces->Surface->DrawSetColor(Color(0, 0, 0, 255));
 	interfaces->Surface->DrawOutlinedRect(offset_x, offset_y, offset_x + TITLEBAR_WIDTH, offset_y + TITLEBAR_HEIGHT);
 
 	// Titlebar [close button outline]
-	interfaces->Surface->DrawSetColor(Color(0, 0, 0, 255));
 	interfaces->Surface->DrawOutlinedRect(offset_x + TITLEBAR_WIDTH - BUTTON_WIDTH, offset_y, offset_x + TITLEBAR_WIDTH, offset_y + BUTTON_HEIGHT);
+
+	// Tab separator (vertical)
+	interfaces->Surface->DrawLine(offset_x + TAB_WIDTH + TAB_WIDTH_EXTRA, offset_y + TITLEBAR_HEIGHT, offset_x + TAB_WIDTH + TAB_WIDTH_EXTRA, offset_y + TITLEBAR_HEIGHT + MENU_HEIGHT - TITLEBAR_HEIGHT);
 }
 
 void Menu::Controls(UINT msg, WPARAM wParam, LPARAM lParam) {
