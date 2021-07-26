@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GUI\Menu\Menu.cc" />
+    <ClCompile Include="GUI\Menu\Option.cc" />
     <ClCompile Include="GUI\Menu\Tab.cc" />
     <ClCompile Include="Hooks\Callbacks.cc" />
     <ClCompile Include="Hooks\Hooks.cc" />
@@ -162,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI\Font.h" />
+    <ClInclude Include="GUI\Menu\Option.h" />
     <ClInclude Include="GUI\Menu\Tab.h" />
     <ClInclude Include="Hooks\Callbacks.h" />
     <ClInclude Include="Hooks\Hooks.h" />

@@ -1,6 +1,6 @@
 #include "./Tab.h"
 
-Tab::Tab(std::wstring tab_title) {
+Tab::Tab(const wchar_t* tab_title) {
 	this->title = tab_title;
 }
 

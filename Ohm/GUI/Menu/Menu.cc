@@ -1,5 +1,4 @@
 #include "./Menu.h"
-#include "./Tab.h"
 
 #include "../Render.h"
 
@@ -25,12 +24,20 @@ bool IsInRegion(int x, int y, int tx, int ty, int tw, int th) {
 
 Menu::Menu() {
 	Tab tab_aim = Tab(L"Aim");
-	tabs.push_back(tab_aim);
 
 	Tab tab_visual = Tab(L"Visuals");
-	tabs.push_back(tab_visual);
 
 	Tab tab_misc = Tab(L"Misc");
+
+	// Miscellaneous
+	std::any misc_bhop_value = false;
+	Option misc_bhop = Option(L"Bunny Hop", TYPE_BOOL);
+	misc_bhop.value = &misc_bhop_value;
+
+	tab_misc.options.push_back(misc_bhop);
+
+	tabs.push_back(tab_aim);
+	tabs.push_back(tab_visual);
 	tabs.push_back(tab_misc);
 }
 
@@ -76,7 +83,15 @@ void Menu::Render() {
 	interfaces->Surface->DrawFilledRect(offset_x + TITLEBAR_WIDTH - 20, offset_y, offset_x + TITLEBAR_WIDTH, offset_y + 20);
 	
 	// Draw the tabs and their titles.
-	this->UpdateTab();
+	int hovered_tab = -1;
+
+	if (this->HoveringTab(hovered_tab) && is_clicking && !is_dragging)
+		current_tab = hovered_tab;
+
+	int sx = offset_x;
+	int sy = offset_y + TITLEBAR_HEIGHT;
+	int ex = offset_x + TAB_WIDTH;
+	int ey = sy + TAB_HEIGHT;
 
 	for (size_t i = 0; i < tabs.size(); i++) {
 		Color tab_bg_color = Color(48, 48, 48, 255);
@@ -86,12 +101,9 @@ void Menu::Render() {
 			tab_bg_color = Color(86, 86, 86, 255);
 			tab_side_color = Color(0, 84, 255, 255);
 		}
-
-		int sx = offset_x;
-		int sy = offset_y + TITLEBAR_HEIGHT + (i * TAB_HEIGHT);
-
-		int ex = offset_x + TAB_WIDTH;
-		int ey = sy + TAB_HEIGHT;
+		else if (i == hovered_tab) {
+			tab_bg_color = Color(67, 67, 67, 255);
+		}
 
 		interfaces->Surface->DrawSetColor(tab_bg_color);
 		interfaces->Surface->DrawFilledRect(sx, sy, ex, ey);
@@ -99,17 +111,26 @@ void Menu::Render() {
 		interfaces->Surface->DrawSetColor(tab_side_color);
 		interfaces->Surface->DrawFilledRect(ex, sy, ex + TAB_WIDTH_EXTRA, ey);
 
-		render->Text(tabs[i].title.c_str(), offset_x + 6, sy + 6, render->font_base, Color(255, 255, 255, 255));
+		render->Text(tabs[i].title, offset_x + 6, sy + 6, render->font_base, Color(255, 255, 255, 255));
 
 		// (sy - 1) to fix https://cdn.discordapp.com/attachments/599271375043297282/869143609528696832/unknown.png
 		interfaces->Surface->DrawSetColor(Color(0, 0, 0, 255));
 		interfaces->Surface->DrawLine(ex, sy - 1, ex, ey);
 
 		// Skip the horizontal line on the first tab.
-		if (i < 1) continue;
+		if (i > 0)
+			interfaces->Surface->DrawLine(sx, sy, ex + TAB_WIDTH_EXTRA, sy);
 
-		interfaces->Surface->DrawLine(sx, sy, ex + TAB_WIDTH_EXTRA, sy);
+		sy += TAB_HEIGHT;
+		ey += TAB_HEIGHT;
 	}
+
+	interfaces->Surface->DrawLine(sx, sy, ex + TAB_WIDTH_EXTRA, sy);
+
+	// Draw options within the tab.
+	std::vector<Option>* options = &tabs[current_tab].options;
+
+	for (int i = 0; i < options->size(); i++) {}
 
 	// Do all the outlines at the end.
 	interfaces->Surface->DrawSetColor(Color(0, 0, 0, 255));
@@ -152,18 +173,17 @@ bool Menu::IsClosing() {
 		);
 }
 
-void Menu::UpdateTab() {
+bool Menu::HoveringTab(int& result) {
 	if (!(offset_x <= mouse_x && mouse_x <= offset_x + (TAB_WIDTH + TAB_WIDTH_EXTRA)))
-		return;
+		return false;
 
 	int y_min = offset_y + TITLEBAR_HEIGHT;
 	int y_max = offset_y + TITLEBAR_HEIGHT + (TAB_HEIGHT * static_cast<int>(tabs.size()));
 
 	if (!(y_min <= mouse_y && mouse_y <= y_max))
-		return;
+		return false;
 
-	if (!is_clicking || is_dragging)
-		return;
+	result = static_cast<int>(std::floor((mouse_y - offset_y) / TAB_HEIGHT)) - 1;
 
-	current_tab = static_cast<int>(std::floor((mouse_y - offset_y) / TAB_HEIGHT)) - 1;
+	return true;
 }

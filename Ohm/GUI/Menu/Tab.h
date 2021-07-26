@@ -3,10 +3,13 @@
 #include <vector>
 #include <string>
 
+#include "./Option.h"
+
 class Tab {
 public:
-	Tab(std::wstring tab_title);
+	Tab(const wchar_t* tab_title);
 	void Draw();
 
-	std::wstring title;
+	const wchar_t* title;
+	std::vector<Option> options;
 };

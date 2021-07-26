@@ -15,7 +15,7 @@ public:
 	void Controls(UINT msg, WPARAM wParam, LPARAM lParam);
 	
 	bool IsClosing();
-	void UpdateTab();
+	bool HoveringTab(int &result);
 
 	bool is_open = true;
 	bool is_clicking = false;

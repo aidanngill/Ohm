@@ -15,6 +15,7 @@
     <ClCompile Include="GUI\Menu\Menu.cc" />
     <ClCompile Include="SDK\CGlobalVars.cc" />
     <ClCompile Include="GUI\Menu\Tab.cc" />
+    <ClCompile Include="GUI\Menu\Option.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h" />
@@ -57,5 +58,6 @@
     <ClInclude Include="SDK\IAppSystem.h" />
     <ClInclude Include="SDK\CGlobalVars.h" />
     <ClInclude Include="GUI\Menu\Tab.h" />
+    <ClInclude Include="GUI\Menu\Option.h" />
   </ItemGroup>
 </Project>
