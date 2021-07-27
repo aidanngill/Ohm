@@ -17,6 +17,7 @@
     <ClCompile Include="GUI\Menu\Tab.cc" />
     <ClCompile Include="GUI\Menu\Option.cc" />
     <ClCompile Include="Config.cc" />
+    <ClCompile Include="Utility\File.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h" />
@@ -62,5 +63,6 @@
     <ClInclude Include="GUI\Menu\Option.h" />
     <ClInclude Include="GUI\Colors.h" />
     <ClInclude Include="Config.h" />
+    <ClInclude Include="Utility\File.h" />
   </ItemGroup>
 </Project>

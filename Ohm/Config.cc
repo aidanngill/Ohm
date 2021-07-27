@@ -1,33 +1,50 @@
+#include <iostream>
 #include <fstream>
-#include <Windows.h>
-#include <tchar.h>
+#include <filesystem>
+
+#include <cppcodec/base64_rfc4648.hpp>
 
 #include "./Config.h"
 
+#include "./Utility/File.h"
+
+namespace fs = std::filesystem;
+using base64 = cppcodec::base64_rfc4648;
+
 Config::Config() {
-	TCHAR tmp[MAX_PATH];
-	GetCurrentDirectory(MAX_PATH, tmp);
+	fs::path dir = GetCheatFolder();
 
-	_tprintf(L"[+] Current directory @ `%s`\n", tmp);
+	if (!fs::exists(dir))
+		fs::create_directory(dir);
 
-	if (!LoadFromFile("config.json"))
-		DumpToFile("config.json");
+	fs::path file("config.json");
+	fs::path config = dir / file;
+
+	std::string path{ config.u8string() };
+
+	if (!LoadFromFile(path.c_str()))
+		DumpToFile(path.c_str());
 }
 
 bool Config::LoadFromFile(const char* file_name) {
 	struct stat info;
 
 	if (stat(file_name, &info) != 0) {
-		printf("[x] Failed to load data from `%s` (non-existent).\n", file_name);
 		return false;
 	}
 	else if (info.st_mode & S_IFDIR) {
-		printf("[x] Failed to load data from `%s` (was directory).\n", file_name);
 		return false;
 	}
 
-	std::ifstream in(file_name);
-	in >> data;
+	std::string src;
+
+	if (!ReadFileToString(file_name, src))
+		return false;
+
+	std::vector<uint8_t> dec_first = base64::decode(src);
+	std::string dec_final(dec_first.begin(), dec_first.end());
+
+	data = nlohmann::json::parse(dec_final);
 
 	if (data["aimbot"]["enabled"].is_boolean()) aim.enabled = data["aimbot"]["enabled"].get<bool>();
 	if (data["aimbot"]["fov"].is_number_float()) aim.fov = data["aimbot"]["fov"].get<float>();
@@ -44,8 +61,6 @@ bool Config::LoadFromFile(const char* file_name) {
 	if (data["visuals"]["snap_lines"].is_boolean()) visuals.snap_lines = data["visuals"]["snap_lines"].get<bool>();
 
 	if (data["misc"]["bunny_hop"].is_boolean()) misc.bunny_hop = data["misc"]["bunny_hop"].get<bool>();
-
-	in.close();
 
 	return true;
 }
@@ -75,8 +90,6 @@ void Config::DumpToFile(const char* file_name) {
 	};
 
 	std::ofstream out(file_name);
-	out << od;
+	out << base64::encode(od.dump());
 	out.close();
-
-	printf("[+] Dumped current config to `%s`\n", file_name);
 }
