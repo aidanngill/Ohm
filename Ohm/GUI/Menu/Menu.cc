@@ -1,4 +1,5 @@
 #include "./Menu.h"
+#include "./Tab.h"
 
 #include "../Render.h"
 
@@ -8,18 +9,33 @@
 #include "../../Config.h"
 
 Menu::Menu() {
+	// [Start] Aim
 	Tab tab_aim = Tab(L"Aim");
 	Tab tab_visual = Tab(L"Visuals");
 	Tab tab_misc = Tab(L"Misc");
+	// [End] Aim
 
-	Option vis_box(L"Box ESP", TYPE_BOOL);
-	vis_box.boolean_value = &config->visuals.box.enabled;
-	tab_visual.options.push_back(vis_box);
+	// [Start] Visual
+	Subtab st_v_box = Subtab(L"Box");
+	st_v_box.options.push_back(Option(L"Enabled", &config->visuals.box.enabled));
+	st_v_box.options.push_back(Option(L"Outlined", &config->visuals.box.outlined));
+	st_v_box.options.push_back(Option(L"Health", &config->visuals.box.health));
+	st_v_box.options.push_back(Option(L"Armor", &config->visuals.box.armor));
+	st_v_box.options.push_back(Option(L"Name", &config->visuals.box.name));
+	st_v_box.options.push_back(Option(L"Distance", &config->visuals.box.distance));
 
-	Option misc_bhop = Option(L"Bunny Hop", TYPE_BOOL);
+	Subtab st_v_chams = Subtab(L"Chams");
+
+	tab_visual.subtabs.push_back(st_v_box);
+	tab_visual.subtabs.push_back(st_v_chams);
+	// [End] Visual
+
+	// [Start] Misc
+	Option misc_bhop = Option(L"Bunny Hop", &config->misc.bunny_hop);
 	misc_bhop.boolean_value = &config->misc.bunny_hop;
 
 	tab_misc.options.push_back(misc_bhop);
+	// [End] Misc
 
 	tabs.push_back(tab_aim);
 	tabs.push_back(tab_visual);
@@ -71,7 +87,7 @@ void Menu::Render() {
 	int hovered_tab = -1;
 
 	if (this->HoveringTab(hovered_tab) && is_clicking && !is_dragging)
-		current_tab = hovered_tab;
+		current_tab = std::clamp(hovered_tab, 0, static_cast<int>(tabs.size() - 1));
 
 	int sx = offset_x;
 	int sy = offset_y + TITLEBAR_HEIGHT;
@@ -167,6 +183,26 @@ bool Menu::HoveringTab(int& result) {
 		return false;
 
 	result = static_cast<int>(std::floor((mouse_y - offset_y) / TAB_HEIGHT)) - 1;
+
+	return true;
+}
+
+bool Menu::HoveringSubtab(int tab_count, int& result) {
+	int st_width = (MENU_WIDTH - TAB_WIDTH - TAB_WIDTH_EXTRA - (SUBTAB_PAD * 2));
+
+	int x_min = offset_x + TAB_WIDTH + TAB_WIDTH_EXTRA + SUBTAB_PAD;
+	int x_max = x_min + st_width;
+
+	if (!(x_min <= mouse_x && mouse_x <= x_max))
+		return false;
+
+	int y_min = offset_y + TITLEBAR_HEIGHT + SUBTAB_PAD;
+	int y_max = y_min + SUBTAB_HEIGHT;
+
+	if (!(y_min <= mouse_y && mouse_y <= y_max))
+		return false;
+
+	result = static_cast<int>(std::floor(static_cast<float>(mouse_x - x_min) / static_cast<float>(st_width / tab_count)));
 
 	return true;
 }

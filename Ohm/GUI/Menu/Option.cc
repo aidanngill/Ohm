@@ -1,6 +1,7 @@
 #include "./Option.h"
 
-Option::Option(const wchar_t* title, OptionType type) {
+Option::Option(const wchar_t* title, bool* parent) {
 	this->title = title;
-	this->type = type;
+	this->type = TYPE_BOOL;
+	this->boolean_value = parent;
 }

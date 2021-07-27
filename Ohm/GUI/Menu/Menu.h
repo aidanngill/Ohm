@@ -8,7 +8,7 @@
 #include "./Tab.h"
 
 #define MENU_WIDTH 300
-#define MENU_HEIGHT 200
+#define MENU_HEIGHT 300
 
 #define TITLEBAR_WIDTH MENU_WIDTH
 #define TITLEBAR_HEIGHT 20
@@ -29,6 +29,7 @@ public:
 	
 	bool IsClosing();
 	bool HoveringTab(int &result);
+	bool HoveringSubtab(int tab_count, int& result);
 
 	bool is_open = true;
 	bool is_clicking = false;

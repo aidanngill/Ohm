@@ -12,7 +12,7 @@ enum OptionType : unsigned char {
 
 class Option {
 public:
-	Option(const wchar_t* title, OptionType type);
+	Option(const wchar_t* title, bool* parent);
 
 	const wchar_t* title;
 	OptionType type;
