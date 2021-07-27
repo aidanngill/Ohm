@@ -5,7 +5,7 @@
     <ClCompile Include="Hooks\Hooks.cc" />
     <ClCompile Include="Hooks\Callbacks.cc" />
     <ClCompile Include="Utility\Utilities.cc" />
-    <ClCompile Include="Interfaces.cc" />
+    <ClCompile Include="Interfaces\Interfaces.cc" />
     <ClCompile Include="PE\Module.cc" />
     <ClCompile Include="GUI\Render.cc" />
     <ClCompile Include="Features\Misc.cc" />
@@ -23,7 +23,7 @@
     <ClInclude Include="Hooks\Hooks.h" />
     <ClInclude Include="Hooks\Callbacks.h" />
     <ClInclude Include="Utility\Utilities.h" />
-    <ClInclude Include="Interfaces.h" />
+    <ClInclude Include="Interfaces\Interfaces.h" />
     <ClInclude Include="SDK\InterfaceReg.h" />
     <ClInclude Include="PE\Module.h" />
     <ClInclude Include="PE\Types.h" />
@@ -54,7 +54,7 @@
     <ClInclude Include="SDK\ICollideable.h" />
     <ClInclude Include="SDK\IVDebugOverlay.h" />
     <ClInclude Include="SDK\IVEngineClient.h" />
-    <ClInclude Include="InterfaceDep.h" />
+    <ClInclude Include="Interfaces\Dependencies.h" />
     <ClInclude Include="GUI\Menu\Menu.h" />
     <ClInclude Include="SDK\IInputSystem.h" />
     <ClInclude Include="SDK\IAppSystem.h" />

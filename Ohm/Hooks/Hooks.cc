@@ -4,8 +4,8 @@
 #include "./Hooks.h"
 #include "./Callbacks.h"
 
-#include "../Interfaces.h"
-#include "../InterfaceDep.h"
+#include "../Interfaces/Interfaces.h"
+#include "../Interfaces/Dependencies.h"
 
 #include "../Config.h"
 #include "../Memory.h"

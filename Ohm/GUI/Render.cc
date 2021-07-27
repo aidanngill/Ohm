@@ -1,10 +1,11 @@
 #include "./Render.h"
 
 #include "../Config.h"
-#include "../Interfaces.h"
-#include "../InterfaceDep.h"
 
 #include "../Features/Visuals.h"
+
+#include "../Interfaces/Interfaces.h"
+#include "../Interfaces/Dependencies.h"
 
 #include "../Utility/Utilities.h"
 

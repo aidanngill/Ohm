@@ -2,11 +2,12 @@
 
 #include "./Visuals.h"
 
-#include "../Interfaces.h"
-#include "../InterfaceDep.h"
 #include "../Memory.h"
 
 #include "../GUI/Render.h"
+
+#include "../Interfaces/Interfaces.h"
+#include "../Interfaces/Dependencies.h"
 
 #include "../SDK/CGlobalVars.h"
 #include "../SDK/ICollideable.h"

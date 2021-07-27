@@ -1,8 +1,8 @@
 #include "./Callbacks.h"
 #include "./Hooks.h"
 
-#include "../Interfaces.h"
-#include "../InterfaceDep.h"
+#include "../Interfaces/Interfaces.h"
+#include "../Interfaces/Dependencies.h"
 
 #include "../GUI/Menu/Menu.h"
 

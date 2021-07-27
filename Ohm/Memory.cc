@@ -1,7 +1,8 @@
 #include <Windows.h>
 
 #include "./Memory.h"
-#include "./Interfaces.h"
+
+#include "./Interfaces/Interfaces.h"
 
 #include "./Utility/Utilities.h"
 

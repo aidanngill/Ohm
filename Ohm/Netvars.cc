@@ -1,7 +1,8 @@
 #include <Windows.h>
 
 #include "./Netvars.h"
-#include "./Interfaces.h"
+
+#include "./Interfaces/Interfaces.h"
 
 #include "./SDK/IBaseClientDLL.h"
 

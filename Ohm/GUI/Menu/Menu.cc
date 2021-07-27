@@ -3,10 +3,10 @@
 
 #include "../Render.h"
 
-#include "../../Interfaces.h"
-#include "../../InterfaceDep.h"
-
 #include "../../Config.h"
+
+#include "../../Interfaces/Interfaces.h"
+#include "../../Interfaces/Dependencies.h"
 
 Menu::Menu() {
 	// [Start] Aim

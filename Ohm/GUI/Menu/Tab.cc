@@ -6,16 +6,17 @@
 #include "../Colors.h"
 #include "../Render.h"
 
-#include "../../Interfaces.h"
-#include "../../InterfaceDep.h"
+#include "../../Interfaces/Interfaces.h"
+#include "../../Interfaces/Dependencies.h"
 
 #include "../../Utility/Utilities.h"
 
 void DrawOptions(std::vector<Option> options, bool subtab = false) {
 	int x_offset = menu->offset_x + TAB_WIDTH + TAB_WIDTH_EXTRA;
-	int y_offset = menu->offset_y + TITLEBAR_HEIGHT + (OPTION_SEPARATION / 2);
+	int y_offset = menu->offset_y + TITLEBAR_HEIGHT + (TITLEBAR_HEIGHT / 2);
 
-	if (subtab) y_offset += SUBTAB_HEIGHT + (SUBTAB_PAD * 2);
+	if (subtab)
+		y_offset += SUBTAB_HEIGHT + SUBTAB_PAD;
 
 	int btn_x, btn_y;
 	Color inside_color;
@@ -75,7 +76,7 @@ Tab::Tab(const wchar_t* tab_title) {
 }
 
 void Tab::Draw() {
-	if (subtabs.size() < 1) {
+	if (subtabs.empty()) {
 		DrawOptions(this->options);
 		return;
 	}

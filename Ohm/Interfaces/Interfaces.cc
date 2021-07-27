@@ -1,10 +1,10 @@
 #include "./Interfaces.h"
-#include "./InterfaceDep.h"
+#include "./Dependencies.h"
 
-#include "./PE/Types.h"
-#include "./PE/Module.h"
+#include "../PE/Types.h"
+#include "../PE/Module.h"
 
-#include "./SDK/InterfaceReg.h"
+#include "../SDK/InterfaceReg.h"
 
 uintptr_t FollowJump(uintptr_t address) {
     if (!address)

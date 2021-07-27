@@ -17,8 +17,8 @@
 #define BUTTON_WIDTH BUTTON_HEIGHT
 
 #define TAB_WIDTH 60
-#define TAB_HEIGHT TITLEBAR_HEIGHT
 #define TAB_WIDTH_EXTRA 10
+#define TAB_HEIGHT TITLEBAR_HEIGHT
 
 class Menu {
 public:

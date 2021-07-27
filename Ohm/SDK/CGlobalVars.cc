@@ -1,8 +1,8 @@
 #include "./CGlobalVars.h"
 #include "./CUserCmd.h"
 
-#include "../Interfaces.h"
-#include "../InterfaceDep.h"
+#include "../Interfaces/Interfaces.h"
+#include "../Interfaces/Dependencies.h"
 
 #include "../Utility/Utilities.h"
 
