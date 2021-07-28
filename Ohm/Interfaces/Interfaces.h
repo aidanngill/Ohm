@@ -9,10 +9,12 @@ class InterfaceReg;
 class IBaseClientDLL;
 class IClientEntityList;
 class IInputSystem;
+class IMaterialSystem;
 class IPanel;
 class ISurface;
 class IVDebugOverlay;
 class IVEngineClient;
+class IVModelRender;
 
 class Module;
 
@@ -36,10 +38,12 @@ public:
 	IBaseClientDLL* BaseClient;
 	IClientEntityList* ClientEntityList;
 	IInputSystem* InputSystem;
+	IMaterialSystem* MaterialSystem;
 	IPanel* Panel;
 	ISurface* Surface;
 	IVDebugOverlay* DebugOverlay;
 	IVEngineClient* Engine;
+	IVModelRender* ModelRender;
 
 	Interface FindInterface(const char* interfaceName);
 private:

@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Config.cc" />
+    <ClCompile Include="Features\Chams.cc" />
     <ClCompile Include="GUI\Colors.cc" />
     <ClCompile Include="GUI\Menu\Menu.cc" />
     <ClCompile Include="GUI\Menu\Option.cc" />
@@ -168,12 +169,14 @@
     <ClCompile Include="Ohm.cc" />
     <ClCompile Include="GUI\Render.cc" />
     <ClCompile Include="SDK\CGlobalVars.cc" />
+    <ClCompile Include="SDK\KeyValues.cpp" />
     <ClCompile Include="Utility\File.cc" />
     <ClCompile Include="Utility\Utilities.cc" />
     <ClCompile Include="Features\Visuals.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h" />
+    <ClInclude Include="Features\Chams.h" />
     <ClInclude Include="GUI\Colors.h" />
     <ClInclude Include="GUI\Font.h" />
     <ClInclude Include="GUI\Menu\Option.h" />
@@ -204,11 +207,15 @@
     <ClInclude Include="SDK\ICollideable.h" />
     <ClInclude Include="Interfaces\Dependencies.h" />
     <ClInclude Include="SDK\IInputSystem.h" />
+    <ClInclude Include="SDK\IMaterial.h" />
+    <ClInclude Include="SDK\IMaterialSystem.h" />
     <ClInclude Include="SDK\InterfaceReg.h" />
     <ClInclude Include="SDK\IPanel.h" />
     <ClInclude Include="SDK\ISurface.h" />
     <ClInclude Include="SDK\IVDebugOverlay.h" />
     <ClInclude Include="SDK\IVEngineClient.h" />
+    <ClInclude Include="SDK\IVModelRender.h" />
+    <ClInclude Include="SDK\KeyValues.h" />
     <ClInclude Include="SDK\Math\Matrix.h" />
     <ClInclude Include="SDK\Math\QAngle.h" />
     <ClInclude Include="SDK\Math\Vector.h" />

@@ -19,6 +19,8 @@
     <ClCompile Include="Config.cc" />
     <ClCompile Include="Utility\File.cc" />
     <ClCompile Include="GUI\Colors.cc" />
+    <ClCompile Include="Features\Chams.cc" />
+    <ClCompile Include="SDK\KeyValues.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h" />
@@ -65,5 +67,10 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="Utility\File.h" />
     <ClInclude Include="SDK\IClientRenderable.h" />
+    <ClInclude Include="Features\Chams.h" />
+    <ClInclude Include="SDK\IMaterial.h" />
+    <ClInclude Include="SDK\IMaterialSystem.h" />
+    <ClInclude Include="SDK\KeyValues.h" />
+    <ClInclude Include="SDK\IVModelRender.h" />
   </ItemGroup>
 </Project>

@@ -29,9 +29,10 @@ public:
 	bool IsWindowHooked();
 	LRESULT ReturnWindowCallback(HWND window, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	VmtHook* VGUI;
 	VmtHook* ClientInput;
+	VmtHook* ModelRender;
 	VmtHook* Surface;
+	VmtHook* VGUI;
 private:
 	WNDPROC originalWndProc = nullptr;
 	HWND window = nullptr;

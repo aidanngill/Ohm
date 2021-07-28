@@ -96,11 +96,13 @@ Interfaces::Interfaces() {
 	BaseClient			= reinterpret_cast<IBaseClientDLL*>(FindInterface("VClient0").createFn);
 	ClientMode			= **reinterpret_cast<CClientMode***>((*reinterpret_cast<uintptr_t**>(BaseClient))[10] + 5);
 	ClientEntityList	= reinterpret_cast<IClientEntityList*>(FindInterface("VClientEntityList0").createFn);
-	Panel				= reinterpret_cast<IPanel*>(FindInterface("VGUI_Panel0").createFn);
-	Surface				= reinterpret_cast<ISurface*>(FindInterface("VGUI_Surface0").createFn);
 	DebugOverlay		= reinterpret_cast<IVDebugOverlay*>(FindInterface("VDebugOverlay0").createFn);
 	Engine				= reinterpret_cast<IVEngineClient*>(FindInterface("VEngineClient0").createFn);
 	InputSystem			= reinterpret_cast<IInputSystem*>(FindInterface("InputSystemVersion0").createFn);
+	MaterialSystem		= reinterpret_cast<IMaterialSystem*>(FindInterface("VMaterialSystem0").createFn);
+	ModelRender			= reinterpret_cast<IVModelRender*>(FindInterface("VEngineModel0").createFn);
+	Panel				= reinterpret_cast<IPanel*>(FindInterface("VGUI_Panel0").createFn);
+	Surface				= reinterpret_cast<ISurface*>(FindInterface("VGUI_Surface0").createFn);
 }
 
 Interfaces::~Interfaces() {

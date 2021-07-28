@@ -11,6 +11,7 @@
 #include "../Memory.h"
 #include "../Netvars.h"
 
+#include "../Features/Chams.h"
 #include "../Features/Misc.h"
 #include "../Features/Visuals.h"
 
@@ -26,6 +27,7 @@ typedef void(__thiscall* PaintTraverseFn)(void*, unsigned int, bool, bool);
 typedef bool(__thiscall* CreateMoveFn)(void*, float, CUserCmd*);
 typedef void(__thiscall* OnResolutionChangeFn)(ISurface*, int, int);
 typedef void(__thiscall* LockCursorFn)(ISurface*);
+typedef void(__thiscall* DrawModelExecuteFn)(void*, IMatRenderContext*, const DrawModelState_t&, const ModelRenderInfo_t&, matrix3x4_t*);
 
 // In the future, I'd like to move this to `Callbacks.cc`.
 // https://github.com/ValveSoftware/source-sdk-2013/blob/master/mp/src/public/vgui/IPanel.h#L99
@@ -75,7 +77,7 @@ static bool __stdcall CreateMove(float inputSampleFrametime, CUserCmd* cmd) {
 	return false;
 }
 
-static void __stdcall OnResolutionChanged(int old_width, int old_height) {
+static void __stdcall OnResolutionChanged(int oldWidth, int oldHeight) {
 	hooks->Surface->GetOriginal<OnResolutionChangeFn>(116);
 	render->SetupFonts();
 }
@@ -89,6 +91,24 @@ void __fastcall LockCursor(void* ecx) {
 
 	interfaces->Surface->UnlockCursor();
 	interfaces->InputSystem->ResetInputState();
+}
+
+void __fastcall DrawModelExecute(void* _this, int edx, IMatRenderContext* ctx, const DrawModelState_t& state, const ModelRenderInfo_t& info, matrix3x4_t* matrix) {
+	static bool chamsInitialized = false;
+
+	// Initialize within DME thread to avoid issues with continually making new threads.
+	if (!chamsInitialized) {
+		chams = std::make_unique<Chams>();
+		chamsInitialized = true;
+	}
+
+	// Make sure that skins are skipped when we're trying to put chams on.
+	if (interfaces->ModelRender->IsForcedMaterialOverride() && !strstr(info.pModel->szName, "arms") && !strstr(info.pModel->szName, "weapons/v_"))
+		return hooks->ModelRender->GetOriginal<DrawModelExecuteFn>(21)(_this, ctx, state, info, matrix);
+
+	chams->OnDrawModelExecute(ctx, state, info, matrix);
+	hooks->ModelRender->GetOriginal<DrawModelExecuteFn>(21)(_this, ctx, state, info, matrix);
+	interfaces->ModelRender->ForcedMaterialOverride(nullptr);
 }
 
 VmtHook::VmtHook(void* targetClassPointer) {
@@ -151,24 +171,29 @@ Hooks::Hooks(HMODULE module) {
 }
 
 void Hooks::Install() {
-	VGUI = new VmtHook(interfaces->Panel);
-	VGUI->SwapPointer(41, reinterpret_cast<void*>(PaintTraverse));
-	VGUI->ApplyNewTable();
-
 	ClientInput = new VmtHook(interfaces->ClientMode);
 	ClientInput->SwapPointer(24, reinterpret_cast<void*>(CreateMove));
 	ClientInput->ApplyNewTable();
+
+	ModelRender = new VmtHook(interfaces->ModelRender);
+	ModelRender->SwapPointer(21, reinterpret_cast<void*>(DrawModelExecute));
+	ModelRender->ApplyNewTable();
 
 	Surface = new VmtHook(interfaces->Surface);
 	Surface->SwapPointer(67, reinterpret_cast<void*>(LockCursor));
 	Surface->SwapPointer(116, reinterpret_cast<void*>(OnResolutionChanged));
 	Surface->ApplyNewTable();
+
+	VGUI = new VmtHook(interfaces->Panel);
+	VGUI->SwapPointer(41, reinterpret_cast<void*>(PaintTraverse));
+	VGUI->ApplyNewTable();
 }
 
 void Hooks::Restore() {
-	VGUI->RestoreOldTable();
 	ClientInput->RestoreOldTable();
+	ModelRender->RestoreOldTable();
 	Surface->RestoreOldTable();
+	VGUI->RestoreOldTable();
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
