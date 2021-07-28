@@ -28,20 +28,20 @@ public:
 	void Controls(UINT msg, WPARAM wParam, LPARAM lParam);
 	
 	bool IsClosing();
-	bool HoveringTab(int &result);
-	bool HoveringSubtab(int tab_count, int& result);
+	bool HoveringTab(int &tabHovered);
+	bool HoveringSubtab(int tabCount, int& tabHovered);
 
-	bool is_open = true;
-	bool is_clicking = false;
-	bool is_dragging = false;
+	bool isOpen = false;
+	bool isClicking = false;
+	bool isDragging = false;
 
-	int mouse_x, mouse_y;
-	int offset_x = 50, offset_y = 50;
+	int mouseX, mouseY;
+	int offsetX = 50, offsetY = 50;
 private:
-	int old_offset_x, old_offset_y;
-	int previous_mouse_x, previous_mouse_y;
+	int oldOffsetX, oldOffsetY;
+	int previousMouseX, previousMouseY;
 
-	int current_tab = 0;
+	int currentTab = 0;
 	std::vector<Tab> tabs;
 };
 

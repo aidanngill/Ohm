@@ -44,7 +44,6 @@
     <ClInclude Include="SDK\IClientEntityList.h" />
     <ClInclude Include="SDK\IClientEntity.h" />
     <ClInclude Include="SDK\IClientNetworkable.h" />
-    <ClInclude Include="SDK\IClientRenderable.h" />
     <ClInclude Include="SDK\Math\Matrix.h" />
     <ClInclude Include="SDK\Studio.h" />
     <ClInclude Include="SDK\IClientUnknown.h" />
@@ -64,5 +63,6 @@
     <ClInclude Include="GUI\Colors.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Utility\File.h" />
+    <ClInclude Include="SDK\IClientRenderable.h" />
   </ItemGroup>
 </Project>

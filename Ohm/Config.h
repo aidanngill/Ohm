@@ -6,33 +6,33 @@ class Config {
 public:
 	Config();
 
-	bool LoadFromFile(const char* file_name);
-	void DumpToFile(const char* file_name);
+	bool LoadFromFile(const char* fileName);
+	void DumpToFile(const char* fileName);
 
 	struct Aim {
-		bool enabled = false;
-		float fov = 1.0f;
+		bool isEnabled = false;
+		float fieldOfView = 1.0f;
 	} aim;
 
 	struct Visuals {
 
 		struct Box {
-			bool enabled = false;
-			bool outlined = false;
-			bool health = false;
-			bool armor = false;
-			bool name = false;
-			bool distance = false;
+			bool isEnabled = false;
+			bool isOutlined = false;
+			bool hasHealth = false;
+			bool hasArmor = false;
+			bool hasName = false;
+			bool hasDistance = false;
 		} box;
 
-		bool enemy_only = false;
-		bool on_death = false;
-		bool snap_lines = false;
+		bool isOnlyEnemy = false;
+		bool isOnDeath = false;
+		bool hasSnapLines = false;
 
 	} visuals;
 
 	struct Misc {
-		bool bunny_hop = false;
+		bool bunnyHop = false;
 	} misc;
 
 private:

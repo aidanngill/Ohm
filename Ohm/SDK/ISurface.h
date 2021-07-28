@@ -4,6 +4,7 @@
 #include <Windows.h>
 
 #include "./Color.h"
+
 #include "../Utility/VirtualFunc.h"
 
 class ISurface {

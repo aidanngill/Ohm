@@ -11,19 +11,19 @@
 #include "../Utility/Utilities.h"
 
 void Misc::BunnyHop(CUserCmd* cmd) {
-	if (!config->misc.bunny_hop)
+	if (!config->misc.bunnyHop)
 		return;
 
-	IClientEntity* local_player = GetLocalPlayer();
+	IClientEntity* localPlayer = GetLocalPlayer();
 
-	if (!local_player)
+	if (!localPlayer)
 		return;
 
-	int flags = local_player->Flags();
-	static auto was_last_on_ground{ flags & 1 };
+	int flags = localPlayer->Flags();
+	static auto wasLastOnGround{ flags & 1 };
 
-	if (interfaces->InputSystem->IsButtonDown(KEY_SPACE) && !(flags & 1) && !was_last_on_ground)
+	if (interfaces->InputSystem->IsButtonDown(KEY_SPACE) && !(flags & 1) && !wasLastOnGround)
 		cmd->buttons &= ~(1 << 1);
 
-	was_last_on_ground = flags & 1;
+	wasLastOnGround = flags & 1;
 }

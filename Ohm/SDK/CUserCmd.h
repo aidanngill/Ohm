@@ -19,20 +19,21 @@ public:
 		IN_SCORE = 1 << 16,
 		IN_BULLRUSH = 1 << 22
 	};
-	int pad;
-	int command_number;
-	int tick_count;
-	QAngle view_angles;
-	QAngle aim_direction;
-	float forward_move;
-	float side_move;
-	float up_move;
-	int buttons;
-	char impulse;
-	int weapon_select;
-	int weapon_subtype;
-	int random_seed;
-	short mouse_dx;
-	short mouse_dy;
-	bool has_been_predicted;
+
+	int		pad;
+	int		commandNumber;
+	int		tickCount;
+	QAngle	viewAngles;
+	QAngle	aimDirection;
+	float	forwardMove;
+	float	sideMove;
+	float	upMove;
+	int		buttons;
+	char	impulse;
+	int		weaponSelect;
+	int		weaponSubType;
+	int		randomSeed;
+	short	mouseX;
+	short	mouseY;
+	bool	hasBeenPredicted;
 };

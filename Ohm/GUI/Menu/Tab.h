@@ -11,9 +11,11 @@
 #define SUBTAB_HEIGHT TITLEBAR_HEIGHT
 #define SUBTAB_PAD (TITLEBAR_HEIGHT / 2)
 
-class Subtab {
+void DrawOptions(std::vector<Option> options, bool isSubTab);
+
+class SubTab {
 public:
-	Subtab(const wchar_t* subtab_title);
+	SubTab(const wchar_t* subTabTitle);
 	void Draw();
 
 	const wchar_t* title;
@@ -23,13 +25,13 @@ public:
 
 class Tab {
 public:
-	Tab(const wchar_t* tab_title);
+	Tab(const wchar_t* tabTitle);
 	void Draw();
 
 	const wchar_t* title;
 
 	std::vector<Option> options;
-	std::vector<Subtab> subtabs;
+	std::vector<SubTab> subTabs;
 private:
-	int current_subtab = 0;
+	int currentSubTab = 0;
 };

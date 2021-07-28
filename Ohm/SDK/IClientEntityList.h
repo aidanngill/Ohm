@@ -8,12 +8,12 @@ class IClientEntity;
 
 class IClientEntityList {
 public:
-	IClientEntity* GetClientEntity(int entity_number) {
-		typedef IClientEntity* (__thiscall* oGetEntity)(void*, int);
-		return GetVFunc<oGetEntity>(this, 3)(this, entity_number);
+	IClientEntity* GetClientEntity(int entityNumber) {
+		typedef IClientEntity* (__thiscall* OriginalFn)(void*, int);
+		return GetVFunc<OriginalFn>(this, 3)(this, entityNumber);
 	}
 	int GetHighestEntityIndex() {
-		typedef int(__thiscall* oGetHighestEntityIndex)(void*);
-		return GetVFunc<oGetHighestEntityIndex>(this, 6)(this);
+		typedef int(__thiscall* OriginalFn)(void*);
+		return GetVFunc<OriginalFn>(this, 6)(this);
 	}
 };

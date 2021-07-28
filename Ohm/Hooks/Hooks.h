@@ -7,17 +7,17 @@
 // https://en.wikipedia.org/wiki/Virtual_method_table
 class VmtHook {
 public:
-	VmtHook(void* class_ptr);
+	VmtHook(void* targetClassPointer);
 	~VmtHook();
-	void SwapPointer(size_t index, void* new_function);
+	void SwapPointer(size_t index, void* newFunction);
 	void ApplyNewTable();
 	void RestoreOldTable();
 	template<typename T>
 	T GetOriginal(size_t index);
 private:
-	uintptr_t** class_pointer = nullptr;
-	uintptr_t* original_pointer = nullptr;
-	uintptr_t* new_table_pointer = nullptr;
+	uintptr_t** classPointer = nullptr;
+	uintptr_t* originalPointer = nullptr;
+	uintptr_t* newTablePointer = nullptr;
 };
 
 class Hooks {
@@ -33,7 +33,7 @@ public:
 	VmtHook* ClientInput;
 	VmtHook* Surface;
 private:
-	WNDPROC original_wnd_proc = nullptr;
+	WNDPROC originalWndProc = nullptr;
 	HWND window = nullptr;
 	HMODULE module = nullptr;
 };

@@ -8,20 +8,18 @@
 
 float CGlobalVars::ServerTime(CUserCmd* cmd) noexcept {
 	static int tick;
-	static CUserCmd* last_cmd;
+	static CUserCmd* lastCmd;
 
-	IClientEntity* local_player = GetLocalPlayer();
+	IClientEntity* localPlayer = GetLocalPlayer();
 
 	if (cmd) {
-		if (local_player && (!last_cmd || last_cmd->has_been_predicted)) {
-			tick = local_player->TickBase();
-		}
-		else {
+		if (localPlayer && (!lastCmd || lastCmd->hasBeenPredicted))
+			tick = localPlayer->TickBase();
+		else
 			tick++;
-		}
 
-		last_cmd = cmd;
+		lastCmd = cmd;
 	}
 
-	return tick * interval_per_tick;
+	return tick * this->intervalPerTick;
 }

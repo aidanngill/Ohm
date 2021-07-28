@@ -17,14 +17,14 @@ class IVEngineClient;
 class Module;
 
 uintptr_t FollowJump(uintptr_t address);
-bool GetInterfaceList(HMODULE module, std::vector<InterfaceReg*>& interface_reg_list);
+bool GetInterfaceList(HMODULE module, std::vector<InterfaceReg*>& interfaceRegList);
 std::vector<Module> GetModuleList();
 
 class Interface {
 public:
-	std::string module_name;
-	const char* interface_name;
-	uintptr_t create_fn;
+	std::string moduleName;
+	const char* interfaceName;
+	uintptr_t createFn;
 };
 
 class Interfaces {
@@ -41,7 +41,7 @@ public:
 	IVDebugOverlay* DebugOverlay;
 	IVEngineClient* Engine;
 
-	Interface FindInterface(const char* interface_name);
+	Interface FindInterface(const char* interfaceName);
 private:
 	std::vector<Module> modules;
 	std::vector<Interface> interfaces;

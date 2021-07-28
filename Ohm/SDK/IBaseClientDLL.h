@@ -7,7 +7,7 @@
 class IBaseClientDLL {
 public:
 	IClientClass* GetAllClasses() {
-		typedef IClientClass* (__thiscall* oGetAllClasses)(void*);
-		return GetVFunc<oGetAllClasses>(this, 8)(this);
+		typedef IClientClass* (__thiscall* OriginalFn)(void*);
+		return GetVFunc<OriginalFn>(this, 8)(this);
 	}
 };

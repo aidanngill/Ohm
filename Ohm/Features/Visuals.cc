@@ -77,8 +77,8 @@ void DrawBoundingBox(int x, int y, int w, int h, Color color) {
 	interfaces->Surface->DrawOutlinedRect(x, y, x + w, y + h);
 }
 
-void DrawBombTimer(IClientEntity* bomb_entity) {
-	float time = bomb_entity->BombTimer() - memory->GlobalVars->current_time;
+void DrawBombTimer(IClientEntity* bombEntity) {
+	float time = bombEntity->BombTimer() - memory->GlobalVars->currentTime;
 	
 	if (time < 0)
 		return;
@@ -86,7 +86,7 @@ void DrawBombTimer(IClientEntity* bomb_entity) {
 	int w, h;
 	interfaces->Surface->GetScreenSize(w, h);
 
-	float length = bomb_entity->BombLength();
+	float length = bombEntity->BombLength();
 	float ratio = time / length;
 
 	interfaces->Surface->DrawSetColor(Color(32, 32, 32, 255));
@@ -108,7 +108,7 @@ void DrawBombTimer(IClientEntity* bomb_entity) {
 	int fw, fh;
 
 	std::wstring text = std::to_wstring(time);
-	interfaces->Surface->GetTextSize(render->font_base, text.c_str(), fw, fh);
+	interfaces->Surface->GetTextSize(render->fontBase, text.c_str(), fw, fh);
 
-	render->Text(text.c_str(), ((w / 3) * 2) - ((w / 3) / 2) - (fw / 2), h / 3, render->font_base, Color(255, 255, 255, 255));
+	render->Text(text.c_str(), ((w / 3) * 2) - ((w / 3) / 2) - (fw / 2), h / 3, render->fontBase, Color(255, 255, 255, 255));
 }

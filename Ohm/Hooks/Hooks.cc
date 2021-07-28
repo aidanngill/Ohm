@@ -35,20 +35,20 @@ void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bo
 
 	hooks->VGUI->GetOriginal<PaintTraverseFn>(41)(pPanels, vguiPanel, forceRepaint, allowForce);
 
-	static unsigned int focus_overlay_panel = 0;
-	static bool found_panel = false;
+	static unsigned int focusOverlayPanel;
+	static bool foundPanel = false;
 
-	if (!found_panel) {
-		const char* panel_name = interfaces->Panel->GetName(vguiPanel);
+	if (!foundPanel) {
+		const char* panelName = interfaces->Panel->GetName(vguiPanel);
 
-		if (!strstr(panel_name, "MatSystemTopPanel"))
+		if (!strstr(panelName, "MatSystemTopPanel"))
 			return;
 
-		focus_overlay_panel = vguiPanel;
-		found_panel = true;
+		focusOverlayPanel = vguiPanel;
+		foundPanel = true;
 	}
 
-	if (focus_overlay_panel != vguiPanel)
+	if (focusOverlayPanel != vguiPanel)
 		return;
 
 	render->Watermark();
@@ -57,17 +57,17 @@ void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bo
 	menu->Render();
 }
 
-static bool __stdcall CreateMove(float input_sample_frametime, CUserCmd* cmd) {
+static bool __stdcall CreateMove(float inputSampleFrametime, CUserCmd* cmd) {
 	if (hooks == nullptr || hooks->ClientInput == nullptr)
 		return false;
 
 	// We can only get the class IDs when we are in game.
-	if (interfaces->Engine->IsInGame() && !netvars->ci_initialized)
-		netvars->ci_initialized = netvars->InitializeClassIdentifiers();
+	if (interfaces->Engine->IsInGame() && !netvars->classIdentifiersInitialized)
+		netvars->classIdentifiersInitialized = netvars->InitializeClassIdentifiers();
 
-	auto result = hooks->ClientInput->GetOriginal<CreateMoveFn>(24)(interfaces->ClientMode, input_sample_frametime, cmd);
+	auto result = hooks->ClientInput->GetOriginal<CreateMoveFn>(24)(interfaces->ClientMode, inputSampleFrametime, cmd);
 
-	if (!cmd || !cmd->command_number)
+	if (!cmd || !cmd->commandNumber)
 		return result;
 
 	Misc::BunnyHop(cmd);
@@ -84,49 +84,49 @@ void __fastcall LockCursor(void* ecx) {
 	if (hooks->Surface == nullptr)
 		return;
 
-	if (!menu->is_open)
+	if (!menu->isOpen)
 		return hooks->Surface->GetOriginal<LockCursorFn>(67)(interfaces->Surface);
 
 	interfaces->Surface->UnlockCursor();
 	interfaces->InputSystem->ResetInputState();
 }
 
-VmtHook::VmtHook(void* class_ptr) {
-	this->class_pointer = reinterpret_cast<uintptr_t**>(class_ptr);
+VmtHook::VmtHook(void* targetClassPointer) {
+	this->classPointer = reinterpret_cast<uintptr_t**>(targetClassPointer);
 
-	int table_size = 0;
+	int tableSize = 0;
 
-	while (reinterpret_cast<uintptr_t*>(*this->class_pointer)[table_size])
-		table_size++;
+	while (reinterpret_cast<uintptr_t*>(*this->classPointer)[tableSize])
+		tableSize++;
 
-	original_pointer = *this->class_pointer;
+	originalPointer = *this->classPointer;
 
-	new_table_pointer = new uintptr_t[sizeof(uintptr_t) * table_size];
-	memcpy(new_table_pointer, original_pointer, sizeof(uintptr_t) * table_size);
+	newTablePointer = new uintptr_t[sizeof(uintptr_t) * tableSize];
+	memcpy(newTablePointer, originalPointer, sizeof(uintptr_t) * tableSize);
 }
 
 VmtHook::~VmtHook() {
 	RestoreOldTable();
 
-	delete original_pointer;
-	delete new_table_pointer;
+	delete originalPointer;
+	delete newTablePointer;
 }
 
 void VmtHook::SwapPointer(size_t index, void* new_function) {
-	new_table_pointer[index] = reinterpret_cast<uintptr_t>(new_function);
+	newTablePointer[index] = reinterpret_cast<uintptr_t>(new_function);
 }
 
 void VmtHook::ApplyNewTable() {
-	*class_pointer = new_table_pointer;
+	*classPointer = newTablePointer;
 }
 
 void VmtHook::RestoreOldTable() {
-	*class_pointer = original_pointer;
+	*classPointer = originalPointer;
 }
 
 template<typename T>
 T VmtHook::GetOriginal(size_t index) {
-	return reinterpret_cast<T>(original_pointer[index]);
+	return reinterpret_cast<T>(originalPointer[index]);
 }
 
 Hooks::Hooks(HMODULE module) {
@@ -143,7 +143,7 @@ Hooks::Hooks(HMODULE module) {
 	menu = std::make_unique<Menu>();
 
 	this->window = FindWindow(L"Valve001", nullptr);
-	this->original_wnd_proc = WNDPROC(SetWindowLongPtr(window, GWLP_WNDPROC, LONG_PTR(WndProc)));
+	this->originalWndProc = WNDPROC(SetWindowLongPtr(window, GWLP_WNDPROC, LONG_PTR(WndProc)));
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
@@ -170,16 +170,18 @@ void Hooks::Restore() {
 	ClientInput->RestoreOldTable();
 	Surface->RestoreOldTable();
 
-	SetWindowLongPtr(window, GWLP_WNDPROC, LONG_PTR(original_wnd_proc));
-	HANDLE thread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Unload, module, NULL, NULL);
+	std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+	SetWindowLongPtr(window, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(originalWndProc));
+	HANDLE thread = CreateThread(NULL, NULL, reinterpret_cast<LPTHREAD_START_ROUTINE>(Unload), module, NULL, NULL);
 
 	if (thread) CloseHandle(thread);
 }
 
 bool Hooks::IsWindowHooked() {
-	return this != nullptr && original_wnd_proc != nullptr;
+	return this != nullptr && originalWndProc != nullptr;
 }
 
 LRESULT Hooks::ReturnWindowCallback(HWND window, UINT msg, WPARAM wParam, LPARAM lParam) {
-	return CallWindowProcW(original_wnd_proc, window, msg, wParam, lParam);
+	return CallWindowProcW(originalWndProc, window, msg, wParam, lParam);
 }

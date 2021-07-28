@@ -26,10 +26,10 @@ Config::Config() {
 		DumpToFile(path.c_str());
 }
 
-bool Config::LoadFromFile(const char* file_name) {
+bool Config::LoadFromFile(const char* fileName) {
 	struct stat info;
 
-	if (stat(file_name, &info) != 0) {
+	if (stat(fileName, &info) != 0) {
 		return false;
 	}
 	else if (info.st_mode & S_IFDIR) {
@@ -38,58 +38,58 @@ bool Config::LoadFromFile(const char* file_name) {
 
 	std::string src;
 
-	if (!ReadFileToString(file_name, src))
+	if (!ReadFileToString(fileName, src))
 		return false;
 
-	std::vector<uint8_t> dec_first = base64::decode(src);
-	std::string dec_final(dec_first.begin(), dec_first.end());
+	std::vector<uint8_t> bsfDecoded = base64::decode(src);
+	std::string bsfString(bsfDecoded.begin(), bsfDecoded.end());
 
-	data = nlohmann::json::parse(dec_final);
+	data = nlohmann::json::parse(bsfString);
 
-	if (data["aimbot"]["enabled"].is_boolean()) aim.enabled = data["aimbot"]["enabled"].get<bool>();
-	if (data["aimbot"]["fov"].is_number_float()) aim.fov = data["aimbot"]["fov"].get<float>();
+	if (data["aimbot"]["enabled"].is_boolean()) aim.isEnabled = data["aimbot"]["enabled"].get<bool>();
+	if (data["aimbot"]["fov"].is_number_float()) aim.fieldOfView = data["aimbot"]["fov"].get<float>();
 
-	if (data["visuals"]["box"]["enabled"].is_boolean()) visuals.box.enabled = data["visuals"]["box"]["enabled"].get<bool>();
-	if (data["visuals"]["box"]["outlined"].is_boolean()) visuals.box.outlined = data["visuals"]["box"]["outlined"].get<bool>();
-	if (data["visuals"]["box"]["health"].is_boolean()) visuals.box.health = data["visuals"]["box"]["health"].get<bool>();
-	if (data["visuals"]["box"]["armor"].is_boolean()) visuals.box.armor = data["visuals"]["box"]["armor"].get<bool>();
-	if (data["visuals"]["box"]["name"].is_boolean()) visuals.box.name = data["visuals"]["box"]["name"].get<bool>();
-	if (data["visuals"]["box"]["distance"].is_boolean()) visuals.box.distance = data["visuals"]["box"]["distance"].get<bool>();
+	if (data["visuals"]["box"]["enabled"].is_boolean()) visuals.box.isEnabled = data["visuals"]["box"]["enabled"].get<bool>();
+	if (data["visuals"]["box"]["outlined"].is_boolean()) visuals.box.isOutlined = data["visuals"]["box"]["outlined"].get<bool>();
+	if (data["visuals"]["box"]["health"].is_boolean()) visuals.box.hasHealth = data["visuals"]["box"]["health"].get<bool>();
+	if (data["visuals"]["box"]["armor"].is_boolean()) visuals.box.hasArmor = data["visuals"]["box"]["armor"].get<bool>();
+	if (data["visuals"]["box"]["name"].is_boolean()) visuals.box.hasName = data["visuals"]["box"]["name"].get<bool>();
+	if (data["visuals"]["box"]["distance"].is_boolean()) visuals.box.hasDistance = data["visuals"]["box"]["distance"].get<bool>();
 
-	if (data["visuals"]["enemy_only"].is_boolean()) visuals.enemy_only = data["visuals"]["enemy_only"].get<bool>();
-	if (data["visuals"]["on_death"].is_boolean()) visuals.on_death = data["visuals"]["on_death"].get<bool>();
-	if (data["visuals"]["snap_lines"].is_boolean()) visuals.snap_lines = data["visuals"]["snap_lines"].get<bool>();
+	if (data["visuals"]["enemy_only"].is_boolean()) visuals.isOnlyEnemy = data["visuals"]["enemy_only"].get<bool>();
+	if (data["visuals"]["on_death"].is_boolean()) visuals.isOnDeath = data["visuals"]["on_death"].get<bool>();
+	if (data["visuals"]["snap_lines"].is_boolean()) visuals.hasSnapLines = data["visuals"]["snap_lines"].get<bool>();
 
-	if (data["misc"]["bunny_hop"].is_boolean()) misc.bunny_hop = data["misc"]["bunny_hop"].get<bool>();
+	if (data["misc"]["bunny_hop"].is_boolean()) misc.bunnyHop = data["misc"]["bunny_hop"].get<bool>();
 
 	return true;
 }
 
-void Config::DumpToFile(const char* file_name) {
+void Config::DumpToFile(const char* fileName) {
 	nlohmann::json od = {
 		{"aimbot", {
-			{"enabled", aim.enabled},
-			{"fov", aim.fov}
+			{"enabled", aim.isEnabled},
+			{"fov", aim.fieldOfView}
 		}},
 		{"visuals", {
 			{"box", {
-				{"enabled", visuals.box.enabled},
-				{"outlined", visuals.box.outlined},
-				{"health", visuals.box.health},
-				{"armor", visuals.box.armor},
-				{"name", visuals.box.name},
-				{"distance", visuals.box.distance},
+				{"enabled", visuals.box.isEnabled},
+				{"outlined", visuals.box.isOutlined},
+				{"health", visuals.box.hasHealth},
+				{"armor", visuals.box.hasArmor},
+				{"name", visuals.box.hasName},
+				{"distance", visuals.box.hasDistance},
 			}},
-			{"enemy_only", visuals.enemy_only},
-			{"on_death", visuals.on_death},
-			{"snap_lines", visuals.snap_lines}
+			{"enemy_only", visuals.isOnlyEnemy},
+			{"on_death", visuals.isOnDeath},
+			{"snap_lines", visuals.hasSnapLines}
 		}},
 		{"misc", {
-			{"bunny_hop", misc.bunny_hop}
+			{"bunny_hop", misc.bunnyHop}
 		}}
 	};
 
-	std::ofstream out(file_name);
+	std::ofstream out(fileName);
 	out << base64::encode(od.dump());
 	out.close();
 }

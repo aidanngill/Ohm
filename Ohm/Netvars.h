@@ -6,8 +6,8 @@
 class IClientClass;
 class RecvTable;
 
-intptr_t GetOffset(RecvTable* table, const char* table_name, const char* netvar_name);
-intptr_t GetNetvarOffset(const char* table_name, const char* netvar_name, IClientClass* client_class);
+intptr_t GetOffset(RecvTable* table, const char* tableName, const char* netvarName);
+intptr_t GetNetvarOffset(const char* tableName, const char* netvarName, IClientClass* clientClass);
 
 class Netvars {
 public:
@@ -28,10 +28,10 @@ public:
 
 	bool InitializeClassIdentifiers();
 
-	bool ci_initialized = false;
-	std::unordered_map<std::string, int> class_identifiers;
+	bool classIdentifiersInitialized = false;
+	std::unordered_map<std::string, int> classIdentifiers;
 private:
-	IClientClass* client_class;
+	IClientClass* clientClass;
 };
 
 inline std::unique_ptr<Netvars> netvars;

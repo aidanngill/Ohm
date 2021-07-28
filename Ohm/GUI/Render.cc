@@ -18,10 +18,7 @@ Render::Render() {
 }
 
 void Render::SetupFonts() {
-	this->font_base = 0x5;
-	this->font_small = interfaces->Surface->CreateFont();
-
-	interfaces->Surface->SetFontGlyphSet(this->font_small, "Small Fonts", 14, 400, 0, 0, FONTFLAG_OUTLINE);
+	this->fontBase = 0x5;
 }
 
 void Render::Text(const wchar_t* text, int x, int y, Font font, Color color = Color(255, 255, 255, 255)) {
@@ -32,25 +29,25 @@ void Render::Text(const wchar_t* text, int x, int y, Font font, Color color = Co
 }
 
 void Render::Watermark() {
-	this->Text(this->watermark_text, 10, 10, this->font_base);
+	this->Text(this->watermarkText, 10, 10, this->fontBase);
 }
 
 void Render::Visuals() {
 	if (!interfaces->Engine->IsInGame())
 		return;
 
-	IClientEntity* local_player = GetLocalPlayer();
+	IClientEntity* localPlayer = GetLocalPlayer();
 
-	int max_entities = interfaces->ClientEntityList->GetHighestEntityIndex();
-	int max_clients = interfaces->Engine->GetMaxClients();
+	int maxEntities = interfaces->ClientEntityList->GetHighestEntityIndex();
+	int maxClients = interfaces->Engine->GetMaxClients();
 
-	for (int i = 0; i < max_entities; i++) {
-		IClientEntity* entity = interfaces->ClientEntityList->GetClientEntity(i);
+	for (int idx = 0; idx < maxEntities; idx++) {
+		IClientEntity* entity = interfaces->ClientEntityList->GetClientEntity(idx);
 
-		if (!entity || entity == local_player)
+		if (!entity || entity == localPlayer)
 			continue;
 
-		if (i <= max_clients) {
+		if (idx <= maxClients) {
 			if (entity->GetDormant() || !entity->IsAlive())
 				continue;
 
@@ -59,7 +56,7 @@ void Render::Visuals() {
 			if (!GetBoundingBox(entity, x, y, w, h))
 				continue;
 
-			if (config->visuals.box.enabled)
+			if (config->visuals.box.isEnabled)
 				DrawBoundingBox(x, y, w, h, Color(255, 255, 255, 255));
 		}
 		else if (entity->IsC4()) {

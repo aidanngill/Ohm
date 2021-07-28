@@ -11,64 +11,64 @@
 
 #include "../../Utility/Utilities.h"
 
-void DrawOptions(std::vector<Option> options, bool subtab = false) {
-	int x_offset = menu->offset_x + TAB_WIDTH + TAB_WIDTH_EXTRA;
-	int y_offset = menu->offset_y + TITLEBAR_HEIGHT + (TITLEBAR_HEIGHT / 2);
+void DrawOptions(std::vector<Option> options, bool isSubTab = false) {
+	int xOffset = menu->offsetX + TAB_WIDTH + TAB_WIDTH_EXTRA;
+	int yOffset = menu->offsetY + TITLEBAR_HEIGHT + (TITLEBAR_HEIGHT / 2);
 
-	if (subtab)
-		y_offset += SUBTAB_HEIGHT + SUBTAB_PAD;
+	if (isSubTab)
+		yOffset += SUBTAB_HEIGHT + SUBTAB_PAD;
 
-	int btn_x, btn_y;
-	Color inside_color;
+	int btnX, btnY;
+	Color insideColor;
 
 	for (size_t i = 0; i < options.size(); i++) {
 		switch (options[i].type) {
-		case TYPE_BOOL:
-			btn_x = x_offset + (BUTTON_WIDTH / 2);
-			btn_y = y_offset;
+		case Option::TYPE_BOOL:
+			btnX = xOffset + (BUTTON_WIDTH / 2);
+			btnY = yOffset;
 
-			inside_color = Colors::Invisible;
+			insideColor = Colors::Invisible;
 
-			if (IsInRegion(menu->mouse_x, menu->mouse_y, btn_x, btn_y, BUTTON_WIDTH, BUTTON_HEIGHT)) {
-				if (menu->is_clicking) {
-					*options[i].boolean_value = !(*options[i].boolean_value);
-					menu->is_clicking = false;
+			if (IsInRegion(menu->mouseX, menu->mouseY, btnX, btnY, BUTTON_WIDTH, BUTTON_HEIGHT)) {
+				if (menu->isClicking) {
+					*options[i].boolValue = !(*options[i].boolValue);
+					menu->isClicking = false;
 				}
 
-				inside_color = Colors::LightGrey;
+				insideColor = Colors::LightGrey;
 			}
 
-			if (*options[i].boolean_value)
-				inside_color = Colors::Green;
+			if (*options[i].boolValue)
+				insideColor = Colors::Green;
 
 			interfaces->Surface->DrawSetColor(Colors::White);
-			interfaces->Surface->DrawOutlinedRect(btn_x, btn_y, btn_x + BUTTON_WIDTH, btn_y + BUTTON_HEIGHT);
+			interfaces->Surface->DrawOutlinedRect(btnX, btnY, btnX + BUTTON_WIDTH, btnY + BUTTON_HEIGHT);
 
-			interfaces->Surface->DrawSetColor(inside_color);
-			interfaces->Surface->DrawFilledRect(btn_x + BUTTON_INDENT, btn_y + BUTTON_INDENT, btn_x + BUTTON_WIDTH - BUTTON_INDENT, btn_y + BUTTON_HEIGHT - BUTTON_INDENT);
+			interfaces->Surface->DrawSetColor(insideColor);
+			interfaces->Surface->DrawFilledRect(btnX + BUTTON_INDENT, btnY + BUTTON_INDENT, btnX + BUTTON_WIDTH - BUTTON_INDENT, btnY + BUTTON_HEIGHT - BUTTON_INDENT);
 
 			int tw, th;
-			interfaces->Surface->GetTextSize(render->font_base, options[i].title, tw, th);
+			interfaces->Surface->GetTextSize(render->fontBase, options[i].title, tw, th);
 
-			render->Text(options[i].title, x_offset + (BUTTON_WIDTH * 2), y_offset + ((BUTTON_HEIGHT - th) / 2), render->font_base, Colors::White);
+			render->Text(options[i].title, xOffset + (BUTTON_WIDTH * 2), yOffset + ((BUTTON_HEIGHT - th) / 2), render->fontBase, Colors::White);
 
-			y_offset += BUTTON_HEIGHT;
+			yOffset += BUTTON_HEIGHT;
 
 			break;
 		default:
 			break;
 		}
 
-		y_offset += OPTION_SEPARATION;
+		yOffset += OPTION_SEPARATION;
 	}
 }
 
-Subtab::Subtab(const wchar_t* subtab_title) {
-	this->title = subtab_title;
+SubTab::SubTab(const wchar_t* subTabTitle) {
+	title = subTabTitle;
 }
 
-void Subtab::Draw() {
-	DrawOptions(this->options, true);
+void SubTab::Draw() {
+	DrawOptions(options, true);
 }
 
 Tab::Tab(const wchar_t* tab_title) {
@@ -76,60 +76,60 @@ Tab::Tab(const wchar_t* tab_title) {
 }
 
 void Tab::Draw() {
-	if (subtabs.empty()) {
+	if (subTabs.empty()) {
 		DrawOptions(this->options);
 		return;
 	}
 
-	int hovered_tab = -1;
+	int hoveredTab = -1;
 
-	if (menu->HoveringSubtab(subtabs.size(), hovered_tab) && menu->is_clicking && !menu->is_dragging)
-		current_subtab = std::clamp(hovered_tab, 0, static_cast<int>(subtabs.size() - 1));
+	if (menu->HoveringSubtab(subTabs.size(), hoveredTab) && menu->isClicking && !menu->isDragging)
+		currentSubTab = std::clamp(hoveredTab, 0, static_cast<int>(subTabs.size() - 1));
 
-	int x_start = menu->offset_x + TAB_WIDTH + TAB_WIDTH_EXTRA + SUBTAB_PAD;
-	int y_start = menu->offset_y + TITLEBAR_HEIGHT + SUBTAB_PAD;
+	int xStart = menu->offsetX + TAB_WIDTH + TAB_WIDTH_EXTRA + SUBTAB_PAD;
+	int yStart = menu->offsetY + TITLEBAR_HEIGHT + SUBTAB_PAD;
 
-	int subtab_total = (MENU_WIDTH - TAB_WIDTH - TAB_WIDTH_EXTRA - (SUBTAB_PAD * 2));
-	int subtab_width = subtab_total / subtabs.size();
+	int subTabTotal = (MENU_WIDTH - TAB_WIDTH - TAB_WIDTH_EXTRA - (SUBTAB_PAD * 2));
+	int subTabWidth = subTabTotal / subTabs.size();
 
 	interfaces->Surface->DrawSetColor(Colors::Black);
-	interfaces->Surface->DrawOutlinedRect(x_start, y_start, x_start + subtab_total, y_start + SUBTAB_HEIGHT);
+	interfaces->Surface->DrawOutlinedRect(xStart, yStart, xStart + subTabTotal, yStart + SUBTAB_HEIGHT);
 
-	for (size_t i = 0; i < subtabs.size(); i++) {
-		Color tab_bg_color = Color(48, 48, 48, 255);
+	for (size_t idx = 0; idx < subTabs.size(); idx++) {
+		Color taskBgColor = Color(48, 48, 48, 255);
 
-		if (i == current_subtab)
-			tab_bg_color = Color(86, 86, 86, 255);
-		else if (i == hovered_tab)
-			tab_bg_color = Color(67, 67, 67, 255);
+		if (idx == currentSubTab)
+			taskBgColor = Color(86, 86, 86, 255);
+		else if (idx == hoveredTab)
+			taskBgColor = Color(67, 67, 67, 255);
 
-		interfaces->Surface->DrawSetColor(tab_bg_color);
+		interfaces->Surface->DrawSetColor(taskBgColor);
 		interfaces->Surface->DrawFilledRect(
-			x_start + (subtab_width * i),
-			y_start,
-			x_start + (subtab_width * (i + 1)),
-			y_start + SUBTAB_HEIGHT
+			xStart + (subTabWidth * idx),
+			yStart,
+			xStart + (subTabWidth * (idx + 1)),
+			yStart + SUBTAB_HEIGHT
 		);
 
 		int tw, th;
-		interfaces->Surface->GetTextSize(render->font_base, subtabs[i].title, tw, th);
+		interfaces->Surface->GetTextSize(render->fontBase, subTabs[idx].title, tw, th);
 
 		render->Text(
-			subtabs[i].title,
-			x_start + (subtab_width / 2) - (tw / 2) + (subtab_width * i),
-			y_start + (SUBTAB_HEIGHT / 2) - (th / 2) + 1, // TODO: Fix magic number
-			render->font_base,
+			subTabs[idx].title,
+			xStart + (subTabWidth / 2) - (tw / 2) + (subTabWidth * idx),
+			yStart + (SUBTAB_HEIGHT / 2) - (th / 2) + 1, // TODO: Fix magic number
+			render->fontBase,
 			Colors::White
 		);
 
 		interfaces->Surface->DrawSetColor(Colors::Black);
 		interfaces->Surface->DrawLine(
-			x_start + (subtab_width * i),
-			y_start,
-			x_start + (subtab_width * i),
-			y_start + SUBTAB_HEIGHT
+			xStart + (subTabWidth * idx),
+			yStart,
+			xStart + (subTabWidth * idx),
+			yStart + SUBTAB_HEIGHT
 		);
 	}
 
-	subtabs[current_subtab].Draw();
+	subTabs[currentSubTab].Draw();
 }
