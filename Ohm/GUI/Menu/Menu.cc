@@ -1,4 +1,5 @@
 #include "./Menu.h"
+#include "./Option.h"
 #include "./Tab.h"
 
 #include "../Render.h"
@@ -16,16 +17,23 @@ Menu::Menu() {
 	// [End] Aim
 
 	// [Start] Visual
-	SubTab stVisBox(L"Box");
-	stVisBox.options.push_back(Option(L"Enabled", &config->visuals.box.isEnabled));
-	stVisBox.options.push_back(Option(L"Outlined", &config->visuals.box.isOutlined));
-	stVisBox.options.push_back(Option(L"Health", &config->visuals.box.hasHealth));
-	stVisBox.options.push_back(Option(L"Armor", &config->visuals.box.hasArmor));
-	stVisBox.options.push_back(Option(L"Name", &config->visuals.box.hasName));
-	stVisBox.options.push_back(Option(L"Distance", &config->visuals.box.hasDistance));
+	SubTab stVisBox(L"Players");
+	stVisBox.options.push_back(Option(L"Enabled", &config->visuals.players.isEnabled));
+	stVisBox.options.push_back(Option(L"Outlined", &config->visuals.players.isOutlined));
+	stVisBox.options.push_back(Option(L"Health", &config->visuals.players.hasHealth));
+	stVisBox.options.push_back(Option(L"Armor", &config->visuals.players.hasArmor));
+	stVisBox.options.push_back(Option(L"Name", &config->visuals.players.hasName));
+	stVisBox.options.push_back(Option(L"Distance", &config->visuals.players.hasDistance));
+
+	SubTab stVisEnt(L"Entities");
+	stVisEnt.options.push_back(Option(L"Bomb", &config->visuals.entities.showBomb));
+	stVisEnt.options.push_back(Option(L"Dropped Weapons", &config->visuals.entities.showDroppedWeapons));
 
 	SubTab stVisChams(L"Chams");
+	// ...
+
 	tabVisual.subTabs.push_back(stVisBox);
+	tabVisual.subTabs.push_back(stVisEnt);
 	tabVisual.subTabs.push_back(stVisChams);
 	// [End] Visual
 

@@ -2,8 +2,10 @@
 
 #include "./Visuals.h"
 
+#include "../Config.h"
 #include "../Memory.h"
 
+#include "../GUI/Colors.h"
 #include "../GUI/Render.h"
 
 #include "../Interfaces/Interfaces.h"
@@ -16,7 +18,7 @@
 
 #include "../Utility/Utilities.h"
 
-bool GetBoundingBox(IClientEntity* entity, int& x, int& y, int& w, int& h) {
+bool Visuals::GetBoundingBox(IClientEntity* entity, int& x, int& y, int& w, int& h) {
 	Vector origin, min, max, flb, brt, blb, frt, frb, brb, blt, flt;
 	float left, top, right, bottom;
 
@@ -72,12 +74,12 @@ bool GetBoundingBox(IClientEntity* entity, int& x, int& y, int& w, int& h) {
 	return true;
 }
 
-void DrawBoundingBox(int x, int y, int w, int h, Color color) {
+void Visuals::DrawBoundingBox(int x, int y, int w, int h, Color color) {
 	interfaces->Surface->DrawSetColor(color);
 	interfaces->Surface->DrawOutlinedRect(x, y, x + w, y + h);
 }
 
-void DrawBombTimer(IClientEntity* bombEntity) {
+void Visuals::DrawBombTimer(IClientEntity* bombEntity) {
 	float time = bombEntity->BombTimer() - memory->GlobalVars->currentTime;
 	
 	if (time < 0)
@@ -111,4 +113,65 @@ void DrawBombTimer(IClientEntity* bombEntity) {
 	interfaces->Surface->GetTextSize(render->fontBase, text.c_str(), fw, fh);
 
 	render->Text(text.c_str(), ((w / 3) * 2) - ((w / 3) / 2) - (fw / 2), h / 3, render->fontBase, Color(255, 255, 255, 255));
+}
+
+void Visuals::DrawBombBox(IClientEntity* bombEntity) {
+	float time = bombEntity->BombTimer() - memory->GlobalVars->currentTime;
+
+	if (time < 0)
+		return;
+
+	int x, y, w, h;
+
+	if (!GetBoundingBox(bombEntity, x, y, w, h))
+		return;
+
+	interfaces->Surface->DrawSetColor(Colors::White);
+	interfaces->Surface->DrawOutlinedRect(x, y, x + w, y + h);
+}
+
+void Visuals::Render() {
+	if (!interfaces->Engine->IsInGame())
+		return;
+
+	IClientEntity* localPlayer = GetLocalPlayer();
+
+	int maxEntities = interfaces->ClientEntityList->GetHighestEntityIndex();
+	int maxClients = interfaces->Engine->GetMaxClients();
+
+	for (int idx = 0; idx < maxEntities; idx++) {
+		IClientEntity* entity = interfaces->ClientEntityList->GetClientEntity(idx);
+
+		if (!entity || entity == localPlayer)
+			continue;
+
+		if (idx <= maxClients) {
+			if (entity->GetDormant() || !entity->IsAlive())
+				continue;
+
+			int x, y, w, h;
+
+			if (!GetBoundingBox(entity, x, y, w, h))
+				continue;
+
+			if (config->visuals.players.isEnabled)
+				DrawBoundingBox(x, y, w, h, Color(255, 255, 255, 255));
+
+			if (config->visuals.players.hasHealth) {
+				interfaces->Surface->DrawSetColor(entity->HealthColor());
+				interfaces->Surface->DrawFilledRect(x - 4, y, x - 2, y + (h * entity->HealthRatio()));
+			}
+
+			if (config->visuals.players.hasArmor) {
+				interfaces->Surface->DrawSetColor(Colors::LightBlue);
+				interfaces->Surface->DrawFilledRect(x + w + 2, y, x + w + 4, y + (h * entity->ArmorRatio()));
+			}
+		}
+		else if (entity->IsC4()) {
+			if (config->visuals.entities.showBomb) {
+				DrawBombTimer(entity);
+				DrawBombBox(entity);
+			}
+		}
+	}
 }

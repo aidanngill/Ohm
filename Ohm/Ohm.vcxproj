@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Config.cc" />
+    <ClCompile Include="GUI\Colors.cc" />
     <ClCompile Include="GUI\Menu\Menu.cc" />
     <ClCompile Include="GUI\Menu\Option.cc" />
     <ClCompile Include="GUI\Menu\Tab.cc" />

@@ -18,6 +18,7 @@
     <ClCompile Include="GUI\Menu\Option.cc" />
     <ClCompile Include="Config.cc" />
     <ClCompile Include="Utility\File.cc" />
+    <ClCompile Include="GUI\Colors.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h" />

@@ -16,14 +16,19 @@ public:
 
 	struct Visuals {
 
-		struct Box {
+		struct Players {
 			bool isEnabled = false;
 			bool isOutlined = false;
 			bool hasHealth = false;
 			bool hasArmor = false;
 			bool hasName = false;
 			bool hasDistance = false;
-		} box;
+		} players;
+
+		struct Entities {
+			bool showBomb = false;
+			bool showDroppedWeapons = false;
+		} entities;
 
 		bool isOnlyEnemy = false;
 		bool isOnDeath = false;

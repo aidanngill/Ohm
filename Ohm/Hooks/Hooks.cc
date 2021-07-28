@@ -51,9 +51,9 @@ void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bo
 	if (focusOverlayPanel != vguiPanel)
 		return;
 
-	render->Watermark();
-	render->Visuals();
+	Visuals::Render();
 
+	render->Watermark();
 	menu->Render();
 }
 

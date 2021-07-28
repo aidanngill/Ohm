@@ -2,6 +2,7 @@
 
 #include "./Tab.h"
 #include "./Menu.h"
+#include "./Option.h"
 
 #include "../Colors.h"
 #include "../Render.h"

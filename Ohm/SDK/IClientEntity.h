@@ -1,10 +1,13 @@
 #pragma once
 
+#include <algorithm>
+
 #include "./IClientNetworkable.h"
 #include "./IClientRenderable.h"
 #include "./IClientThinkable.h"
 #include "./IClientUnknown.h"
 
+#include "./Color.h"
 #include "./ICollideable.h"
 
 #include "../Netvars.h"
@@ -27,6 +30,20 @@ public:
 	}
 	int Health() {
 		return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + netvars->m_iHealth);
+	}
+	float HealthRatio() {
+		return static_cast<float>(std::clamp(this->Health(), 0, 100)) / float(100);
+	}
+	float ArmorRatio() {
+		return static_cast<float>(std::clamp(this->Armor(), 0, 100)) / float(100);
+	}
+	Color HealthColor() {
+		float healthRatio = this->HealthRatio();
+		return Color(
+			static_cast<int>(255 - (255 * healthRatio)),
+			static_cast<int>(0 + (255 * healthRatio)),
+			0, 255
+		);
 	}
 	int Team() {
 		return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + netvars->m_iTeamNum);

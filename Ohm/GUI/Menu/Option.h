@@ -1,7 +1,5 @@
 #pragma once
 
-#include <any>
-
 class Option {
 public:
 	enum : unsigned char {

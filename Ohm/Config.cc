@@ -49,12 +49,15 @@ bool Config::LoadFromFile(const char* fileName) {
 	if (data["aimbot"]["enabled"].is_boolean()) aim.isEnabled = data["aimbot"]["enabled"].get<bool>();
 	if (data["aimbot"]["fov"].is_number_float()) aim.fieldOfView = data["aimbot"]["fov"].get<float>();
 
-	if (data["visuals"]["box"]["enabled"].is_boolean()) visuals.box.isEnabled = data["visuals"]["box"]["enabled"].get<bool>();
-	if (data["visuals"]["box"]["outlined"].is_boolean()) visuals.box.isOutlined = data["visuals"]["box"]["outlined"].get<bool>();
-	if (data["visuals"]["box"]["health"].is_boolean()) visuals.box.hasHealth = data["visuals"]["box"]["health"].get<bool>();
-	if (data["visuals"]["box"]["armor"].is_boolean()) visuals.box.hasArmor = data["visuals"]["box"]["armor"].get<bool>();
-	if (data["visuals"]["box"]["name"].is_boolean()) visuals.box.hasName = data["visuals"]["box"]["name"].get<bool>();
-	if (data["visuals"]["box"]["distance"].is_boolean()) visuals.box.hasDistance = data["visuals"]["box"]["distance"].get<bool>();
+	if (data["visuals"]["players"]["enabled"].is_boolean()) visuals.players.isEnabled = data["visuals"]["players"]["enabled"].get<bool>();
+	if (data["visuals"]["players"]["outlined"].is_boolean()) visuals.players.isOutlined = data["visuals"]["players"]["outlined"].get<bool>();
+	if (data["visuals"]["players"]["health"].is_boolean()) visuals.players.hasHealth = data["visuals"]["players"]["health"].get<bool>();
+	if (data["visuals"]["players"]["armor"].is_boolean()) visuals.players.hasArmor = data["visuals"]["players"]["armor"].get<bool>();
+	if (data["visuals"]["players"]["name"].is_boolean()) visuals.players.hasName = data["visuals"]["players"]["name"].get<bool>();
+	if (data["visuals"]["players"]["distance"].is_boolean()) visuals.players.hasDistance = data["visuals"]["players"]["distance"].get<bool>();
+
+	if (data["visuals"]["entities"]["bomb"].is_boolean()) visuals.entities.showBomb = data["visuals"]["entities"]["bomb"].get<bool>();
+	if (data["visuals"]["entities"]["dropped_weapon"].is_boolean()) visuals.entities.showDroppedWeapons = data["visuals"]["entities"]["dropped_weapon"].get<bool>();
 
 	if (data["visuals"]["enemy_only"].is_boolean()) visuals.isOnlyEnemy = data["visuals"]["enemy_only"].get<bool>();
 	if (data["visuals"]["on_death"].is_boolean()) visuals.isOnDeath = data["visuals"]["on_death"].get<bool>();
@@ -72,13 +75,17 @@ void Config::DumpToFile(const char* fileName) {
 			{"fov", aim.fieldOfView}
 		}},
 		{"visuals", {
-			{"box", {
-				{"enabled", visuals.box.isEnabled},
-				{"outlined", visuals.box.isOutlined},
-				{"health", visuals.box.hasHealth},
-				{"armor", visuals.box.hasArmor},
-				{"name", visuals.box.hasName},
-				{"distance", visuals.box.hasDistance},
+			{"players", {
+				{"enabled", visuals.players.isEnabled},
+				{"outlined", visuals.players.isOutlined},
+				{"health", visuals.players.hasHealth},
+				{"armor", visuals.players.hasArmor},
+				{"name", visuals.players.hasName},
+				{"distance", visuals.players.hasDistance},
+			}},
+			{"entities", {
+				{"bomb", visuals.entities.showBomb},
+				{"dropped_weapon", visuals.entities.showDroppedWeapons}
 			}},
 			{"enemy_only", visuals.isOnlyEnemy},
 			{"on_death", visuals.isOnDeath},
