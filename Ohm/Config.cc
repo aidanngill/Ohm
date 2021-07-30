@@ -59,6 +59,10 @@ bool Config::LoadFromFile(const char* fileName) {
 	if (data["visuals"]["entities"]["bomb"].is_boolean()) visuals.entities.showBomb = data["visuals"]["entities"]["bomb"].get<bool>();
 	if (data["visuals"]["entities"]["dropped_weapon"].is_boolean()) visuals.entities.showDroppedWeapons = data["visuals"]["entities"]["dropped_weapon"].get<bool>();
 
+	if (data["visuals"]["chams"]["player_material"].is_number_integer()) visuals.chams.playerMaterial = data["visuals"]["chams"]["player_material"].get<int>();
+	if (data["visuals"]["chams"]["weapon_material"].is_number_integer()) visuals.chams.weaponMaterial = data["visuals"]["chams"]["weapon_material"].get<int>();
+	if (data["visuals"]["chams"]["arms_material"].is_number_integer()) visuals.chams.armsMaterial = data["visuals"]["chams"]["arms_material"].get<int>();
+
 	if (data["visuals"]["enemy_only"].is_boolean()) visuals.isOnlyEnemy = data["visuals"]["enemy_only"].get<bool>();
 	if (data["visuals"]["on_death"].is_boolean()) visuals.isOnDeath = data["visuals"]["on_death"].get<bool>();
 	if (data["visuals"]["snap_lines"].is_boolean()) visuals.hasSnapLines = data["visuals"]["snap_lines"].get<bool>();

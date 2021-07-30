@@ -30,6 +30,12 @@ public:
 			bool showDroppedWeapons = false;
 		} entities;
 
+		struct Chams {
+			int playerMaterial = 0;
+			int weaponMaterial = 0;
+			int armsMaterial = 0;
+		} chams;
+
 		bool isOnlyEnemy = false;
 		bool isOnDeath = false;
 		bool hasSnapLines = false;

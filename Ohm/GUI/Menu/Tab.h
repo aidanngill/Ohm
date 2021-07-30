@@ -11,26 +11,31 @@
 #define SUBTAB_HEIGHT TITLEBAR_HEIGHT
 #define SUBTAB_PAD (TITLEBAR_HEIGHT / 2)
 
-void DrawOptions(std::vector<Option> options, bool isSubTab);
+class GenericTab {
+public:
+	void Draw() {};
+	void DrawOptions();
+	void DrawComboContent();
 
-class SubTab {
+	const wchar_t* title;
+	bool isSubTab = false;
+
+	std::vector<Option> options;
+	int currentOpened = -1;
+	int hoveredComboItem = -1;
+};
+
+class SubTab : public GenericTab {
 public:
 	SubTab(const wchar_t* subTabTitle);
 	void Draw();
-
-	const wchar_t* title;
-
-	std::vector<Option> options;
 };
 
-class Tab {
+class Tab : public GenericTab {
 public:
 	Tab(const wchar_t* tabTitle);
 	void Draw();
 
-	const wchar_t* title;
-
-	std::vector<Option> options;
 	std::vector<SubTab> subTabs;
 private:
 	int currentSubTab = 0;

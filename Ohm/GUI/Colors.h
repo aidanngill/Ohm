@@ -7,6 +7,7 @@ namespace Colors {
 	extern Color Black;
 	extern Color Invisible;
 	extern Color LightGrey;
+	extern Color DarkGrey;
 	extern Color Green;
 	extern Color Blue;
 	extern Color LightBlue;

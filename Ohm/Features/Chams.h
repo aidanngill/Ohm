@@ -9,6 +9,7 @@ class Color;
 class Chams {
 public:
 	enum : unsigned char {
+		MAT_ORIGINAL,
 		MAT_REGULAR,
 		MAT_FLAT,
 		MAT_PLASTIC

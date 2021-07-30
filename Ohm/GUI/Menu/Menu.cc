@@ -30,7 +30,9 @@ Menu::Menu() {
 	stVisEnt.options.push_back(Option(L"Dropped Weapons", &config->visuals.entities.showDroppedWeapons));
 
 	SubTab stVisChams(L"Chams");
-	// ...
+	stVisChams.options.push_back(Option(L"Players", &config->visuals.chams.playerMaterial, std::vector<std::wstring>{ L"None", L"Regular", L"Flat", L"Plastic" }));
+	stVisChams.options.push_back(Option(L"Weapon", &config->visuals.chams.weaponMaterial, std::vector<std::wstring>{ L"None", L"Regular", L"Flat", L"Plastic" }));
+	stVisChams.options.push_back(Option(L"Arms", &config->visuals.chams.armsMaterial, std::vector<std::wstring>{ L"None", L"Regular", L"Flat", L"Plastic" }));
 
 	tabVisual.subTabs.push_back(stVisBox);
 	tabVisual.subTabs.push_back(stVisEnt);

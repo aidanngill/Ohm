@@ -1,5 +1,7 @@
 #include "./Chams.h"
 
+#include "../Config.h"
+
 #include "../Hooks/Hooks.h"
 
 #include "../Interfaces/Interfaces.h"
@@ -60,8 +62,6 @@ void Chams::OverrideMaterial(unsigned char type, Color color) {
 }
 
 void Chams::OnDrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& state, const ModelRenderInfo_t& info, matrix3x4_t* matrix) {
-	return; // TODO: Add combo boxes for the cham types.
-
 	static auto originalFn = hooks->ModelRender->GetOriginal<DrawModelExecuteFn>(21);
 	unsigned char modelType = this->MaterialType(*info.pModel);
 
@@ -69,28 +69,29 @@ void Chams::OnDrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& s
 
 	switch (modelType) {
 	case Chams::TYPE_PLAYER:
+		if (config->visuals.chams.playerMaterial == MAT_ORIGINAL) return;
+
 		entity = interfaces->ClientEntityList->GetClientEntity(info.entity_index);
 
 		if (!entity || entity->GetDormant())
 			return;
 
-		OverrideMaterial(MAT_PLASTIC, Color(255, 0, 0, 255));
+		OverrideMaterial(config->visuals.chams.playerMaterial, Color(255, 255, 255, 255));
+		break;
+	case Chams::TYPE_ARMS:
+		if (config->visuals.chams.armsMaterial == MAT_ORIGINAL) return;
+
+		OverrideMaterial(config->visuals.chams.armsMaterial, Color(255, 255, 255, 255));
 		break;
 	case Chams::TYPE_WEAPON:
-		OverrideMaterial(MAT_REGULAR, Color(237, 41, 255, 255));
+		if (config->visuals.chams.weaponMaterial == MAT_ORIGINAL) return;
+
+		OverrideMaterial(config->visuals.chams.weaponMaterial, Color(255, 255, 255, 255));
 		break;
 	}
 }
 
 unsigned char Chams::MaterialType(model_t model) {
-	static std::vector<std::string> seen;
-
-	if (std::find(seen.begin(), seen.end(), model.szName) == seen.end())
-	{
-		std::cout << model.szName << std::endl;
-		seen.push_back(model.szName);
-	}
-
 	if (strstr(model.szName, "models/player") != nullptr)
 		return Chams::TYPE_PLAYER;
 	else if (strstr(model.szName, "arms") != nullptr)
@@ -99,7 +100,6 @@ unsigned char Chams::MaterialType(model_t model) {
 		return Chams::TYPE_SLEEVES;
 	else if (strstr(model.szName, "models/weapons/v_") != nullptr || strstr(model.szName, "stattrack") != nullptr)
 		return Chams::TYPE_WEAPON;
-	else {
+	else
 		return Chams::TYPE_UNKNOWN;
-	}
 }
