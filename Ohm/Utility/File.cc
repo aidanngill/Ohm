@@ -47,3 +47,15 @@ std::wstring CurrentWorkingDirectory() {
 
 	return std::wstring(tmp);
 }
+
+std::string MakeConfigPath(std::string fileName) {
+	fs::path dir = GetCheatFolder();
+
+	if (!fs::exists(dir))
+		fs::create_directory(dir);
+
+	fs::path file(fileName);
+	fs::path cfg = dir / file;
+
+	return cfg.u8string();
+}

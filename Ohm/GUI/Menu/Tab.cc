@@ -50,7 +50,6 @@ void GenericTab::DrawOptions() {
 			interfaces->Surface->DrawFilledRect(btnX + BUTTON_INDENT, btnY + BUTTON_INDENT, btnX + BUTTON_WIDTH - BUTTON_INDENT, btnY + BUTTON_HEIGHT - BUTTON_INDENT);
 
 			interfaces->Surface->GetTextSize(render->fontBase, option.title, tw, th);
-
 			render->Text(option.title, xOffset + (BUTTON_WIDTH * 2), yOffset + ((BUTTON_HEIGHT - th) / 2), render->fontBase, Colors::White);
 
 			yOffset += BUTTON_HEIGHT;
@@ -103,6 +102,34 @@ void GenericTab::DrawOptions() {
 			// draw text on the right
 			interfaces->Surface->GetTextSize(render->fontBase, option.title, tw, th);
 			render->Text(option.title, cbX + cbWidth + (th / 2), cbY + (BUTTON_HEIGHT / 2) - (th / 2), render->fontBase, Colors::White);
+
+			yOffset += BUTTON_HEIGHT;
+		}
+		else if (option.type == Option::TYPE_BUTTON) {
+			int btnX = xOffset + (BUTTON_WIDTH / 2);
+			int btnY = yOffset;
+
+			int btnWidth = (MENU_WIDTH - TAB_WIDTH - TAB_WIDTH_EXTRA - BUTTON_WIDTH) / 2;
+
+			insideColor = Colors::Invisible;
+
+			if (IsInRegion(menu->mouseX, menu->mouseY, btnX, btnY, btnWidth, BUTTON_HEIGHT)) {
+				if (menu->isClicking) {
+					option.ExecuteFunction();
+					menu->isClicking = false;
+				}
+
+				insideColor = Colors::LightGrey;
+			}
+
+			interfaces->Surface->DrawSetColor(Colors::White);
+			interfaces->Surface->DrawOutlinedRect(btnX, btnY, btnX + btnWidth, btnY + BUTTON_HEIGHT);
+
+			interfaces->Surface->DrawSetColor(insideColor);
+			interfaces->Surface->DrawFilledRect(btnX + BUTTON_INDENT, btnY + BUTTON_INDENT, btnX + btnWidth - BUTTON_INDENT, btnY + BUTTON_HEIGHT - BUTTON_INDENT);
+
+			interfaces->Surface->GetTextSize(render->fontBase, option.title, tw, th);
+			render->Text(option.title, btnX + (th / 2), btnY + (BUTTON_HEIGHT / 2) - (th / 2), render->fontBase, Colors::White);
 
 			yOffset += BUTTON_HEIGHT;
 		}

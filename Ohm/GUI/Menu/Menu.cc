@@ -1,3 +1,5 @@
+#include <filesystem>
+
 #include "./Menu.h"
 #include "./Option.h"
 #include "./Tab.h"
@@ -9,14 +11,26 @@
 #include "../../Interfaces/Interfaces.h"
 #include "../../Interfaces/Dependencies.h"
 
+#include "../../Utility/File.h"
+
+namespace fs = std::filesystem;
+
+void SaveConfig() {
+	config->DumpToFile(MakeConfigPath("config.json").c_str());
+}
+
+void LoadConfig() {
+	config->LoadFromFile(MakeConfigPath("config.json").c_str());
+}
+
 Menu::Menu() {
 	// [Start] Aim
 	Tab tabAim = Tab(L"Aim");
-	Tab tabVisual = Tab(L"Visuals");
-	Tab tabMisc = Tab(L"Misc");
 	// [End] Aim
 
 	// [Start] Visual
+	Tab tabVisual = Tab(L"Visuals");
+
 	SubTab stVisBox(L"Players");
 	stVisBox.options.push_back(Option(L"Enabled", &config->visuals.players.isEnabled));
 	stVisBox.options.push_back(Option(L"Outlined", &config->visuals.players.isOutlined));
@@ -40,12 +54,22 @@ Menu::Menu() {
 	// [End] Visual
 
 	// [Start] Misc
+	Tab tabMisc = Tab(L"Misc");
+
 	tabMisc.options.push_back(Option(L"Bunny Hop", &config->misc.bunnyHop));
 	// [End] Misc
+
+	// [Start] Config
+	Tab tabConfig = Tab(L"Config");
+
+	tabConfig.options.push_back(Option(L"Save", SaveConfig));
+	tabConfig.options.push_back(Option(L"Load", LoadConfig));
+	// [End] Config
 
 	tabs.push_back(tabAim);
 	tabs.push_back(tabVisual);
 	tabs.push_back(tabMisc);
+	tabs.push_back(tabConfig);
 }
 
 void Menu::Render() {

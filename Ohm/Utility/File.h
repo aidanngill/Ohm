@@ -2,7 +2,9 @@
 
 namespace fs = std::filesystem;
 
-bool ReadFileToString(const char* file_name, std::string& contents);
-std::wstring GetDocumentsFolder();
+bool ReadFileToString(const char* fileName, std::string& contents);
+
 fs::path GetCheatFolder();
+std::wstring GetDocumentsFolder();
 std::wstring CurrentWorkingDirectory();
+std::string MakeConfigPath(std::string fileName);

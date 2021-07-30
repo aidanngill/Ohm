@@ -91,6 +91,11 @@ void Config::DumpToFile(const char* fileName) {
 				{"bomb", visuals.entities.showBomb},
 				{"dropped_weapon", visuals.entities.showDroppedWeapons}
 			}},
+			{"chams", {
+				{"player_material", visuals.chams.playerMaterial},
+				{"weapon_material", visuals.chams.weaponMaterial},
+				{"arms_material", visuals.chams.armsMaterial},
+			}},
 			{"enemy_only", visuals.isOnlyEnemy},
 			{"on_death", visuals.isOnDeath},
 			{"snap_lines", visuals.hasSnapLines}
