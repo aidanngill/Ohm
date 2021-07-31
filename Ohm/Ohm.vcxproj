@@ -193,8 +193,10 @@
     <ClInclude Include="GUI\Render.h" />
     <ClInclude Include="SDK\CClientState.h" />
     <ClInclude Include="SDK\CGlobalVars.h" />
+    <ClInclude Include="SDK\CGlowObjectManager.h" />
     <ClInclude Include="SDK\Color.h" />
     <ClInclude Include="SDK\CUserCmd.h" />
+    <ClInclude Include="SDK\CViewSetup.h" />
     <ClInclude Include="SDK\IAppSystem.h" />
     <ClInclude Include="SDK\IBaseClientDLL.h" />
     <ClInclude Include="SDK\IClientClass.h" />
@@ -220,6 +222,9 @@
     <ClInclude Include="SDK\Math\QAngle.h" />
     <ClInclude Include="SDK\Math\Vector.h" />
     <ClInclude Include="SDK\Studio.h" />
+    <ClInclude Include="SDK\Utl\Macro.h" />
+    <ClInclude Include="SDK\Utl\Memory.h" />
+    <ClInclude Include="SDK\Utl\Vector.h" />
     <ClInclude Include="Utility\File.h" />
     <ClInclude Include="Utility\Utilities.h" />
     <ClInclude Include="Utility\VirtualFunc.h" />

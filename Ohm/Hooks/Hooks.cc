@@ -20,11 +20,13 @@
 #include "../GUI/Menu/Menu.h"
 
 #include "../SDK/CUserCmd.h"
+#include "../SDK/CViewSetup.h"
 
 #include "../Utility/Utilities.h"
 
-typedef void(__thiscall* PaintTraverseFn)(void*, unsigned int, bool, bool);
 typedef bool(__thiscall* CreateMoveFn)(void*, float, CUserCmd*);
+typedef void(__thiscall* PostScreenEffectsFn)(void*, CViewSetup*);
+typedef void(__thiscall* PaintTraverseFn)(void*, unsigned int, bool, bool);
 typedef void(__thiscall* OnResolutionChangeFn)(ISurface*, int, int);
 typedef void(__thiscall* LockCursorFn)(ISurface*);
 typedef void(__thiscall* DrawModelExecuteFn)(void*, IMatRenderContext*, const DrawModelState_t&, const ModelRenderInfo_t&, matrix3x4_t*);
@@ -57,6 +59,16 @@ void __fastcall PaintTraverse(void* pPanels, int edx, unsigned int vguiPanel, bo
 
 	render->Watermark();
 	menu->Render();
+}
+
+void __fastcall PostScreenEffects(void* ecx, void* edx, CViewSetup* setup) {
+	static auto originalFn = hooks->ClientInput->GetOriginal<PostScreenEffectsFn>(44);
+
+	if (!interfaces->Engine->IsConnected())
+		originalFn(ecx, setup);
+
+	Glow::Render();
+	originalFn(ecx, setup);
 }
 
 static bool __stdcall CreateMove(float inputSampleFrametime, CUserCmd* cmd) {
@@ -173,6 +185,7 @@ Hooks::Hooks(HMODULE module) {
 void Hooks::Install() {
 	ClientInput = new VmtHook(interfaces->ClientMode);
 	ClientInput->SwapPointer(24, reinterpret_cast<void*>(CreateMove));
+	ClientInput->SwapPointer(44, reinterpret_cast<void*>(PostScreenEffects));
 	ClientInput->ApplyNewTable();
 
 	ModelRender = new VmtHook(interfaces->ModelRender);
@@ -194,6 +207,8 @@ void Hooks::Restore() {
 	ModelRender->RestoreOldTable();
 	Surface->RestoreOldTable();
 	VGUI->RestoreOldTable();
+
+	Glow::Shutdown();
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(50));
 

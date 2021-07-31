@@ -36,6 +36,14 @@ public:
 			int armsMaterial = 0;
 		} chams;
 
+		struct Glow {
+			bool showPlayers = false;
+			bool showDefuseKits = false;
+			bool showPlantedC4 = false;
+			bool showDroppedWeapons = false;
+			bool showChickens = false;
+		} glow;
+
 		bool isOnlyEnemy = false;
 		bool isOnDeath = false;
 		bool hasSnapLines = false;

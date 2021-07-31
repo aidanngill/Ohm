@@ -10,3 +10,8 @@ namespace Visuals {
 	void DrawBombBox(IClientEntity* bombEntity);
 	void Render();
 }
+
+namespace Glow {
+	void Shutdown();
+	void Render();
+}

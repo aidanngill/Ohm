@@ -63,6 +63,12 @@ bool Config::LoadFromFile(const char* fileName) {
 	if (data["visuals"]["chams"]["weapon_material"].is_number_integer()) visuals.chams.weaponMaterial = data["visuals"]["chams"]["weapon_material"].get<int>();
 	if (data["visuals"]["chams"]["arms_material"].is_number_integer()) visuals.chams.armsMaterial = data["visuals"]["chams"]["arms_material"].get<int>();
 
+	if (data["visuals"]["glow"]["show_players"].is_boolean()) visuals.glow.showPlayers = data["visuals"]["glow"]["show_players"].get<bool>();
+	if (data["visuals"]["glow"]["show_defuse_kits"].is_boolean()) visuals.glow.showDefuseKits = data["visuals"]["glow"]["show_defuse_kits"].get<bool>();
+	if (data["visuals"]["glow"]["show_planted_c4"].is_boolean()) visuals.glow.showPlantedC4 = data["visuals"]["glow"]["show_planted_c4"].get<bool>();
+	if (data["visuals"]["glow"]["show_dropped_weapons"].is_boolean()) visuals.glow.showDroppedWeapons = data["visuals"]["glow"]["show_dropped_weapons"].get<bool>();
+	if (data["visuals"]["glow"]["show_chickens"].is_boolean()) visuals.glow.showChickens = data["visuals"]["glow"]["show_chickens"].get<bool>();
+
 	if (data["visuals"]["enemy_only"].is_boolean()) visuals.isOnlyEnemy = data["visuals"]["enemy_only"].get<bool>();
 	if (data["visuals"]["on_death"].is_boolean()) visuals.isOnDeath = data["visuals"]["on_death"].get<bool>();
 	if (data["visuals"]["snap_lines"].is_boolean()) visuals.hasSnapLines = data["visuals"]["snap_lines"].get<bool>();
@@ -85,7 +91,7 @@ void Config::DumpToFile(const char* fileName) {
 				{"health", visuals.players.hasHealth},
 				{"armor", visuals.players.hasArmor},
 				{"name", visuals.players.hasName},
-				{"distance", visuals.players.hasDistance},
+				{"distance", visuals.players.hasDistance}
 			}},
 			{"entities", {
 				{"bomb", visuals.entities.showBomb},
@@ -94,7 +100,14 @@ void Config::DumpToFile(const char* fileName) {
 			{"chams", {
 				{"player_material", visuals.chams.playerMaterial},
 				{"weapon_material", visuals.chams.weaponMaterial},
-				{"arms_material", visuals.chams.armsMaterial},
+				{"arms_material", visuals.chams.armsMaterial}
+			}},
+			{"glow", {
+				{"show_players", visuals.glow.showPlayers},
+				{"show_defuse_kits", visuals.glow.showDefuseKits},
+				{"show_planted_c4", visuals.glow.showPlantedC4},
+				{"show_dropped_weapons", visuals.glow.showDroppedWeapons},
+				{"show_chickens", visuals.glow.showChickens}
 			}},
 			{"enemy_only", visuals.isOnlyEnemy},
 			{"on_death", visuals.isOnDeath},

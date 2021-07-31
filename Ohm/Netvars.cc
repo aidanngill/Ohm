@@ -66,6 +66,9 @@ Netvars::Netvars() {
 	m_ArmorValue = GetNetvarOffset("DT_CSPlayer", "m_ArmorValue", clientClass);
 	m_lifeState = GetNetvarOffset("DT_CSPlayer", "m_lifeState", clientClass);
 
+	// DT_DynamicProp
+	m_bShouldGlow = GetNetvarOffset("DT_DynamicProp", "m_bShouldGlow", clientClass);
+
 	// DT_PlantedC4
 	m_flC4Blow = GetNetvarOffset("DT_PlantedC4", "m_flC4Blow", clientClass);
 	m_flTimerLength = GetNetvarOffset("DT_PlantedC4", "m_flTimerLength", clientClass);

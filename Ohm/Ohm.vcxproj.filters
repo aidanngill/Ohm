@@ -72,5 +72,10 @@
     <ClInclude Include="SDK\IMaterialSystem.h" />
     <ClInclude Include="SDK\KeyValues.h" />
     <ClInclude Include="SDK\IVModelRender.h" />
+    <ClInclude Include="SDK\CGlowObjectManager.h" />
+    <ClInclude Include="SDK\Utl\Memory.h" />
+    <ClInclude Include="SDK\Utl\Vector.h" />
+    <ClInclude Include="SDK\Utl\Macro.h" />
+    <ClInclude Include="SDK\CViewSetup.h" />
   </ItemGroup>
 </Project>

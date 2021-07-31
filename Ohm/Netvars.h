@@ -23,6 +23,8 @@ public:
 	std::ptrdiff_t m_ArmorValue;
 	std::ptrdiff_t m_lifeState;
 
+	std::ptrdiff_t m_bShouldGlow;
+
 	std::ptrdiff_t m_flC4Blow;
 	std::ptrdiff_t m_flTimerLength;
 

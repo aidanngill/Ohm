@@ -4,6 +4,7 @@
 
 #include "../Config.h"
 #include "../Memory.h"
+#include "../Netvars.h"
 
 #include "../GUI/Colors.h"
 #include "../GUI/Render.h"
@@ -12,6 +13,7 @@
 #include "../Interfaces/Dependencies.h"
 
 #include "../SDK/CGlobalVars.h"
+#include "../SDK/CGlowObjectManager.h"
 #include "../SDK/ICollideable.h"
 #include "../SDK/IClientEntity.h"
 #include "../SDK/Math/Vector.h"
@@ -173,5 +175,89 @@ void Visuals::Render() {
 				DrawBombBox(entity);
 			}
 		}
+	}
+}
+
+void Glow::Shutdown() {
+	for (int idx = 0; idx < memory->GlowObjectManager->glowObjectDefinitions.Count(); idx++) {
+		GlowObjectDefinition_t& glowObject = memory->GlowObjectManager->glowObjectDefinitions[idx];
+		IClientEntity* entity = glowObject.entity;
+
+		if (glowObject.IsUnused())
+			continue;
+
+		if (!entity || entity->GetDormant())
+			continue;
+
+		glowObject.glowAlpha = 0.f;
+	}
+}
+
+void Glow::Render() {
+	IClientEntity* localPlayer = GetLocalPlayer();
+	static const float rgbMult = 1.f / 256.f;
+
+	for (int idx = 0; idx < memory->GlowObjectManager->glowObjectDefinitions.Count(); idx++) {
+		GlowObjectDefinition_t& glowObject = memory->GlowObjectManager->glowObjectDefinitions[idx];
+		IClientEntity* entity = glowObject.entity;
+
+		if (glowObject.IsUnused())
+			continue;
+
+		if (!entity || entity->GetDormant())
+			continue;
+
+		int classId = entity->GetClientClass()->m_ClassID;
+		Color color{};
+
+		if (classId == netvars->classIdentifiers["CCSPlayer"]) {
+			if (!config->visuals.glow.showPlayers)
+				continue;
+
+			if (!entity->IsAlive())
+				continue;
+
+			bool isEnemy = entity->Team() != localPlayer->Team();
+
+			if (isEnemy) {
+				color = entity->HasC4() ? Colors::Green : Colors::Red;
+			}
+			else {
+				color = Colors::Blue;
+			}
+		}
+		else if (classId == netvars->classIdentifiers["CChicken"]) {
+			if (!config->visuals.glow.showChickens)
+				continue;
+
+			*entity->ShouldGlow() = true;
+			color = Colors::Blue;
+		}
+		else if (classId == netvars->classIdentifiers["CBaseAnimating"]) {
+			if (!config->visuals.glow.showDefuseKits)
+				continue;
+
+			color = Colors::Blue;
+		}
+		else if (classId == netvars->classIdentifiers["CPlantedC4"]) {
+			if (!config->visuals.glow.showPlantedC4)
+				continue;
+
+			color = Colors::Blue;
+		}
+		else if (entity->IsWeapon()) {
+			if (!config->visuals.glow.showDroppedWeapons)
+				continue;
+
+			color = Colors::Blue;
+		}
+
+		glowObject.glowRed = color.r() * rgbMult;
+		glowObject.glowGreen = color.g() * rgbMult;
+		glowObject.glowBlue = color.b() * rgbMult;
+		glowObject.glowAlpha = color.a() * rgbMult;
+
+		glowObject.renderWhenOccluded = true;
+		glowObject.renderWhenUnoccluded = false;
 	}
 }

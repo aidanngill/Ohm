@@ -48,9 +48,17 @@ Menu::Menu() {
 	stVisChams.options.push_back(Option(L"Weapon", &config->visuals.chams.weaponMaterial, std::vector<std::wstring>{ L"None", L"Regular", L"Flat", L"Plastic" }));
 	stVisChams.options.push_back(Option(L"Arms", &config->visuals.chams.armsMaterial, std::vector<std::wstring>{ L"None", L"Regular", L"Flat", L"Plastic" }));
 
+	SubTab stVisGlow(L"Glow");
+	stVisGlow.options.push_back(Option(L"Players", &config->visuals.glow.showPlayers));
+	stVisGlow.options.push_back(Option(L"Defuse Kits", &config->visuals.glow.showDefuseKits));
+	stVisGlow.options.push_back(Option(L"Planted C4", &config->visuals.glow.showPlantedC4));
+	stVisGlow.options.push_back(Option(L"Dropped Weapons", &config->visuals.glow.showDroppedWeapons));
+	stVisGlow.options.push_back(Option(L"Chickens", &config->visuals.glow.showChickens));
+
 	tabVisual.subTabs.push_back(stVisBox);
 	tabVisual.subTabs.push_back(stVisEnt);
 	tabVisual.subTabs.push_back(stVisChams);
+	tabVisual.subTabs.push_back(stVisGlow);
 	// [End] Visual
 
 	// [Start] Misc
