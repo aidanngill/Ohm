@@ -259,5 +259,7 @@ void Glow::Render() {
 
 		glowObject.renderWhenOccluded = true;
 		glowObject.renderWhenUnoccluded = false;
+
+		glowObject.bloomAmount = config->visuals.glow.bloomAmount;
 	}
 }

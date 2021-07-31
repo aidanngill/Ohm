@@ -9,6 +9,7 @@
 
 #include "./Color.h"
 #include "./ICollideable.h"
+#include "./WeaponData.h"
 
 #include "../Memory.h"
 #include "../Netvars.h"
@@ -37,6 +38,18 @@ public:
 	}
 	float ArmorRatio() {
 		return static_cast<float>(std::clamp(this->Armor(), 0, 100)) / float(100);
+	}
+	float NextAttack() {
+		return *reinterpret_cast<float*>(reinterpret_cast<uintptr_t>(this) + netvars->m_flNextAttack);
+	}
+	bool IsDefusing() {
+		return *reinterpret_cast<bool*>(reinterpret_cast<uintptr_t>(this) + netvars->m_bIsDefusing);
+	}
+	float FlashDuration() {
+		return *reinterpret_cast<float*>(reinterpret_cast<uintptr_t>(this) + netvars->m_flFlashMaxAlpha);
+	}
+	bool IsFlashed() {
+		return this->FlashDuration() > 75.f;
 	}
 	Color HealthColor() {
 		float healthRatio = this->HealthRatio();
@@ -97,5 +110,33 @@ public:
 	}
 	ICollideable* GetCollideable() {
 		return reinterpret_cast<ICollideable*>(reinterpret_cast<uintptr_t>(this) + netvars->m_Collision);
+	}
+	WeaponInfo* GetWeaponInfo() {
+		typedef WeaponInfo*(__thiscall* GetWeaponInfoFn)(void*);
+		return GetVFunc<GetWeaponInfoFn>(this, 460)(this);
+	}
+	Vector GetEyePosition() {
+		Vector eyePos;
+
+		typedef void(__thiscall* GetEyePositionFn)(void*, Vector&);
+		GetVFunc<GetEyePositionFn>(this, 284)(this, eyePos);
+
+		return eyePos;
+	}
+	Vector GetAimPunch() {
+		Vector aimPunch;
+
+		typedef void(__thiscall* GetAimPunchFn)(void*, Vector&);
+		GetVFunc<GetAimPunchFn>(this, 345)(this, aimPunch);
+
+		return aimPunch;
+	}
+	bool RequiresRecoilControl() {
+		const auto weaponData = GetWeaponInfo();
+
+		if (weaponData)
+			return weaponData->recoilMagnitude < 35.f && weaponData->recoveryTimeStand > weaponData->cycletime;
+
+		return false;
 	}
 };

@@ -54,6 +54,13 @@ bool Netvars::InitializeClassIdentifiers() {
 Netvars::Netvars() {
 	clientClass = interfaces->BaseClient->GetAllClasses();
 
+	// CBaseCombatCharacter
+	m_flNextAttack = GetNetvarOffset("CBaseCombatCharacter", "m_flNextAttack", clientClass);
+
+	// CCSPlayer
+	m_bIsDefusing = GetNetvarOffset("CCSPlayer", "m_bIsDefusing", clientClass);
+	m_flFlashMaxAlpha = GetNetvarOffset("CCSPlayer", "m_flFlashMaxAlpha", clientClass) - 8;
+
 	// DT_BasePlayer
 	m_Collision = GetNetvarOffset("DT_BasePlayer", "m_Collision", clientClass);
 	m_fFlags = GetNetvarOffset("DT_BasePlayer", "m_fFlags", clientClass);

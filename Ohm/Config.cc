@@ -47,6 +47,7 @@ bool Config::LoadFromFile(const char* fileName) {
 	data = nlohmann::json::parse(bsfString);
 
 	if (data["aimbot"]["enabled"].is_boolean()) aim.isEnabled = data["aimbot"]["enabled"].get<bool>();
+	if (data["aimbot"]["ignore_flash"].is_boolean()) aim.ignoreFlash = data["aimbot"]["ignore_flash"].get<bool>();
 	if (data["aimbot"]["fov"].is_number_float()) aim.fieldOfView = data["aimbot"]["fov"].get<float>();
 
 	if (data["visuals"]["players"]["enabled"].is_boolean()) visuals.players.isEnabled = data["visuals"]["players"]["enabled"].get<bool>();
@@ -68,6 +69,7 @@ bool Config::LoadFromFile(const char* fileName) {
 	if (data["visuals"]["glow"]["show_planted_c4"].is_boolean()) visuals.glow.showPlantedC4 = data["visuals"]["glow"]["show_planted_c4"].get<bool>();
 	if (data["visuals"]["glow"]["show_dropped_weapons"].is_boolean()) visuals.glow.showDroppedWeapons = data["visuals"]["glow"]["show_dropped_weapons"].get<bool>();
 	if (data["visuals"]["glow"]["show_chickens"].is_boolean()) visuals.glow.showChickens = data["visuals"]["glow"]["show_chickens"].get<bool>();
+	if (data["visuals"]["glow"]["bloom_amount"].is_number_float()) visuals.glow.bloomAmount = data["visuals"]["glow"]["bloom_amount"].get<float>();
 
 	if (data["visuals"]["enemy_only"].is_boolean()) visuals.isOnlyEnemy = data["visuals"]["enemy_only"].get<bool>();
 	if (data["visuals"]["on_death"].is_boolean()) visuals.isOnDeath = data["visuals"]["on_death"].get<bool>();
@@ -82,6 +84,7 @@ void Config::DumpToFile(const char* fileName) {
 	nlohmann::json od = {
 		{"aimbot", {
 			{"enabled", aim.isEnabled},
+			{"ignore_flash", aim.ignoreFlash},
 			{"fov", aim.fieldOfView}
 		}},
 		{"visuals", {
@@ -107,7 +110,8 @@ void Config::DumpToFile(const char* fileName) {
 				{"show_defuse_kits", visuals.glow.showDefuseKits},
 				{"show_planted_c4", visuals.glow.showPlantedC4},
 				{"show_dropped_weapons", visuals.glow.showDroppedWeapons},
-				{"show_chickens", visuals.glow.showChickens}
+				{"show_chickens", visuals.glow.showChickens},
+				{"bloom_amount", visuals.glow.bloomAmount}
 			}},
 			{"enemy_only", visuals.isOnlyEnemy},
 			{"on_death", visuals.isOnDeath},

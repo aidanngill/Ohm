@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <iomanip>
+#include <sstream>
 
 #include "./Tab.h"
 #include "./Menu.h"
@@ -22,10 +24,14 @@ void GenericTab::DrawOptions() {
 	int tw, th;
 	Color insideColor;
 
+	// Half a tab's width with padding. Useful for combo items and float boxes.
+	static int halfTabWidth = (MENU_WIDTH - TAB_WIDTH - TAB_WIDTH_EXTRA - BUTTON_WIDTH) / 2;
+
 	for (size_t idx = 0; idx < options.size(); idx++) {
 		Option option = options[idx];
 
-		if (option.type == Option::TYPE_BOOL) {
+		switch (option.type) {
+		case Option::TYPE_BOOL: {
 			int btnX = xOffset + (BUTTON_WIDTH / 2);
 			int btnY = yOffset;
 
@@ -53,19 +59,17 @@ void GenericTab::DrawOptions() {
 			render->Text(option.title, xOffset + (BUTTON_WIDTH * 2), yOffset + ((BUTTON_HEIGHT - th) / 2), render->fontBase, Colors::White);
 
 			yOffset += BUTTON_HEIGHT;
-		}
-		else if (option.type == Option::TYPE_COMBO) {
+		} break;
+		case Option::TYPE_COMBO: {
 			int cbX = xOffset + (BUTTON_WIDTH / 2);
 			int cbY = yOffset;
 
 			int cbItemsStart = cbY + BUTTON_HEIGHT;
-
-			int cbWidth = (MENU_WIDTH - TAB_WIDTH - TAB_WIDTH_EXTRA - BUTTON_WIDTH) / 2;
 			int cbHeight = BUTTON_HEIGHT * option.stringValues.size();
 
 			insideColor = Colors::Invisible;
 
-			if (IsInRegion(menu->mouseX, menu->mouseY, cbX, cbItemsStart, cbWidth, cbHeight) && currentOpened == idx) {
+			if (IsInRegion(menu->mouseX, menu->mouseY, cbX, cbItemsStart, halfTabWidth, cbHeight) && currentOpened == idx) {
 				hoveredComboItem = option.stringValues.size() - std::clamp(((cbItemsStart + cbHeight) - menu->mouseY) / BUTTON_HEIGHT, 0, static_cast<int>(option.stringValues.size()) - 1) - 1;
 
 				if (menu->isClicking) {
@@ -75,7 +79,7 @@ void GenericTab::DrawOptions() {
 					menu->isClicking = false;
 				}
 			}
-			else if (IsInRegion(menu->mouseX, menu->mouseY, cbX, cbY, cbWidth, BUTTON_HEIGHT)) {
+			else if (IsInRegion(menu->mouseX, menu->mouseY, cbX, cbY, halfTabWidth, BUTTON_HEIGHT)) {
 				if (menu->isClicking) {
 					if (currentOpened == -1)
 						currentOpened = idx;
@@ -90,10 +94,10 @@ void GenericTab::DrawOptions() {
 			}
 
 			interfaces->Surface->DrawSetColor(insideColor);
-			interfaces->Surface->DrawFilledRect(cbX, cbY, cbX + cbWidth, cbY + BUTTON_HEIGHT);
+			interfaces->Surface->DrawFilledRect(cbX, cbY, cbX + halfTabWidth, cbY + BUTTON_HEIGHT);
 
 			interfaces->Surface->DrawSetColor(Colors::White);
-			interfaces->Surface->DrawOutlinedRect(cbX, cbY, cbX + cbWidth, cbY + BUTTON_HEIGHT);
+			interfaces->Surface->DrawOutlinedRect(cbX, cbY, cbX + halfTabWidth, cbY + BUTTON_HEIGHT);
 
 			// draw current option text
 			interfaces->Surface->GetTextSize(render->fontBase, option.CurrentString(), tw, th);
@@ -101,19 +105,17 @@ void GenericTab::DrawOptions() {
 
 			// draw text on the right
 			interfaces->Surface->GetTextSize(render->fontBase, option.title, tw, th);
-			render->Text(option.title, cbX + cbWidth + (th / 2), cbY + (BUTTON_HEIGHT / 2) - (th / 2), render->fontBase, Colors::White);
+			render->Text(option.title, cbX + halfTabWidth + (th / 2), cbY + (BUTTON_HEIGHT / 2) - (th / 2), render->fontBase, Colors::White);
 
 			yOffset += BUTTON_HEIGHT;
-		}
-		else if (option.type == Option::TYPE_BUTTON) {
+		} break;
+		case Option::TYPE_BUTTON: {
 			int btnX = xOffset + (BUTTON_WIDTH / 2);
 			int btnY = yOffset;
 
-			int btnWidth = (MENU_WIDTH - TAB_WIDTH - TAB_WIDTH_EXTRA - BUTTON_WIDTH) / 2;
-
 			insideColor = Colors::Invisible;
 
-			if (IsInRegion(menu->mouseX, menu->mouseY, btnX, btnY, btnWidth, BUTTON_HEIGHT)) {
+			if (IsInRegion(menu->mouseX, menu->mouseY, btnX, btnY, halfTabWidth, BUTTON_HEIGHT)) {
 				if (menu->isClicking) {
 					option.ExecuteFunction();
 					menu->isClicking = false;
@@ -123,15 +125,47 @@ void GenericTab::DrawOptions() {
 			}
 
 			interfaces->Surface->DrawSetColor(Colors::White);
-			interfaces->Surface->DrawOutlinedRect(btnX, btnY, btnX + btnWidth, btnY + BUTTON_HEIGHT);
+			interfaces->Surface->DrawOutlinedRect(btnX, btnY, btnX + halfTabWidth, btnY + BUTTON_HEIGHT);
 
 			interfaces->Surface->DrawSetColor(insideColor);
-			interfaces->Surface->DrawFilledRect(btnX + BUTTON_INDENT, btnY + BUTTON_INDENT, btnX + btnWidth - BUTTON_INDENT, btnY + BUTTON_HEIGHT - BUTTON_INDENT);
+			interfaces->Surface->DrawFilledRect(btnX + BUTTON_INDENT, btnY + BUTTON_INDENT, btnX + halfTabWidth - BUTTON_INDENT, btnY + BUTTON_HEIGHT - BUTTON_INDENT);
 
 			interfaces->Surface->GetTextSize(render->fontBase, option.title, tw, th);
 			render->Text(option.title, btnX + (th / 2), btnY + (BUTTON_HEIGHT / 2) - (th / 2), render->fontBase, Colors::White);
 
 			yOffset += BUTTON_HEIGHT;
+		} break;
+		case Option::TYPE_FLOAT: {
+			int btnX = xOffset + (BUTTON_WIDTH / 2);
+			int btnY = yOffset;
+
+			if (IsInRegion(menu->mouseX, menu->mouseY, btnX, btnY, halfTabWidth, BUTTON_HEIGHT) && menu->isClicking) {
+				float mouseRatio = static_cast<float>(menu->mouseX - btnX) / halfTabWidth;
+				float itemRatio = static_cast<float>(option.fltMax - option.fltMin);
+
+				*option.fltValue = (mouseRatio * itemRatio) + option.fltMin;
+			}
+
+			interfaces->Surface->DrawSetColor(Colors::White);
+			interfaces->Surface->DrawOutlinedRect(btnX, btnY, btnX + halfTabWidth, btnY + BUTTON_HEIGHT);
+
+			float fltRatio = *option.fltValue / static_cast<float>(option.fltMax - option.fltMin);
+
+			interfaces->Surface->DrawSetColor(Colors::LightGrey);
+			interfaces->Surface->DrawFilledRect(btnX + BUTTON_INDENT, btnY + BUTTON_INDENT, btnX + (halfTabWidth * fltRatio) - BUTTON_INDENT, btnY + BUTTON_HEIGHT - BUTTON_INDENT);
+
+			interfaces->Surface->GetTextSize(render->fontBase, option.title, tw, th);
+			render->Text(option.title, btnX + halfTabWidth + (th / 2), btnY + (BUTTON_HEIGHT / 2) - (th / 2), render->fontBase, Colors::White);
+
+			std::wstringstream fltTextStream;
+			fltTextStream << std::fixed << std::setprecision(2) << *option.fltValue;
+
+			interfaces->Surface->GetTextSize(render->fontBase, option.title, tw, th);
+			render->Text(fltTextStream.str().c_str(), btnX + (th / 2), btnY + (BUTTON_HEIGHT / 2) - (th / 2), render->fontBase, Colors::White);
+
+			yOffset += BUTTON_HEIGHT;
+		} break;
+		default: break;
 		}
 
 		yOffset += OPTION_SEPARATION;

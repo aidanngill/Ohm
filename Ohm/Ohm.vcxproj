@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Config.cc" />
+    <ClCompile Include="Features\Aimbot.cc" />
     <ClCompile Include="Features\Chams.cc" />
     <ClCompile Include="GUI\Colors.cc" />
     <ClCompile Include="GUI\Menu\Menu.cc" />
@@ -176,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h" />
+    <ClInclude Include="Features\Aimbot.h" />
     <ClInclude Include="Features\Chams.h" />
     <ClInclude Include="GUI\Colors.h" />
     <ClInclude Include="GUI\Font.h" />
@@ -225,6 +227,7 @@
     <ClInclude Include="SDK\Utl\Macro.h" />
     <ClInclude Include="SDK\Utl\Memory.h" />
     <ClInclude Include="SDK\Utl\Vector.h" />
+    <ClInclude Include="SDK\WeaponData.h" />
     <ClInclude Include="Utility\File.h" />
     <ClInclude Include="Utility\Utilities.h" />
     <ClInclude Include="Utility\VirtualFunc.h" />

@@ -7,7 +7,7 @@
 
 #include "./Tab.h"
 
-#define MENU_WIDTH 300
+#define MENU_WIDTH 350
 #define MENU_HEIGHT 300
 
 #define TITLEBAR_WIDTH MENU_WIDTH

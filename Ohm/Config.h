@@ -11,6 +11,7 @@ public:
 
 	struct Aim {
 		bool isEnabled = false;
+		bool ignoreFlash = false;
 		float fieldOfView = 1.0f;
 	} aim;
 
@@ -42,6 +43,7 @@ public:
 			bool showPlantedC4 = false;
 			bool showDroppedWeapons = false;
 			bool showChickens = false;
+			float bloomAmount = 1.f;
 		} glow;
 
 		bool isOnlyEnemy = false;

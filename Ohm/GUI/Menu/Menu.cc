@@ -26,6 +26,9 @@ void LoadConfig() {
 Menu::Menu() {
 	// [Start] Aim
 	Tab tabAim = Tab(L"Aim");
+	tabAim.options.push_back(Option(L"Enabled", &config->aim.isEnabled));
+	tabAim.options.push_back(Option(L"Ignore Flash", &config->aim.ignoreFlash));
+	tabAim.options.push_back(Option(L"Field of View", &config->aim.fieldOfView, 0.f, 180.f));
 	// [End] Aim
 
 	// [Start] Visual
@@ -54,6 +57,7 @@ Menu::Menu() {
 	stVisGlow.options.push_back(Option(L"Planted C4", &config->visuals.glow.showPlantedC4));
 	stVisGlow.options.push_back(Option(L"Dropped Weapons", &config->visuals.glow.showDroppedWeapons));
 	stVisGlow.options.push_back(Option(L"Chickens", &config->visuals.glow.showChickens));
+	stVisGlow.options.push_back(Option(L"Bloom", &config->visuals.glow.bloomAmount, 0.f, 1.f));
 
 	tabVisual.subTabs.push_back(stVisBox);
 	tabVisual.subTabs.push_back(stVisEnt);
