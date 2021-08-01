@@ -1,6 +1,10 @@
 #pragma once
 
-#include "../Utility/VirtualFunc.h"
+#include <iostream>
+
+#include "../Math/Vector.h"
+
+#include "../../Utility/VirtualFunc.h"
 
 // https://github.com/ValveSoftware/source-sdk-2013/blob/master/sp/src/public/cdll_int.h#L194
 

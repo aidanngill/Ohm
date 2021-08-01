@@ -1,9 +1,10 @@
 #pragma once
 
 #include "./IMaterial.h"
-#include "./Math/QAngle.h"
 
-#include "../Utility/VirtualFunc.h"
+#include "../Math/QAngle.h"
+
+#include "../../Utility/VirtualFunc.h"
 
 class IVModelRender {
 public:

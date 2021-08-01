@@ -5,7 +5,7 @@
 #include "./IAppSystem.h"
 #include "./IMaterial.h"
 
-#include "../Utility/VirtualFunc.h"
+#include "../../Utility/VirtualFunc.h"
 
 class IMaterialSystem
 {

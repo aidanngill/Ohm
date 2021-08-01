@@ -1,10 +1,10 @@
 #pragma once
 
-#include "./Studio.h"
+#include "../Studio.h"
 
-#include "./Math/Matrix.h"
-#include "./Math/QAngle.h"
-#include "./Math/Vector.h"
+#include "../Math/Matrix.h"
+#include "../Math/QAngle.h"
+#include "../Math/Vector.h"
 
 enum PreviewImageRetVal_t {
 	MATERIAL_PREVIEW_IMAGE_BAD = 0,

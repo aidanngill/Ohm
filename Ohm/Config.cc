@@ -51,8 +51,8 @@ bool Config::LoadFromFile(const char* fileName) {
 	if (data["aimbot"]["silent_aim"].is_boolean()) aim.silentAim = data["aimbot"]["silent_aim"].get<bool>();
 	if (data["aimbot"]["auto_scope"].is_boolean()) aim.autoScope = data["aimbot"]["auto_scope"].get<bool>();
 	if (data["aimbot"]["auto_shoot"].is_boolean()) aim.autoShoot = data["aimbot"]["auto_shoot"].get<bool>();
-	if (data["aimbot"]["fov"].is_number_float()) aim.fieldOfView = data["aimbot"]["fov"].get<float>();
-	if (data["aimbot"]["smooth"].is_number_float()) aim.smoothAmount = data["aimbot"]["smooth"].get<float>();
+	if (data["aimbot"]["fov"].is_number_float()) aim.fieldOfView = std::clamp(data["aimbot"]["fov"].get<float>(), 0.f, 10.f);
+	if (data["aimbot"]["smooth"].is_number_float()) aim.smoothAmount = std::clamp(data["aimbot"]["smooth"].get<float>(), 1.f, 10.f);
 
 	if (data["visuals"]["players"]["enabled"].is_boolean()) visuals.players.isEnabled = data["visuals"]["players"]["enabled"].get<bool>();
 	if (data["visuals"]["players"]["outlined"].is_boolean()) visuals.players.isOutlined = data["visuals"]["players"]["outlined"].get<bool>();
@@ -73,7 +73,7 @@ bool Config::LoadFromFile(const char* fileName) {
 	if (data["visuals"]["glow"]["show_planted_c4"].is_boolean()) visuals.glow.showPlantedC4 = data["visuals"]["glow"]["show_planted_c4"].get<bool>();
 	if (data["visuals"]["glow"]["show_dropped_weapons"].is_boolean()) visuals.glow.showDroppedWeapons = data["visuals"]["glow"]["show_dropped_weapons"].get<bool>();
 	if (data["visuals"]["glow"]["show_chickens"].is_boolean()) visuals.glow.showChickens = data["visuals"]["glow"]["show_chickens"].get<bool>();
-	if (data["visuals"]["glow"]["bloom_amount"].is_number_float()) visuals.glow.bloomAmount = data["visuals"]["glow"]["bloom_amount"].get<float>();
+	if (data["visuals"]["glow"]["bloom_amount"].is_number_float()) visuals.glow.bloomAmount = std::clamp(data["visuals"]["glow"]["bloom_amount"].get<float>(), 0.f, 1.f);
 
 	if (data["visuals"]["enemy_only"].is_boolean()) visuals.isOnlyEnemy = data["visuals"]["enemy_only"].get<bool>();
 	if (data["visuals"]["on_death"].is_boolean()) visuals.isOnDeath = data["visuals"]["on_death"].get<bool>();

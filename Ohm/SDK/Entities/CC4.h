@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IClientEntity.h"
+#include "../Interfaces/IClientEntity.h"
 
 class CC4 : public IClientEntity {
 public:

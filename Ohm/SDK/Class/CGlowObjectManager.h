@@ -1,11 +1,12 @@
 #pragma once
 
-#include "./Color.h"
-#include "./IClientEntity.h"
+#include "../Color.h"
 
-#include "./Math/Vector.h"
+#include "../Interfaces/IClientEntity.h"
 
-#include "./Utl/Vector.h"
+#include "../Math/Vector.h"
+
+#include "../Utl/Vector.h"
 
 struct GlowObjectDefinition_t {
 	int nextFreeSlot;

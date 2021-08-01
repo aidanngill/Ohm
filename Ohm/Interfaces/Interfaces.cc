@@ -4,7 +4,7 @@
 #include "../PE/Types.h"
 #include "../PE/Module.h"
 
-#include "../SDK/InterfaceReg.h"
+#include "../SDK/Class/InterfaceReg.h"
 
 uintptr_t FollowJump(uintptr_t address) {
 	if (!address)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Utility/VirtualFunc.h"
+#include "../../Utility/VirtualFunc.h"
 
 // https://github.com/ValveSoftware/source-sdk-2013/blob/master/mp/src/public/icliententitylist.h
 

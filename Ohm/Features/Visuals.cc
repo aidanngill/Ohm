@@ -12,9 +12,10 @@
 #include "../Interfaces/Interfaces.h"
 #include "../Interfaces/Dependencies.h"
 
-#include "../SDK/CGlobalVars.h"
-#include "../SDK/CGlowObjectManager.h"
-#include "../SDK/ICollideable.h"
+#include "../SDK/Class/CGlobalVars.h"
+#include "../SDK/Class/CGlowObjectManager.h"
+
+#include "../SDK/Interfaces/ICollideable.h"
 
 #include "../SDK/Entities/CBasePlayer.h"
 #include "../SDK/Entities/CC4.h"

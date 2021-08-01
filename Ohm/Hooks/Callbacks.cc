@@ -6,8 +6,6 @@
 
 #include "../GUI/Menu/Menu.h"
 
-#include "../SDK/IPanel.h"
-
 #include "../Utility/Utilities.h"
 
 LRESULT __stdcall WndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam) {

@@ -20,8 +20,8 @@
 #include "../GUI/Render.h"
 #include "../GUI/Menu/Menu.h"
 
-#include "../SDK/CUserCmd.h"
-#include "../SDK/CViewSetup.h"
+#include "../SDK/Class/CUserCmd.h"
+#include "../SDK/Class/CViewSetup.h"
 
 #include "../Utility/Utilities.h"
 

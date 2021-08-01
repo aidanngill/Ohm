@@ -1,9 +1,10 @@
 #include "./IClientUnknown.h"
-#include "./Studio.h"
 
-#include "./Math/Matrix.h"
-#include "./Math/QAngle.h"
-#include "./Math/Vector.h"
+#include "../Studio.h"
+
+#include "../Math/Matrix.h"
+#include "../Math/QAngle.h"
+#include "../Math/Vector.h"
 
 typedef unsigned short ClientShadowHandle_t;
 typedef unsigned short ClientRenderHandle_t;

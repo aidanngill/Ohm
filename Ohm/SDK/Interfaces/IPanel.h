@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Utility/VirtualFunc.h"
+#include "../../Utility/VirtualFunc.h"
 
 class IPanel {
 public:

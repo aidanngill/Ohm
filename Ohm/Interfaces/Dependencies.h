@@ -3,14 +3,14 @@
 #ifndef _INTERFACE_DEP
 #define _INTERFACE_DEP
 
-#include "../SDK/IClientEntity.h"
-#include "../SDK/IClientEntityList.h"
-#include "../SDK/IInputSystem.h"
-#include "../SDK/IMaterialSystem.h"
-#include "../SDK/IPanel.h"
-#include "../SDK/ISurface.h"
-#include "../SDK/IVDebugOverlay.h"
-#include "../SDK/IVEngineClient.h"
-#include "../SDK/IVModelRender.h"
+#include "../SDK/Interfaces/IClientEntity.h"
+#include "../SDK/Interfaces/IClientEntityList.h"
+#include "../SDK/Interfaces/IInputSystem.h"
+#include "../SDK/Interfaces/IMaterialSystem.h"
+#include "../SDK/Interfaces/IPanel.h"
+#include "../SDK/Interfaces/ISurface.h"
+#include "../SDK/Interfaces/IVDebugOverlay.h"
+#include "../SDK/Interfaces/IVEngineClient.h"
+#include "../SDK/Interfaces/IVModelRender.h"
 
 #endif

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../SDK/IMaterial.h"
+#include "../SDK/Interfaces/IMaterial.h"
 
 class Color;
 

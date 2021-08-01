@@ -5,8 +5,8 @@
 #include "../Interfaces/Dependencies.h"
 #include "../Interfaces/Interfaces.h"
 
-#include "../SDK/CGlobalVars.h"
-#include "../SDK/CUserCmd.h"
+#include "../SDK/Class/CGlobalVars.h"
+#include "../SDK/Class/CUserCmd.h"
 
 #include "../SDK/Entities/CBasePlayer.h"
 

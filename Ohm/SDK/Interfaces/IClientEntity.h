@@ -2,17 +2,20 @@
 
 #include <algorithm>
 
+#include "./ICollideable.h"
+
 #include "./IClientNetworkable.h"
 #include "./IClientRenderable.h"
 #include "./IClientThinkable.h"
 #include "./IClientUnknown.h"
 
-#include "./Color.h"
-#include "./ICollideable.h"
-#include "./WeaponData.h"
+#include "../Color.h"
+#include "../WeaponData.h"
 
-#include "../Memory.h"
-#include "../Netvars.h"
+#include "../Math/Vector.h"
+
+#include "../../Memory.h"
+#include "../../Netvars.h"
 
 enum LifeState : unsigned char {
 	LIFE_ALIVE = 0,

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./Math/Vector.h"
+#include "../Math/Vector.h"
 
 // https://github.com/ValveSoftware/source-sdk-2013/blob/master/sp/src/game/shared/usercmd.h
 

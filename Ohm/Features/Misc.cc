@@ -5,7 +5,7 @@
 #include "../Interfaces/Interfaces.h"
 #include "../Interfaces/Dependencies.h"
 
-#include "../SDK/CUserCmd.h"
+#include "../SDK/Class/CUserCmd.h"
 
 #include "../SDK/Entities/CBasePlayer.h"
 

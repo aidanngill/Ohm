@@ -2,7 +2,7 @@
 
 #include "./IClientClass.h"
 
-#include "../Utility/VirtualFunc.h"
+#include "../../Utility/VirtualFunc.h"
 
 enum DataUpdateType_t {
 	DATA_UPDATE_CREATED = 0,

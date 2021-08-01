@@ -2,7 +2,7 @@
 
 #include "./IAppSystem.h"
 
-#include "../Utility/VirtualFunc.h"
+#include "../../Utility/VirtualFunc.h"
 
 enum {
 	MAX_JOYSTICKS = 1,

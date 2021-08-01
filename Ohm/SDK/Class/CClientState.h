@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "./Math/Vector.h"
+#include "../Math/Vector.h"
 
 class INetChannel;
 

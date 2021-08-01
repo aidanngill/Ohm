@@ -1,12 +1,12 @@
 #include "./CGlobalVars.h"
 #include "./CUserCmd.h"
 
-#include "./Entities/CBasePlayer.h"
+#include "../Entities/CBasePlayer.h"
 
-#include "../Interfaces/Interfaces.h"
-#include "../Interfaces/Dependencies.h"
+#include "../../Interfaces/Interfaces.h"
+#include "../../Interfaces/Dependencies.h"
 
-#include "../Utility/Utilities.h"
+#include "../../Utility/Utilities.h"
 
 float CGlobalVars::ServerTime(CUserCmd* cmd) noexcept {
 	static int tick;

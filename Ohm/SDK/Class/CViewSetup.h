@@ -11,7 +11,7 @@
 #pragma once
 #endif
 
-#include "./Math/Vector.h"
+#include "../Math/Vector.h"
 
 //-----------------------------------------------------------------------------
 // Flags passed in with view setup
