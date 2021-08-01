@@ -1,5 +1,7 @@
 #pragma once
 
+#include "./CBaseCombatWeapon.h"
+
 #include "../Interfaces/IClientEntity.h"
 
 #include "../Math/Vector.h"
@@ -38,6 +40,9 @@ public:
 	bool isDefusing() {
 		return *reinterpret_cast<bool*>(reinterpret_cast<uintptr_t>(this) + netvars->m_bIsDefusing);
 	}
+	bool isScoped() {
+		return *reinterpret_cast<bool*>(reinterpret_cast<uintptr_t>(this) + netvars->m_bIsScoped);
+	}
 	float getFlashDuration() {
 		return *reinterpret_cast<float*>(reinterpret_cast<uintptr_t>(this) + netvars->m_flFlashMaxAlpha);
 	}
@@ -66,5 +71,9 @@ public:
 	Vector getBonePosition(int bone) {
 		matrix3x4_t boneMatrix[256];
 		return SetupBones(boneMatrix, 256, 256, 0.f) ? boneMatrix[bone].GetOrigin() : Vector{};
+	}
+	CBaseCombatWeapon* getCurrentWeapon() {
+		typedef CBaseCombatWeapon* (__thiscall* GetCurrentWeaponFn)(void*);
+		return GetVFunc<GetCurrentWeaponFn>(this, 267)(this);
 	}
 };

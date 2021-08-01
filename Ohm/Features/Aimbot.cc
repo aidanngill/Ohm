@@ -25,6 +25,14 @@ void Aimbot::Run(CUserCmd* cmd) {
 	if (!localPlayer)
 		return;
 
+	CBaseCombatWeapon* currentWeapon = localPlayer->getCurrentWeapon();
+
+	if (!currentWeapon || currentWeapon->getClip() < 1)
+		return;
+
+	if (currentWeapon->isGrenade())
+		return;
+
 	// Player cannot use their weapon/item yet (e.g., switching weapons)
 	if (localPlayer->getNextAttack() > memory->GlobalVars->ServerTime(cmd))
 		return;
@@ -89,9 +97,13 @@ void Aimbot::Run(CUserCmd* cmd) {
 		if (!config->aim.silentAim)
 			interfaces->Engine->SetViewAngles(cmd->viewAngles);
 
-		// TODO: Add auto-scope for snipers.
+		const bool canAttack = currentWeapon->nextPrimaryAttack() <= memory->GlobalVars->ServerTime();
 
-		if (config->aim.autoShoot)
+		// TODO: Fix issue where user may double-click into scope unnaturally.
+		if (config->aim.autoScope && canAttack && currentWeapon->isSniper() && !localPlayer->isScoped())
+			cmd->buttons |= CUserCmd::IN_ATTACK2;
+
+		if (config->aim.autoShoot && canAttack)
 			cmd->buttons |= CUserCmd::IN_ATTACK;
 
 		lastAngles = config->aim.smoothAmount > 1.f ? cmd->viewAngles : Vector{};

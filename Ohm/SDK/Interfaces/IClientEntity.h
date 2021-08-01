@@ -55,18 +55,6 @@ public:
 	ICollideable* getCollideable() {
 		return reinterpret_cast<ICollideable*>(reinterpret_cast<uintptr_t>(this) + netvars->m_Collision);
 	}
-	WeaponInfo* getWeaponInfo() {
-		typedef WeaponInfo*(__thiscall* GetWeaponInfoFn)(void*);
-		return GetVFunc<GetWeaponInfoFn>(this, 460)(this);
-	}
-	bool requiresRecoilControl() {
-		const auto weaponData = getWeaponInfo();
-
-		if (weaponData)
-			return weaponData->recoilMagnitude < 35.f && weaponData->recoveryTimeStand > weaponData->cycletime;
-
-		return false;
-	}
 	bool* shouldGlow() {
 		return reinterpret_cast<bool*>(reinterpret_cast<uintptr_t>(this) + netvars->m_bShouldGlow);
 	}

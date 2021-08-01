@@ -82,5 +82,6 @@
     <ClInclude Include="Features\Aimbot.h" />
     <ClInclude Include="SDK\WeaponData.h" />
     <ClInclude Include="SDK\Entities\CC4.h" />
+    <ClInclude Include="SDK\Entities\CBaseCombatWeapon.h" />
   </ItemGroup>
 </Project>
