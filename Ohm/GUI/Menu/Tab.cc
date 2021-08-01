@@ -149,7 +149,7 @@ void GenericTab::DrawOptions() {
 			interfaces->Surface->DrawSetColor(Colors::White);
 			interfaces->Surface->DrawOutlinedRect(btnX, btnY, btnX + halfTabWidth, btnY + BUTTON_HEIGHT);
 
-			float fltRatio = *option.fltValue / static_cast<float>(option.fltMax - option.fltMin);
+			float fltRatio = (*option.fltValue - option.fltMin) / static_cast<float>(option.fltMax - option.fltMin);
 
 			interfaces->Surface->DrawSetColor(Colors::LightGrey);
 			interfaces->Surface->DrawFilledRect(btnX + BUTTON_INDENT, btnY + BUTTON_INDENT, btnX + (halfTabWidth * fltRatio) - BUTTON_INDENT, btnY + BUTTON_HEIGHT - BUTTON_INDENT);
