@@ -15,7 +15,10 @@
 #include "../SDK/CGlobalVars.h"
 #include "../SDK/CGlowObjectManager.h"
 #include "../SDK/ICollideable.h"
-#include "../SDK/IClientEntity.h"
+
+#include "../SDK/Entities/CBasePlayer.h"
+#include "../SDK/Entities/CC4.h"
+
 #include "../SDK/Math/Vector.h"
 
 #include "../Utility/Utilities.h"
@@ -24,9 +27,9 @@ bool Visuals::GetBoundingBox(IClientEntity* entity, int& x, int& y, int& w, int&
 	Vector origin, min, max, flb, brt, blb, frt, frb, brb, blt, flt;
 	float left, top, right, bottom;
 
-	origin = entity->VecOrigin();
+	origin = entity->getOrigin();
 
-	ICollideable* collideable = entity->GetCollideable();
+	ICollideable* collideable = entity->getCollideable();
 	min = collideable->OBBMins() + origin;
 	max = collideable->OBBMaxs() + origin;
 
@@ -81,8 +84,8 @@ void Visuals::DrawBoundingBox(int x, int y, int w, int h, Color color) {
 	interfaces->Surface->DrawOutlinedRect(x, y, x + w, y + h);
 }
 
-void Visuals::DrawBombTimer(IClientEntity* bombEntity) {
-	float time = bombEntity->BombTimer() - memory->GlobalVars->currentTime;
+void Visuals::DrawBombTimer(CC4* bombEntity) {
+	float time = bombEntity->getTimer() - memory->GlobalVars->currentTime;
 	
 	if (time < 0)
 		return;
@@ -90,7 +93,7 @@ void Visuals::DrawBombTimer(IClientEntity* bombEntity) {
 	int w, h;
 	interfaces->Surface->GetScreenSize(w, h);
 
-	float length = bombEntity->BombLength();
+	float length = bombEntity->getLength();
 	float ratio = time / length;
 
 	interfaces->Surface->DrawSetColor(Color(32, 32, 32, 255));
@@ -117,8 +120,8 @@ void Visuals::DrawBombTimer(IClientEntity* bombEntity) {
 	render->Text(text.c_str(), ((w / 3) * 2) - ((w / 3) / 2) - (fw / 2), h / 3, render->fontBase, Color(255, 255, 255, 255));
 }
 
-void Visuals::DrawBombBox(IClientEntity* bombEntity) {
-	float time = bombEntity->BombTimer() - memory->GlobalVars->currentTime;
+void Visuals::DrawBombBox(CC4* bombEntity) {
+	float time = bombEntity->getTimer() - memory->GlobalVars->currentTime;
 
 	if (time < 0)
 		return;
@@ -136,7 +139,7 @@ void Visuals::Render() {
 	if (!interfaces->Engine->IsInGame())
 		return;
 
-	IClientEntity* localPlayer = GetLocalPlayer();
+	CBasePlayer* localPlayer = GetLocalPlayer();
 
 	int maxEntities = interfaces->ClientEntityList->GetHighestEntityIndex();
 	int maxClients = interfaces->Engine->GetMaxClients();
@@ -148,31 +151,44 @@ void Visuals::Render() {
 			continue;
 
 		if (idx <= maxClients) {
-			if (entity->GetDormant() || !entity->IsAlive())
+			CBasePlayer* thisPlayer = reinterpret_cast<CBasePlayer*>(entity);
+
+			if (thisPlayer->GetDormant() || !thisPlayer->isAlive())
 				continue;
 
 			int x, y, w, h;
 
-			if (!GetBoundingBox(entity, x, y, w, h))
+			if (!GetBoundingBox(thisPlayer, x, y, w, h))
 				continue;
 
 			if (config->visuals.players.isEnabled)
 				DrawBoundingBox(x, y, w, h, Color(255, 255, 255, 255));
 
 			if (config->visuals.players.hasHealth) {
-				interfaces->Surface->DrawSetColor(entity->HealthColor());
-				interfaces->Surface->DrawFilledRect(x - 4, y, x - 2, y + (h * entity->HealthRatio()));
+				float healthRatio = std::clamp(static_cast<float>(thisPlayer->getHealth()) / 100.f, 0.f, 100.f);
+				Color healthColor = Color(
+					static_cast<int>(255 - (255 * healthRatio)),
+					static_cast<int>(0 + (255 * healthRatio)),
+					0, 255
+				);
+
+				interfaces->Surface->DrawSetColor(healthColor);
+				interfaces->Surface->DrawFilledRect(x - 4, y, x - 2, y + (h * healthRatio));
 			}
 
 			if (config->visuals.players.hasArmor) {
+				float armorRatio = std::clamp(static_cast<float>(thisPlayer->getArmor()) / 100.f, 0.f, 100.f);
+
 				interfaces->Surface->DrawSetColor(Colors::LightBlue);
-				interfaces->Surface->DrawFilledRect(x + w + 2, y, x + w + 4, y + (h * entity->ArmorRatio()));
+				interfaces->Surface->DrawFilledRect(x + w + 2, y, x + w + 4, y + (h * armorRatio));
 			}
 		}
-		else if (entity->IsC4()) {
+		else if (entity->isC4()) {
+			CC4* thisBomb = reinterpret_cast<CC4*>(entity);
+
 			if (config->visuals.entities.showBomb) {
-				DrawBombTimer(entity);
-				DrawBombBox(entity);
+				DrawBombTimer(thisBomb);
+				DrawBombBox(thisBomb);
 			}
 		}
 	}
@@ -194,7 +210,7 @@ void Glow::Shutdown() {
 }
 
 void Glow::Render() {
-	IClientEntity* localPlayer = GetLocalPlayer();
+	CBasePlayer* localPlayer = GetLocalPlayer();
 	static const float rgbMult = 1.f / 256.f;
 
 	for (int idx = 0; idx < memory->GlowObjectManager->glowObjectDefinitions.Count(); idx++) {
@@ -211,16 +227,18 @@ void Glow::Render() {
 		Color color{};
 
 		if (classId == netvars->classIdentifiers["CCSPlayer"]) {
+			CBasePlayer* thisPlayer = reinterpret_cast<CBasePlayer*>(entity);
+
 			if (!config->visuals.glow.showPlayers)
 				continue;
 
-			if (!entity->IsAlive())
+			if (!thisPlayer->isAlive())
 				continue;
 
-			bool isEnemy = entity->Team() != localPlayer->Team();
+			bool isEnemy = thisPlayer->getTeam() != localPlayer->getTeam();
 
 			if (isEnemy) {
-				color = entity->HasC4() ? Colors::Green : Colors::Red;
+				color = thisPlayer->hasC4() ? Colors::Green : Colors::Red;
 			}
 			else {
 				color = Colors::Blue;
@@ -230,7 +248,7 @@ void Glow::Render() {
 			if (!config->visuals.glow.showChickens)
 				continue;
 
-			*entity->ShouldGlow() = true;
+			*entity->shouldGlow() = true;
 			color = Colors::Blue;
 		}
 		else if (classId == netvars->classIdentifiers["CBaseAnimating"]) {
@@ -245,7 +263,7 @@ void Glow::Render() {
 
 			color = Colors::Blue;
 		}
-		else if (entity->IsWeapon()) {
+		else if (entity->isWeapon()) {
 			if (!config->visuals.glow.showDroppedWeapons)
 				continue;
 

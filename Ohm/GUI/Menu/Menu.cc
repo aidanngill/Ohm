@@ -28,7 +28,11 @@ Menu::Menu() {
 	Tab tabAim = Tab(L"Aim");
 	tabAim.options.push_back(Option(L"Enabled", &config->aim.isEnabled));
 	tabAim.options.push_back(Option(L"Ignore Flash", &config->aim.ignoreFlash));
-	tabAim.options.push_back(Option(L"Field of View", &config->aim.fieldOfView, 0.f, 180.f));
+	tabAim.options.push_back(Option(L"Silent Aim", &config->aim.silentAim));
+	tabAim.options.push_back(Option(L"Auto Scope", &config->aim.autoScope));
+	tabAim.options.push_back(Option(L"Auto Shoot", &config->aim.autoShoot));
+	tabAim.options.push_back(Option(L"Field of View", &config->aim.fieldOfView, 0.f, 10.f));
+	tabAim.options.push_back(Option(L"Smooth", &config->aim.smoothAmount, 1.f, 10.f));
 	// [End] Aim
 
 	// [Start] Visual
@@ -47,9 +51,9 @@ Menu::Menu() {
 	stVisEnt.options.push_back(Option(L"Dropped Weapons", &config->visuals.entities.showDroppedWeapons));
 
 	SubTab stVisChams(L"Chams");
-	stVisChams.options.push_back(Option(L"Players", &config->visuals.chams.playerMaterial, std::vector<std::wstring>{ L"None", L"Regular", L"Flat", L"Plastic" }));
-	stVisChams.options.push_back(Option(L"Weapon", &config->visuals.chams.weaponMaterial, std::vector<std::wstring>{ L"None", L"Regular", L"Flat", L"Plastic" }));
-	stVisChams.options.push_back(Option(L"Arms", &config->visuals.chams.armsMaterial, std::vector<std::wstring>{ L"None", L"Regular", L"Flat", L"Plastic" }));
+	stVisChams.options.push_back(Option(L"Players", &config->visuals.chams.playerMaterial, std::vector<std::wstring>{ L"None", L"Regular", L"Flat", L"Plastic", L"Jelly" }));
+	stVisChams.options.push_back(Option(L"Weapon", &config->visuals.chams.weaponMaterial, std::vector<std::wstring>{ L"None", L"Regular", L"Flat", L"Plastic", L"Jelly" }));
+	stVisChams.options.push_back(Option(L"Arms", &config->visuals.chams.armsMaterial, std::vector<std::wstring>{ L"None", L"Regular", L"Flat", L"Plastic", L"Jelly" }));
 
 	SubTab stVisGlow(L"Glow");
 	stVisGlow.options.push_back(Option(L"Players", &config->visuals.glow.showPlayers));

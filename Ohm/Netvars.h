@@ -13,11 +13,6 @@ class Netvars {
 public:
 	Netvars();
 
-	std::ptrdiff_t m_flNextAttack;
-
-	std::ptrdiff_t m_bIsDefusing;
-	std::ptrdiff_t m_flFlashMaxAlpha;
-
 	std::ptrdiff_t m_Collision;
 	std::ptrdiff_t m_fFlags;
 	std::ptrdiff_t m_iHealth;
@@ -26,6 +21,10 @@ public:
 	std::ptrdiff_t m_vecOrigin;
 
 	std::ptrdiff_t m_ArmorValue;
+	std::ptrdiff_t m_bGunGameImmunity;
+	std::ptrdiff_t m_bIsDefusing;
+	std::ptrdiff_t m_flFlashMaxAlpha;
+	std::ptrdiff_t m_flNextAttack;
 	std::ptrdiff_t m_lifeState;
 
 	std::ptrdiff_t m_bShouldGlow;

@@ -54,13 +54,6 @@ bool Netvars::InitializeClassIdentifiers() {
 Netvars::Netvars() {
 	clientClass = interfaces->BaseClient->GetAllClasses();
 
-	// CBaseCombatCharacter
-	m_flNextAttack = GetNetvarOffset("CBaseCombatCharacter", "m_flNextAttack", clientClass);
-
-	// CCSPlayer
-	m_bIsDefusing = GetNetvarOffset("CCSPlayer", "m_bIsDefusing", clientClass);
-	m_flFlashMaxAlpha = GetNetvarOffset("CCSPlayer", "m_flFlashMaxAlpha", clientClass) - 8;
-
 	// DT_BasePlayer
 	m_Collision = GetNetvarOffset("DT_BasePlayer", "m_Collision", clientClass);
 	m_fFlags = GetNetvarOffset("DT_BasePlayer", "m_fFlags", clientClass);
@@ -71,6 +64,10 @@ Netvars::Netvars() {
 	
 	// DT_CSPlayer
 	m_ArmorValue = GetNetvarOffset("DT_CSPlayer", "m_ArmorValue", clientClass);
+	m_bGunGameImmunity = GetNetvarOffset("DT_CSPlayer", "m_bGunGameImmunity", clientClass);
+	m_bIsDefusing = GetNetvarOffset("DT_CSPlayer", "m_bIsDefusing", clientClass);
+	m_flFlashMaxAlpha = GetNetvarOffset("DT_CSPlayer", "m_flFlashMaxAlpha", clientClass) - 8;
+	m_flNextAttack = GetNetvarOffset("DT_CSPlayer", "m_flNextAttack", clientClass);
 	m_lifeState = GetNetvarOffset("DT_CSPlayer", "m_lifeState", clientClass);
 
 	// DT_DynamicProp

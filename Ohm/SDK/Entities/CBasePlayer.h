@@ -1,0 +1,70 @@
+#pragma once
+
+#include "../IClientEntity.h"
+
+#include "../Math/Vector.h"
+
+#include "../../Netvars.h"
+
+class CBasePlayer : public IClientEntity {
+public:
+	int getArmor() {
+		return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + netvars->m_ArmorValue);
+	}
+	int getHealth() {
+		return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + netvars->m_iHealth);
+	}
+	int getLifeState() {
+		return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + netvars->m_lifeState);
+	}
+	bool isAlive() {
+		return getLifeState() == LIFE_ALIVE;
+	}
+	int getTeam() {
+		return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + netvars->m_iTeamNum);
+	}
+	int getFlags() {
+		return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + netvars->m_fFlags);
+	}
+	bool hasC4() {
+		return memory->IsC4Owner(reinterpret_cast<uintptr_t>(this));
+	}
+	int getTickBase() {
+		return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + netvars->m_nTickBase);
+	}
+	float getNextAttack() {
+		return *reinterpret_cast<float*>(reinterpret_cast<uintptr_t>(this) + netvars->m_flNextAttack);
+	}
+	bool isDefusing() {
+		return *reinterpret_cast<bool*>(reinterpret_cast<uintptr_t>(this) + netvars->m_bIsDefusing);
+	}
+	float getFlashDuration() {
+		return *reinterpret_cast<float*>(reinterpret_cast<uintptr_t>(this) + netvars->m_flFlashMaxAlpha);
+	}
+	bool isFlashed() {
+		return getFlashDuration() > 75.f;
+	}
+	bool hasGunGameImmunity() {
+		return *reinterpret_cast<bool*>(reinterpret_cast<uintptr_t>(this) + netvars->m_bGunGameImmunity);
+	}
+	Vector getEyePosition() {
+		Vector vec;
+
+		typedef void(__thiscall* GetEyePositionFn)(void*, Vector&);
+		GetVFunc<GetEyePositionFn>(this, 284)(this, vec);
+
+		return vec;
+	}
+	Vector getAimPunch() {
+		Vector vec;
+
+		typedef void(__thiscall* GetAimPunchFn)(void*, Vector&);
+		GetVFunc<GetAimPunchFn>(this, 345)(this, vec);
+
+		return vec;
+	}
+	Vector getBonePosition(int bone) {
+		matrix3x4_t boneMatrix[256];
+		return SetupBones(boneMatrix, 256, 256, 0.f) ? boneMatrix[bone].GetOrigin() : Vector{};
+	}
+};

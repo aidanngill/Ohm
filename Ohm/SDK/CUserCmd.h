@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./Math/QAngle.h"
+#include "./Math/Vector.h"
 
 // https://github.com/ValveSoftware/source-sdk-2013/blob/master/sp/src/game/shared/usercmd.h
 
@@ -23,8 +23,8 @@ public:
 	int		pad;
 	int		commandNumber;
 	int		tickCount;
-	QAngle	viewAngles;
-	QAngle	aimDirection;
+	Vector	viewAngles;
+	Vector	aimDirection;
 	float	forwardMove;
 	float	sideMove;
 	float	upMove;

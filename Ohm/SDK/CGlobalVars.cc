@@ -1,6 +1,8 @@
 #include "./CGlobalVars.h"
 #include "./CUserCmd.h"
 
+#include "./Entities/CBasePlayer.h"
+
 #include "../Interfaces/Interfaces.h"
 #include "../Interfaces/Dependencies.h"
 
@@ -10,11 +12,11 @@ float CGlobalVars::ServerTime(CUserCmd* cmd) noexcept {
 	static int tick;
 	static CUserCmd* lastCmd;
 
-	IClientEntity* localPlayer = GetLocalPlayer();
+	CBasePlayer* localPlayer = GetLocalPlayer();
 
 	if (cmd) {
 		if (localPlayer && (!lastCmd || lastCmd->hasBeenPredicted))
-			tick = localPlayer->TickBase();
+			tick = localPlayer->getTickBase();
 		else
 			tick++;
 

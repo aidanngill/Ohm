@@ -12,7 +12,11 @@ public:
 	struct Aim {
 		bool isEnabled = false;
 		bool ignoreFlash = false;
+		bool silentAim = false;
+		bool autoScope = false;
+		bool autoShoot = false;
 		float fieldOfView = 1.0f;
+		float smoothAmount = 1.0f;
 	} aim;
 
 	struct Visuals {

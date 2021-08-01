@@ -1,6 +1,6 @@
 #pragma once
 
-class IClientEntity;
+class CBasePlayer;
 
 // Attach a standard Windows console to the game process.
 void AttachGameConsole();
@@ -10,4 +10,4 @@ void DetachGameConsole();
 
 uint8_t* PatternScan(void* module, const char* signature);
 
-IClientEntity* GetLocalPlayer();
+CBasePlayer* GetLocalPlayer();

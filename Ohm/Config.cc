@@ -48,7 +48,11 @@ bool Config::LoadFromFile(const char* fileName) {
 
 	if (data["aimbot"]["enabled"].is_boolean()) aim.isEnabled = data["aimbot"]["enabled"].get<bool>();
 	if (data["aimbot"]["ignore_flash"].is_boolean()) aim.ignoreFlash = data["aimbot"]["ignore_flash"].get<bool>();
+	if (data["aimbot"]["silent_aim"].is_boolean()) aim.silentAim = data["aimbot"]["silent_aim"].get<bool>();
+	if (data["aimbot"]["auto_scope"].is_boolean()) aim.autoScope = data["aimbot"]["auto_scope"].get<bool>();
+	if (data["aimbot"]["auto_shoot"].is_boolean()) aim.autoShoot = data["aimbot"]["auto_shoot"].get<bool>();
 	if (data["aimbot"]["fov"].is_number_float()) aim.fieldOfView = data["aimbot"]["fov"].get<float>();
+	if (data["aimbot"]["smooth"].is_number_float()) aim.smoothAmount = data["aimbot"]["smooth"].get<float>();
 
 	if (data["visuals"]["players"]["enabled"].is_boolean()) visuals.players.isEnabled = data["visuals"]["players"]["enabled"].get<bool>();
 	if (data["visuals"]["players"]["outlined"].is_boolean()) visuals.players.isOutlined = data["visuals"]["players"]["outlined"].get<bool>();
@@ -85,7 +89,11 @@ void Config::DumpToFile(const char* fileName) {
 		{"aimbot", {
 			{"enabled", aim.isEnabled},
 			{"ignore_flash", aim.ignoreFlash},
-			{"fov", aim.fieldOfView}
+			{"silent_aim", aim.silentAim},
+			{"auto_scope", aim.autoScope},
+			{"auto_shoot", aim.autoShoot},
+			{"fov", aim.fieldOfView},
+			{"smooth", aim.smoothAmount}
 		}},
 		{"visuals", {
 			{"players", {

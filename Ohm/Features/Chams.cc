@@ -17,23 +17,39 @@ Chams::Chams() {
 	matRegular = interfaces->MaterialSystem->CreateMaterial("normal", KeyValues::FromString("VertexLitGeneric", nullptr));
 	matFlat = interfaces->MaterialSystem->CreateMaterial("flat", KeyValues::FromString("UnlitGeneric", nullptr));
 
-	const char* plasticString =
-		"$baseTexture black "
-		"$bumpmap models/inventory_items/trophy_majors/matte_metal_normal "
-		"$additive 1 "
-		"$envmap editor/cube_vertigo "
-		"$envmapfresnel 1 "
-		"$normalmapalphaenvmapmask 1 "
-		"$phong 1 "
-		"$phongboost 20 "
-		"$phongexponent 3000 "
-		"$phongdisablehalflambert 1";
+	{
+		const char* plasticString =
+			"$baseTexture black "
+			"$bumpmap models/inventory_items/trophy_majors/matte_metal_normal "
+			"$additive 1 "
+			"$envmap editor/cube_vertigo "
+			"$envmapfresnel 1 "
+			"$normalmapalphaenvmapmask 1 "
+			"$phong 1 "
+			"$phongboost 20 "
+			"$phongexponent 3000 "
+			"$phongdisablehalflambert 1";
 
-	const auto kv = KeyValues::FromString("VertexLitGeneric", plasticString);
-	kv->SetString("$phongfresnelranges", "[.1 .4 1]");
-	kv->SetString("$phongtint", "[.8 .9 1]");
-	
-	matPlastic = interfaces->MaterialSystem->CreateMaterial("plastic", kv);
+		const auto kv = KeyValues::FromString("VertexLitGeneric", plasticString);
+		kv->SetString("$phongfresnelranges", "[.1 .4 1]");
+		kv->SetString("$phongtint", "[.8 .9 1]");
+
+		matPlastic = interfaces->MaterialSystem->CreateMaterial("plastic", kv);
+	}
+
+	{
+		const char* jellyString =
+			"$additive 1 "
+			"$envmap models/effects/cube_white "
+			"$envmapfresnel 1 "
+			"$alpha 0.8";
+
+		const auto kv = KeyValues::FromString("VertexLitGeneric", jellyString);
+		kv->SetString("$envmaptint", "[1 1 1]");
+		kv->SetString("$envmapfresnelminmaxexp", "[0 1 2]");
+
+		matJelly = interfaces->MaterialSystem->CreateMaterial("jelly", kv);
+	}
 }
 
 Chams::~Chams() {}
@@ -50,6 +66,9 @@ void Chams::OverrideMaterial(unsigned char type, Color color) {
 		break;
 	case Chams::MAT_PLASTIC:
 		currentMaterial = matPlastic;
+		break;
+	case Chams::MAT_JELLY:
+		currentMaterial = matJelly;
 		break;
 	default:
 		currentMaterial = matRegular;

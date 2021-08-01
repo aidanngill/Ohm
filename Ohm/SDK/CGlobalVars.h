@@ -6,15 +6,15 @@ class CUserCmd;
 
 class CGlobalVars {
 public:
-	const float realTime;
-	const int frameCount;
-	const float absoluteFrameTime;
-	const std::byte pad[4];
+	float realTime;
+	int frameCount;
+	float absoluteFrameTime;
+	float absoluteFrameStartTime;
 	float currentTime;
 	float frameTime;
-	const int maxClients;
-	const int tickCount;
-	const float intervalPerTick;
+	int maxClients;
+	int tickCount;
+	float intervalPerTick;
 
 	float ServerTime(CUserCmd* = nullptr) noexcept;
 };

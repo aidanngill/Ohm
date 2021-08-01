@@ -11,6 +11,7 @@
 #include "../Memory.h"
 #include "../Netvars.h"
 
+#include "../Features/Aimbot.h"
 #include "../Features/Chams.h"
 #include "../Features/Misc.h"
 #include "../Features/Visuals.h"
@@ -84,7 +85,15 @@ static bool __stdcall CreateMove(float inputSampleFrametime, CUserCmd* cmd) {
 	if (!cmd || !cmd->commandNumber)
 		return result;
 
+	Vector oldAngles = cmd->viewAngles;
+	float oldForward = cmd->forwardMove;
+	float oldSide = cmd->sideMove;
+
+	Aimbot::Run(cmd);
 	Misc::BunnyHop(cmd);
+
+	if (config->aim.silentAim)
+		Aimbot::FixMovement(cmd, oldAngles, oldForward, oldSide);
 
 	return false;
 }
@@ -115,7 +124,7 @@ void __fastcall DrawModelExecute(void* _this, int edx, IMatRenderContext* ctx, c
 	}
 
 	// Make sure that skins are skipped when we're trying to put chams on.
-	if (interfaces->ModelRender->IsForcedMaterialOverride() && !strstr(info.pModel->szName, "arms") && !strstr(info.pModel->szName, "weapons/v_"))
+	if (interfaces->ModelRender->IsForcedMaterialOverride() && info.skin != 0)
 		return hooks->ModelRender->GetOriginal<DrawModelExecuteFn>(21)(_this, ctx, state, info, matrix);
 
 	chams->OnDrawModelExecute(ctx, state, info, matrix);

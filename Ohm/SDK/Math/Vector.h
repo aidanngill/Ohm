@@ -3,6 +3,11 @@
 #include <cmath>
 #include <limits>
 
+const float pi = 3.14159265358979f;
+
+constexpr float deg2rad(float degrees) noexcept { return degrees * (pi / 180.0f); }
+constexpr float rad2deg(float radians) noexcept { return radians * (180.0f / pi); }
+
 class Vector
 {
 public:
@@ -33,7 +38,7 @@ public:
 	}
 	void Invalidate()
 	{
-		x = y = z = std::numeric_limits<float>::infinity();
+		x = y = z = NULL;
 	}
 
 	float& operator[](int i)
@@ -111,67 +116,11 @@ public:
 		z -= fl;
 		return *this;
 	}
-
-	void NormalizeInPlace()
-	{
-		*this = Normalized();
-	}
-	Vector Normalized() const
-	{
-		Vector res = *this;
-		float l = res.Length();
-		if (l != 0.0f) {
-			res /= l;
-		}
-		else {
-			res.x = res.y = res.z = 0.0f;
-		}
-		return res;
-	}
-
-	float DistTo(const Vector& vOther) const
-	{
-		Vector delta;
-
-		delta.x = x - vOther.x;
-		delta.y = y - vOther.y;
-		delta.z = z - vOther.z;
-
-		return delta.Length();
-	}
-	float DistToSqr(const Vector& vOther) const
-	{
-		Vector delta;
-
-		delta.x = x - vOther.x;
-		delta.y = y - vOther.y;
-		delta.z = z - vOther.z;
-
-		return delta.LengthSqr();
-	}
-	float Dot(const Vector& vOther) const
-	{
-		return (x * vOther.x + y * vOther.y + z * vOther.z);
-	}
-	float Length() const
-	{
-		return sqrt(x * x + y * y + z * z);
-	}
-	float LengthSqr(void) const
-	{
-		return (x * x + y * y + z * z);
-	}
-	float Length2D() const
-	{
-		return sqrt(x * x + y * y);
-	}
-
 	Vector& operator=(const Vector& vOther)
 	{
 		x = vOther.x; y = vOther.y; z = vOther.z;
 		return *this;
 	}
-
 	Vector operator-(void) const
 	{
 		return Vector(-x, -y, -z);
@@ -199,6 +148,25 @@ public:
 	Vector operator/(const Vector& v) const
 	{
 		return Vector(x / v.x, y / v.y, z / v.z);
+	}
+
+	// Custom mathematical helpers from here.
+	Vector& normalize() noexcept {
+		x = std::isfinite(x) ? std::remainder(x, 360.0f) : 0.0f;
+		y = std::isfinite(y) ? std::remainder(y, 360.0f) : 0.0f;
+		z = 0.0f;
+
+		return *this;
+	}
+	Vector toAngle() const {
+		return Vector{
+			rad2deg(std::atan2(-z, std::hypot(x, y))),
+			rad2deg(std::atan2(y, x)),
+			0.0f
+		};
+	}
+	bool notNull() const {
+		return x || y || z;
 	}
 
 	float x, y, z;

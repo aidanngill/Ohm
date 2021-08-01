@@ -170,6 +170,7 @@
     <ClCompile Include="Ohm.cc" />
     <ClCompile Include="GUI\Render.cc" />
     <ClCompile Include="SDK\CGlobalVars.cc" />
+    <ClCompile Include="SDK\Entities\CBasePlayer.h" />
     <ClCompile Include="SDK\KeyValues.cpp" />
     <ClCompile Include="Utility\File.cc" />
     <ClCompile Include="Utility\Utilities.cc" />
@@ -199,6 +200,7 @@
     <ClInclude Include="SDK\Color.h" />
     <ClInclude Include="SDK\CUserCmd.h" />
     <ClInclude Include="SDK\CViewSetup.h" />
+    <ClInclude Include="SDK\Entities\CC4.h" />
     <ClInclude Include="SDK\IAppSystem.h" />
     <ClInclude Include="SDK\IBaseClientDLL.h" />
     <ClInclude Include="SDK\IClientClass.h" />

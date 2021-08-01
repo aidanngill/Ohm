@@ -2,10 +2,10 @@
 
 #include <iostream>
 
+class CBasePlayer;
 class CClientState;
 class CGlobalVars;
 class CGlowObjectManager;
-class IClientEntity;
 
 class KeyValues;
 
@@ -13,10 +13,10 @@ class Memory {
 public:
 	Memory();
 
+	CBasePlayer* LocalPlayer;
 	CClientState* ClientState;
 	CGlobalVars* GlobalVars;
 	CGlowObjectManager* GlowObjectManager;
-	IClientEntity* LocalPlayer;
 	bool(__thiscall* IsC4Owner)(uintptr_t);
 
 	uintptr_t KeyValuesFromString;

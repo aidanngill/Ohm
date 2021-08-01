@@ -29,6 +29,14 @@ public:
 		typedef int(__thiscall* OriginalFn)(void*);
 		return GetVFunc<OriginalFn>(this, 12)(this);
 	}
+	void GetViewAngles(Vector& angles) {
+		typedef void(__thiscall* OriginalFn)(void*, Vector&);
+		return GetVFunc<OriginalFn>(this, 18)(this, std::ref(angles));
+	}
+	void SetViewAngles(const Vector& angles) {
+		typedef void(__thiscall* OriginalFn)(void*, const Vector&);
+		return GetVFunc<OriginalFn>(this, 19)(this, std::cref(angles));
+	}
 	int GetMaxClients() {
 		typedef int(__thiscall* OriginalFn)(void*);
 		return GetVFunc<OriginalFn>(this, 20)(this);

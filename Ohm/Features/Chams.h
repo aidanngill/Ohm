@@ -12,7 +12,8 @@ public:
 		MAT_ORIGINAL,
 		MAT_REGULAR,
 		MAT_FLAT,
-		MAT_PLASTIC
+		MAT_PLASTIC,
+		MAT_JELLY
 	};
 
 	enum : unsigned char {
@@ -35,6 +36,7 @@ private:
 	IMaterial* matRegular;
 	IMaterial* matFlat;
 	IMaterial* matPlastic;
+	IMaterial* matJelly;
 };
 
 inline std::unique_ptr<Chams> chams;

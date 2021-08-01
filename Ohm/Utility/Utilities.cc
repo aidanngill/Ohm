@@ -68,6 +68,6 @@ uint8_t* PatternScan(void* module, const char* signature) {
 }
 
 // Local player must be de-referenced once more to get the *current* local player.
-IClientEntity* GetLocalPlayer() {
-	return *reinterpret_cast<IClientEntity**>(memory->LocalPlayer);
+CBasePlayer* GetLocalPlayer() {
+	return *reinterpret_cast<CBasePlayer**>(memory->LocalPlayer);
 }
