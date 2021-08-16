@@ -8,17 +8,17 @@
 
 FILE* f;
 
-void AttachGameConsole() {
+void Utilities::attachConsole() {
 	AllocConsole();
 	freopen_s(&f, "CONOUT$", "w", stdout);
 }
 
-void DetachGameConsole() {
+void Utilities::detachConsole() {
 	if (f) fclose(f);
 	FreeConsole();
 }
 
-uint8_t* PatternScan(void* module, const char* signature) {
+uint8_t* Utilities::patternScan(void* module, const char* signature) {
 	static auto pattern_to_bytes = [](const char* pattern) {
 		auto bytes = std::vector<int>{};
 
@@ -68,6 +68,6 @@ uint8_t* PatternScan(void* module, const char* signature) {
 }
 
 // Local player must be de-referenced once more to get the *current* local player.
-CBasePlayer* GetLocalPlayer() {
+CBasePlayer* Utilities::getLocalPlayer() {
 	return *reinterpret_cast<CBasePlayer**>(memory->LocalPlayer);
 }

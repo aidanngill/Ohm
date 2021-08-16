@@ -15,7 +15,7 @@ void Misc::BunnyHop(CUserCmd* cmd) {
 	if (!config->misc.bunnyHop)
 		return;
 
-	CBasePlayer* localPlayer = GetLocalPlayer();
+	CBasePlayer* localPlayer = Utilities::getLocalPlayer();
 
 	if (!localPlayer)
 		return;

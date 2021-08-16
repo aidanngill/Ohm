@@ -30,9 +30,6 @@ class IClientEntity : public IClientUnknown, public IClientRenderable, public IC
 public:
 	virtual ~IClientEntity() {};
 
-	Vector getOrigin() {
-		return *reinterpret_cast<Vector*>(reinterpret_cast<uintptr_t>(this) + netvars->m_vecOrigin);
-	}
 	bool isC4() {
 		return this->GetClientClass()->m_pNetworkName == "CC4";
 	}
@@ -40,17 +37,11 @@ public:
 		return this->GetClientClass()->m_pNetworkName == "FogController";
 	}
 	bool isWeapon() {
-		IClientClass* thisClass = this->GetClientClass();
-
-		if (thisClass->m_ClassID == netvars->classIdentifiers["CAK47"] ||
-			thisClass->m_ClassID == netvars->classIdentifiers["CDEagle"] ||
-			thisClass->m_ClassID == netvars->classIdentifiers["CKnife"])
-			return true;
-
-		static const char* weaponStr = "CWeapon";
-		static int weaponStrLen = strlen(weaponStr);
-
-		return strncmp(thisClass->m_pNetworkName, weaponStr, weaponStrLen) == 0;
+		typedef bool(__thiscall* OriginalFn)(void*);
+		return GetVFunc<OriginalFn>(this, 165)(this);
+	}
+	Vector getOrigin() {
+		return *reinterpret_cast<Vector*>(reinterpret_cast<uintptr_t>(this) + netvars->m_vecOrigin);
 	}
 	ICollideable* getCollideable() {
 		return reinterpret_cast<ICollideable*>(reinterpret_cast<uintptr_t>(this) + netvars->m_Collision);

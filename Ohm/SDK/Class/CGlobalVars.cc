@@ -12,7 +12,7 @@ float CGlobalVars::ServerTime(CUserCmd* cmd) noexcept {
 	static int tick;
 	static CUserCmd* lastCmd;
 
-	CBasePlayer* localPlayer = GetLocalPlayer();
+	CBasePlayer* localPlayer = Utilities::getLocalPlayer();
 
 	if (cmd) {
 		if (localPlayer && (!lastCmd || lastCmd->hasBeenPredicted))

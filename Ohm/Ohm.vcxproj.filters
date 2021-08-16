@@ -83,5 +83,8 @@
     <ClInclude Include="SDK\WeaponData.h" />
     <ClInclude Include="SDK\Entities\CC4.h" />
     <ClInclude Include="SDK\Entities\CBaseCombatWeapon.h" />
+    <ClInclude Include="SDK\Entities\CBaseHandle.h" />
+    <ClInclude Include="SDK\Entities\CHandle.h" />
+    <ClInclude Include="SDK\Interfaces\IHandleEntity.h" />
   </ItemGroup>
 </Project>

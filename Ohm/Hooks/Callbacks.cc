@@ -29,7 +29,7 @@ LRESULT __stdcall WndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam) {
 }
 
 DWORD __stdcall Unload(HMODULE hModule) {
-	DetachGameConsole();
+	Utilities::detachConsole();
 	FreeLibraryAndExitThread(hModule, 0);
 
 	return NULL;

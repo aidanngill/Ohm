@@ -202,6 +202,8 @@
     <ClInclude Include="SDK\Class\CViewSetup.h" />
     <ClInclude Include="SDK\Entities\CBaseCombatWeapon.h" />
     <ClInclude Include="SDK\Entities\CC4.h" />
+    <ClInclude Include="SDK\Entities\CBaseHandle.h" />
+    <ClInclude Include="SDK\Entities\CHandle.h" />
     <ClInclude Include="SDK\Interfaces\IAppSystem.h" />
     <ClInclude Include="SDK\Interfaces\IBaseClientDLL.h" />
     <ClInclude Include="SDK\Interfaces\IClientClass.h" />
@@ -213,6 +215,7 @@
     <ClInclude Include="SDK\Interfaces\IClientUnknown.h" />
     <ClInclude Include="SDK\Interfaces\ICollideable.h" />
     <ClInclude Include="Interfaces\Dependencies.h" />
+    <ClInclude Include="SDK\Interfaces\IHandleEntity.h" />
     <ClInclude Include="SDK\Interfaces\IInputSystem.h" />
     <ClInclude Include="SDK\Interfaces\IMaterial.h" />
     <ClInclude Include="SDK\Interfaces\IMaterialSystem.h" />

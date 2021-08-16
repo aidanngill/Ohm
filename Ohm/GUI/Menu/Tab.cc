@@ -250,9 +250,6 @@ void Tab::Draw() {
 	int subTabTotal = (MENU_WIDTH - TAB_WIDTH - TAB_WIDTH_EXTRA - (SUBTAB_PAD * 2));
 	int subTabWidth = subTabTotal / subTabs.size();
 
-	interfaces->Surface->DrawSetColor(Colors::Black);
-	interfaces->Surface->DrawOutlinedRect(xStart, yStart, xStart + subTabTotal, yStart + SUBTAB_HEIGHT);
-
 	for (size_t idx = 0; idx < subTabs.size(); idx++) {
 		Color taskBgColor = Color(48, 48, 48, 255);
 
@@ -285,9 +282,12 @@ void Tab::Draw() {
 			xStart + (subTabWidth * idx),
 			yStart,
 			xStart + (subTabWidth * idx),
-			yStart + SUBTAB_HEIGHT
+			yStart + SUBTAB_HEIGHT - 1
 		);
 	}
+
+	interfaces->Surface->DrawSetColor(Colors::Black);
+	interfaces->Surface->DrawOutlinedRect(xStart, yStart, xStart + subTabTotal, yStart + SUBTAB_HEIGHT);
 
 	subTabs[currentSubTab].Draw();
 }

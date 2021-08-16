@@ -171,7 +171,7 @@ T VmtHook::GetOriginal(size_t index) {
 }
 
 Hooks::Hooks(HMODULE module) {
-	AttachGameConsole();
+	Utilities::attachConsole();
 	printf("[#] 0x%08X -> Module\n", reinterpret_cast<int>(module));
 
 	this->module = module;

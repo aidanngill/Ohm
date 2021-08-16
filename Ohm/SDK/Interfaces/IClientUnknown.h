@@ -1,8 +1,5 @@
 #pragma once
 
-class IHandleEntity {
-public:
-	virtual ~IHandleEntity() {};
-};
+#include "./IHandleEntity.h"
 
 class IClientUnknown : public IHandleEntity {};

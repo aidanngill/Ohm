@@ -20,6 +20,9 @@ public:
 	std::ptrdiff_t m_flNextPrimaryAttack;
 	std::ptrdiff_t m_iClip;
 
+	// DT_BaseEntity
+	std::ptrdiff_t m_hOwnerEntity;
+
 	// DT_BasePlayer
 	std::ptrdiff_t m_Collision;
 	std::ptrdiff_t m_fFlags;

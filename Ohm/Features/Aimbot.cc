@@ -20,9 +20,9 @@ void Aimbot::Run(CUserCmd* cmd) {
 	if (!config->aim.isEnabled)
 		return;
 
-	CBasePlayer* localPlayer = GetLocalPlayer();
+	CBasePlayer* localPlayer = Utilities::getLocalPlayer();
 
-	if (!localPlayer)
+	if (!localPlayer || !localPlayer->isAlive())
 		return;
 
 	CBaseCombatWeapon* currentWeapon = localPlayer->getCurrentWeapon();

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Entities/CHandle.h"
+
 #include "../Interfaces/IClientEntity.h"
 
 #include "../../Utility/VirtualFunc.h"
@@ -36,5 +38,8 @@ public:
 			return weaponData->recoilMagnitude < 35.f && weaponData->recoveryTimeStand > weaponData->cycletime;
 
 		return false;
+	}
+	CHandle<CBasePlayer> getOwnerEntity() {
+		return *reinterpret_cast<CHandle<CBasePlayer>*>(reinterpret_cast<uintptr_t>(this) + netvars->m_hOwnerEntity);
 	}
 };

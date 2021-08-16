@@ -61,6 +61,9 @@ Netvars::Netvars() {
 	m_flNextPrimaryAttack = GetNetvarOffset("DT_BaseCombatWeapon", "m_flNextPrimaryAttack", clientClass);
 	m_iClip = GetNetvarOffset("DT_BaseCombatWeapon", "m_iClip1", clientClass);
 
+	// DT_BaseEntity
+	m_hOwnerEntity = GetNetvarOffset("DT_BaseEntity", "m_hOwnerEntity", clientClass);
+
 	// DT_BasePlayer
 	m_Collision = GetNetvarOffset("DT_BasePlayer", "m_Collision", clientClass);
 	m_fFlags = GetNetvarOffset("DT_BasePlayer", "m_fFlags", clientClass);

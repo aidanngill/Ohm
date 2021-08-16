@@ -140,7 +140,7 @@ void Visuals::Render() {
 	if (!interfaces->Engine->IsInGame())
 		return;
 
-	CBasePlayer* localPlayer = GetLocalPlayer();
+	CBasePlayer* localPlayer = Utilities::getLocalPlayer();
 
 	int maxEntities = interfaces->ClientEntityList->GetHighestEntityIndex();
 	int maxClients = interfaces->Engine->GetMaxClients();
@@ -151,10 +151,13 @@ void Visuals::Render() {
 		if (!entity || entity == localPlayer)
 			continue;
 
+		if (entity->GetDormant())
+			continue;
+
 		if (idx <= maxClients) {
 			CBasePlayer* thisPlayer = reinterpret_cast<CBasePlayer*>(entity);
 
-			if (thisPlayer->GetDormant() || !thisPlayer->isAlive())
+			if (!thisPlayer->isAlive())
 				continue;
 
 			int x, y, w, h;
@@ -192,6 +195,23 @@ void Visuals::Render() {
 				DrawBombBox(thisBomb);
 			}
 		}
+		else if (entity->isWeapon()) {
+			if (!config->visuals.entities.showDroppedWeapons)
+				continue;
+
+			CBaseCombatWeapon* thisWeapon = reinterpret_cast<CBaseCombatWeapon*>(entity);
+
+			// Don't render guns that are being held.
+			if (thisWeapon->getOwnerEntity().IsValid())
+				continue;
+
+			int x, y, w, h;
+
+			if (!GetBoundingBox(entity, x, y, w, h))
+				continue;
+
+			DrawBoundingBox(x, y, w, h, Colors::White);
+		}
 	}
 }
 
@@ -211,7 +231,7 @@ void Glow::Shutdown() {
 }
 
 void Glow::Render() {
-	CBasePlayer* localPlayer = GetLocalPlayer();
+	CBasePlayer* localPlayer = Utilities::getLocalPlayer();
 	static const float rgbMult = 1.f / 256.f;
 
 	for (int idx = 0; idx < memory->GlowObjectManager->glowObjectDefinitions.Count(); idx++) {
