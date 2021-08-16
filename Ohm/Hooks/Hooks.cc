@@ -77,8 +77,8 @@ static bool __stdcall CreateMove(float inputSampleFrametime, CUserCmd* cmd) {
 		return false;
 
 	// We can only get the class IDs when we are in game.
-	if (interfaces->Engine->IsInGame() && !netvars->classIdentifiersInitialized)
-		netvars->classIdentifiersInitialized = netvars->InitializeClassIdentifiers();
+	if (interfaces->Engine->IsInGame() && !netvars->classIdentifiers.isInitialized)
+		netvars->classIdentifiers.isInitialized = netvars->classIdentifiers.Initialize();
 
 	auto result = hooks->ClientInput->GetOriginal<CreateMoveFn>(24)(interfaces->ClientMode, inputSampleFrametime, cmd);
 

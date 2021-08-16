@@ -247,7 +247,7 @@ void Glow::Render() {
 		int classId = entity->GetClientClass()->m_ClassID;
 		Color color{};
 
-		if (classId == netvars->classIdentifiers["CCSPlayer"]) {
+		if (classId == netvars->classIdentifiers.CCSPlayer) {
 			CBasePlayer* thisPlayer = reinterpret_cast<CBasePlayer*>(entity);
 
 			if (!config->visuals.glow.showPlayers)
@@ -265,20 +265,20 @@ void Glow::Render() {
 				color = Colors::Blue;
 			}
 		}
-		else if (classId == netvars->classIdentifiers["CChicken"]) {
+		else if (classId == netvars->classIdentifiers.CChicken) {
 			if (!config->visuals.glow.showChickens)
 				continue;
 
 			*entity->shouldGlow() = true;
 			color = Colors::Blue;
 		}
-		else if (classId == netvars->classIdentifiers["CBaseAnimating"]) {
+		else if (classId == netvars->classIdentifiers.CBaseAnimating) {
 			if (!config->visuals.glow.showDefuseKits)
 				continue;
 
 			color = Colors::Blue;
 		}
-		else if (classId == netvars->classIdentifiers["CPlantedC4"]) {
+		else if (classId == netvars->classIdentifiers.CPlantedC4) {
 			if (!config->visuals.glow.showPlantedC4)
 				continue;
 

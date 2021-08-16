@@ -9,6 +9,22 @@ class RecvTable;
 intptr_t GetOffset(RecvTable* table, const char* tableName, const char* netvarName);
 intptr_t GetNetvarOffset(const char* tableName, const char* netvarName, IClientClass* clientClass);
 
+class ClassIdentifiers {
+public:
+	ClassIdentifiers() {};
+	bool Initialize();
+
+	bool isInitialized = false;
+
+	int CBaseAnimating = -1;
+	int CChicken = -1;
+	int CCSPlayer = -1;
+	int CPlantedC4 = -1;
+private:
+	IClientClass* clientClass = nullptr;
+	std::unordered_map<std::string, int> classIdentifiers;
+};
+
 class Netvars {
 public:
 	Netvars();
@@ -46,10 +62,7 @@ public:
 	std::ptrdiff_t m_flC4Blow;
 	std::ptrdiff_t m_flTimerLength;
 
-	bool InitializeClassIdentifiers();
-
-	bool classIdentifiersInitialized = false;
-	std::unordered_map<std::string, int> classIdentifiers;
+	ClassIdentifiers classIdentifiers;
 private:
 	IClientClass* clientClass;
 };

@@ -32,8 +32,10 @@ intptr_t GetNetvarOffset(const char* tableName, const char* netvarName, IClientC
 	return 0;
 }
 
-bool Netvars::InitializeClassIdentifiers() {
+bool ClassIdentifiers::Initialize() {
+	IClientClass* clientClass = interfaces->BaseClient->GetAllClasses();
 	IClientClass* currentNode = clientClass;
+
 	int probableValidCount = 0;
 
 	for (auto currentNode = clientClass; currentNode; currentNode = currentNode->m_pNext) {
@@ -46,12 +48,16 @@ bool Netvars::InitializeClassIdentifiers() {
 	if (probableValidCount < 1)
 		return false;
 
-	printf("[+] Initialized %d class identifiers.\n", classIdentifiers.size());
+	CBaseAnimating = classIdentifiers["CBaseAnimating"];
+	CChicken = classIdentifiers["CChicken"];
+	CCSPlayer = classIdentifiers["CCSPlayer"];
+	CPlantedC4 = classIdentifiers["CPlantedC4"];
 
 	return true;
 }
 
 Netvars::Netvars() {
+	classIdentifiers = ClassIdentifiers();
 	clientClass = interfaces->BaseClient->GetAllClasses();
 
 	// DT_BaseCombatCharacter
