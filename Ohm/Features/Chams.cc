@@ -113,14 +113,27 @@ void Chams::OnDrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& s
 }
 
 unsigned char Chams::MaterialType(model_t model) {
-	if (strstr(model.szName, "models/player") != nullptr)
+	// All player models.
+	// Path: models/player/...
+	if (strncmp(model.szName, "models/player/", 13) == 0)
 		return Chams::TYPE_PLAYER;
-	else if (strstr(model.szName, "arms") != nullptr)
+
+	// Viewmodel arms.
+	// Path: models/weapons/v_models/arms/...
+	else if (strncmp(model.szName, "models/weapons/v_models/arms/", 29) == 0)
 		return Chams::TYPE_ARMS;
+
+	// Viewmodel sleeves.
+	// Path: <unknown>
 	else if (strstr(model.szName, "sleeve") != nullptr)
 		return Chams::TYPE_SLEEVES;
-	else if (strstr(model.szName, "models/weapons/v_") != nullptr || strstr(model.szName, "stattrack") != nullptr)
+
+	// Viewmodel weapons.
+	// Path: models/weapons/v_...
+	else if (strncmp(model.szName, "models/weapons/v_", 17) == 0 || strstr(model.szName, "stattrack") != nullptr)
 		return Chams::TYPE_WEAPON;
+
+	// All other models.
 	else
 		return Chams::TYPE_UNKNOWN;
 }
