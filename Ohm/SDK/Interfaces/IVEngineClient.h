@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "../Math/Vector.h"
+#include "../Math/VMatrix.h"
 
 #include "../../Utility/VirtualFunc.h"
 
@@ -25,6 +26,10 @@ typedef struct player_info_s
 
 class IVEngineClient {
 public:
+	void GetScreenSize(int& w, int& h) {
+		typedef void(__thiscall* OriginalFn)(void*, int&, int&);
+		return GetVFunc<OriginalFn>(this, 5)(this, std::ref(w), std::ref(h));
+	}
 	bool GetPlayerInfo(int ent_num, player_info_t* pinfo) {
 		typedef bool(__thiscall* OriginalFn)(void*, int, player_info_t*);
 		return GetVFunc<OriginalFn>(this, 8)(this, ent_num, pinfo);
@@ -56,6 +61,10 @@ public:
 	bool IsDrawingLoadingImage() {
 		typedef bool(__thiscall* OriginalFn)(void*);
 		return GetVFunc<OriginalFn>(this, 28)(this);
+	}
+	const VMatrix& WorldToScreenMatrix() {
+		typedef const VMatrix& (__thiscall* OriginalFn)(void*);
+		return GetVFunc<OriginalFn>(this, 37)(this);
 	}
 	const char* GetLevelName() {
 		typedef const char* (__thiscall* OriginalFn)(void*);

@@ -23,6 +23,8 @@
     <ClCompile Include="SDK\KeyValues.cpp" />
     <ClCompile Include="Features\Aimbot.cc" />
     <ClCompile Include="SDK\Entities\CBasePlayer.h" />
+    <ClCompile Include="Features\Glow.cc" />
+    <ClCompile Include="SDK\Math\VMatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hooks\Hooks.h" />
@@ -86,5 +88,8 @@
     <ClInclude Include="SDK\Entities\CBaseHandle.h" />
     <ClInclude Include="SDK\Entities\CHandle.h" />
     <ClInclude Include="SDK\Interfaces\IHandleEntity.h" />
+    <ClInclude Include="Features\Glow.h" />
+    <ClInclude Include="SDK\Math\VMatrix.h" />
+    <ClInclude Include="SDK\Entities\CBaseEntity.h" />
   </ItemGroup>
 </Project>

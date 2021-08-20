@@ -11,7 +11,9 @@ public:
 
 	struct Aim {
 		bool isEnabled = false;
+		bool friendlyFire = false;
 		bool ignoreFlash = false;
+		bool ignoreSmoke = false;
 		bool silentAim = false;
 		bool autoScope = false;
 		bool autoShoot = false;

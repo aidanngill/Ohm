@@ -3,17 +3,12 @@
 class Color;
 
 class CC4;
-class IClientEntity;
+class CBaseEntity;
 
 namespace Visuals {
-	bool GetBoundingBox(IClientEntity* entity, int& x, int& y, int& w, int& h);
+	bool GetBoundingBox(CBaseEntity* entity, int& x, int& y, int& w, int& h);
 	void DrawBoundingBox(int x, int y, int w, int h, Color color);
 	void DrawBombTimer(CC4* bombEntity);
 	void DrawBombBox(CC4* bombEntity);
-	void Render();
-}
-
-namespace Glow {
-	void Shutdown();
 	void Render();
 }

@@ -27,7 +27,9 @@ Menu::Menu() {
 	// [Start] Aim
 	Tab tabAim = Tab(L"Aim");
 	tabAim.options.push_back(Option(L"Enabled", &config->aim.isEnabled));
+	tabAim.options.push_back(Option(L"Friendly Fire", &config->aim.friendlyFire));
 	tabAim.options.push_back(Option(L"Ignore Flash", &config->aim.ignoreFlash));
+	tabAim.options.push_back(Option(L"Ignore Smoke", &config->aim.ignoreSmoke));
 	tabAim.options.push_back(Option(L"Silent Aim", &config->aim.silentAim));
 	tabAim.options.push_back(Option(L"Auto Scope", &config->aim.autoScope));
 	tabAim.options.push_back(Option(L"Auto Shoot", &config->aim.autoShoot));

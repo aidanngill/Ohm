@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./CBaseCombatWeapon.h"
+#include "./CBaseEntity.h"
 
 #include "../Interfaces/IClientEntity.h"
 
@@ -8,7 +9,7 @@
 
 #include "../../Netvars.h"
 
-class CBasePlayer : public IClientEntity {
+class CBasePlayer : public CBaseEntity {
 public:
 	int getArmor() {
 		return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + netvars->m_ArmorValue);

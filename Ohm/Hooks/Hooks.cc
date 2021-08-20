@@ -13,6 +13,7 @@
 
 #include "../Features/Aimbot.h"
 #include "../Features/Chams.h"
+#include "../Features/Glow.h"
 #include "../Features/Misc.h"
 #include "../Features/Visuals.h"
 

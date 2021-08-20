@@ -156,6 +156,7 @@
     <ClCompile Include="Config.cc" />
     <ClCompile Include="Features\Aimbot.cc" />
     <ClCompile Include="Features\Chams.cc" />
+    <ClCompile Include="Features\Glow.cc" />
     <ClCompile Include="GUI\Colors.cc" />
     <ClCompile Include="GUI\Menu\Menu.cc" />
     <ClCompile Include="GUI\Menu\Option.cc" />
@@ -172,6 +173,7 @@
     <ClCompile Include="SDK\Class\CGlobalVars.cc" />
     <ClCompile Include="SDK\Entities\CBasePlayer.h" />
     <ClCompile Include="SDK\KeyValues.cpp" />
+    <ClCompile Include="SDK\Math\VMatrix.cpp" />
     <ClCompile Include="Utility\File.cc" />
     <ClCompile Include="Utility\Utilities.cc" />
     <ClCompile Include="Features\Visuals.cc" />
@@ -180,6 +182,7 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="Features\Aimbot.h" />
     <ClInclude Include="Features\Chams.h" />
+    <ClInclude Include="Features\Glow.h" />
     <ClInclude Include="GUI\Colors.h" />
     <ClInclude Include="GUI\Font.h" />
     <ClInclude Include="GUI\Menu\Option.h" />
@@ -201,6 +204,7 @@
     <ClInclude Include="SDK\Class\CUserCmd.h" />
     <ClInclude Include="SDK\Class\CViewSetup.h" />
     <ClInclude Include="SDK\Entities\CBaseCombatWeapon.h" />
+    <ClInclude Include="SDK\Entities\CBaseEntity.h" />
     <ClInclude Include="SDK\Entities\CC4.h" />
     <ClInclude Include="SDK\Entities\CBaseHandle.h" />
     <ClInclude Include="SDK\Entities\CHandle.h" />
@@ -229,6 +233,7 @@
     <ClInclude Include="SDK\Math\Matrix.h" />
     <ClInclude Include="SDK\Math\QAngle.h" />
     <ClInclude Include="SDK\Math\Vector.h" />
+    <ClInclude Include="SDK\Math\VMatrix.h" />
     <ClInclude Include="SDK\Studio.h" />
     <ClInclude Include="SDK\Utl\Macro.h" />
     <ClInclude Include="SDK\Utl\Memory.h" />

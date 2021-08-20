@@ -4,12 +4,12 @@
 
 // https://github.com/ValveSoftware/source-sdk-2013/blob/master/mp/src/public/icliententitylist.h
 
-class IClientEntity;
+class CBaseEntity;
 
 class IClientEntityList {
 public:
-	IClientEntity* GetClientEntity(int entityNumber) {
-		typedef IClientEntity* (__thiscall* OriginalFn)(void*, int);
+	CBaseEntity* GetClientEntity(int entityNumber) {
+		typedef CBaseEntity* (__thiscall* OriginalFn)(void*, int);
 		return GetVFunc<OriginalFn>(this, 3)(this, entityNumber);
 	}
 	int GetHighestEntityIndex() {

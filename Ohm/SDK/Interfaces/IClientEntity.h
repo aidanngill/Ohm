@@ -31,10 +31,10 @@ public:
 	virtual ~IClientEntity() {};
 
 	bool isC4() {
-		return this->GetClientClass()->m_pNetworkName == "CC4";
+		return this->GetClientClass()->m_ClassID == netvars->classIdentifiers.CC4;
 	}
 	bool isFogController() {
-		return this->GetClientClass()->m_pNetworkName == "FogController";
+		return this->GetClientClass()->m_ClassID == netvars->classIdentifiers.FogController;
 	}
 	bool isWeapon() {
 		typedef bool(__thiscall* OriginalFn)(void*);

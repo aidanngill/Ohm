@@ -10,6 +10,8 @@
 #include "../SDK/Color.h"
 #include "../SDK/KeyValues.h"
 
+#include "../SDK/Entities/CBaseEntity.h"
+
 // Already defined in Hooks.cc but causes many issues trying to put it into a header.
 typedef void(__thiscall* DrawModelExecuteFn)(void*, IMatRenderContext*, const DrawModelState_t&, const ModelRenderInfo_t&, matrix3x4_t*);
 
@@ -84,7 +86,7 @@ void Chams::OnDrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& s
 	static auto originalFn = hooks->ModelRender->GetOriginal<DrawModelExecuteFn>(21);
 	unsigned char modelType = this->MaterialType(*info.pModel);
 
-	IClientEntity* entity;
+	CBaseEntity* entity;
 
 	switch (modelType) {
 	case Chams::TYPE_PLAYER:

@@ -18,8 +18,10 @@ public:
 
 	int CBaseAnimating = -1;
 	int CChicken = -1;
+	int CC4 = -1;
 	int CCSPlayer = -1;
 	int CPlantedC4 = -1;
+	int FogController = -1;
 private:
 	IClientClass* clientClass = nullptr;
 	std::unordered_map<std::string, int> classIdentifiers;
@@ -38,6 +40,7 @@ public:
 
 	// DT_BaseEntity
 	std::ptrdiff_t m_hOwnerEntity;
+	std::ptrdiff_t m_rgflCoordinateFrame;
 
 	// DT_BasePlayer
 	std::ptrdiff_t m_Collision;

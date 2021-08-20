@@ -50,8 +50,10 @@ bool ClassIdentifiers::Initialize() {
 
 	CBaseAnimating = classIdentifiers["CBaseAnimating"];
 	CChicken = classIdentifiers["CChicken"];
+	CC4 = classIdentifiers["CC4"];
 	CCSPlayer = classIdentifiers["CCSPlayer"];
 	CPlantedC4 = classIdentifiers["CPlantedC4"];
+	FogController = classIdentifiers["FogController"];
 
 	return true;
 }
@@ -69,6 +71,7 @@ Netvars::Netvars() {
 
 	// DT_BaseEntity
 	m_hOwnerEntity = GetNetvarOffset("DT_BaseEntity", "m_hOwnerEntity", clientClass);
+	m_rgflCoordinateFrame = GetNetvarOffset("DT_BaseEntity", "m_CollisionGroup", clientClass) - 0x30;
 
 	// DT_BasePlayer
 	m_Collision = GetNetvarOffset("DT_BasePlayer", "m_Collision", clientClass);

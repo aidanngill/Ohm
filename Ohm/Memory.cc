@@ -24,4 +24,6 @@ Memory::Memory() {
 	KeyValuesFromString = RelativeToAbsolute<decltype(KeyValuesFromString)>((uintptr_t)Utilities::patternScan(clientHandle, "E8 ? ? ? ? 83 C4 04 89 45 D8") + 1);
 	KeyValuesFindKey = RelativeToAbsolute<decltype(KeyValuesFindKey)>((uintptr_t)Utilities::patternScan(clientHandle, "E8 ? ? ? ? F7 45") + 1);
 	KeyValuesSetString = RelativeToAbsolute<decltype(KeyValuesSetString)>((uintptr_t)Utilities::patternScan(clientHandle, "E8 ? ? ? ? 89 77 38") + 1);
+
+	GoesThroughSmoke = RelativeToAbsolute<decltype(GoesThroughSmoke)>((uintptr_t)Utilities::patternScan(clientHandle, "E8 ? ? ? ? 8B 4C 24 30 33 D2") + 1);
 }

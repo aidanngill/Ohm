@@ -43,6 +43,8 @@ void Aimbot::Run(CUserCmd* cmd) {
 	if (!config->aim.ignoreFlash && localPlayer->isFlashed())
 		return;
 
+	int ourTeam = localPlayer->getTeam();
+
 	float bestFov = config->aim.fieldOfView;
 	Vector bestAngle{ };
 	
@@ -56,6 +58,9 @@ void Aimbot::Run(CUserCmd* cmd) {
 			continue;
 
 		if (thisPlayer->GetDormant())
+			continue;
+
+		if (!config->aim.friendlyFire && thisPlayer->getTeam() == ourTeam)
 			continue;
 
 		if (!thisPlayer->isAlive())
@@ -73,7 +78,10 @@ void Aimbot::Run(CUserCmd* cmd) {
 			if (fov > bestFov)
 				continue;
 
-			// TODO: Smoke/visible check.
+			if (!config->aim.ignoreSmoke && memory->GoesThroughSmoke(lpEyePos, bonePos, 1))
+				continue;
+
+			// Todo: Visibility check.
 
 			if (fov < bestFov) {
 				bestFov = fov;

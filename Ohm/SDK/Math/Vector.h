@@ -168,6 +168,9 @@ public:
 	bool notNull() const {
 		return x || y || z;
 	}
+	float dotMultiply(const Vector& vecOther) const {
+		return x * vecOther.x + y * vecOther.y + z * vecOther.z;
+	}
 
 	float x, y, z;
 };

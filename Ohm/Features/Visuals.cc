@@ -4,7 +4,6 @@
 
 #include "../Config.h"
 #include "../Memory.h"
-#include "../Netvars.h"
 
 #include "../GUI/Colors.h"
 #include "../GUI/Render.h"
@@ -20,19 +19,56 @@
 #include "../SDK/Entities/CBasePlayer.h"
 #include "../SDK/Entities/CC4.h"
 
-#include "../SDK/Math/Vector.h"
-
 #include "../Utility/Utilities.h"
 
-bool Visuals::GetBoundingBox(IClientEntity* entity, int& x, int& y, int& w, int& h) {
-	Vector origin, min, max, flb, brt, blb, frt, frb, brb, blt, flt;
-	float left, top, right, bottom;
+static bool ScreenTransform(const Vector& in, Vector& out) {
+	static auto& wtsMatrix = interfaces->Engine->WorldToScreenMatrix();
 
-	origin = entity->getOrigin();
+	out.x = wtsMatrix.m[0][0] * in.x + wtsMatrix.m[0][1] * in.y + wtsMatrix.m[0][2] * in.z + wtsMatrix.m[0][3];
+	out.y = wtsMatrix.m[1][0] * in.x + wtsMatrix.m[1][1] * in.y + wtsMatrix.m[1][2] * in.z + wtsMatrix.m[1][3];
+	out.z = 0.0f;
 
+	float w = wtsMatrix.m[3][0] * in.x + wtsMatrix.m[3][1] * in.y + wtsMatrix.m[3][2] * in.z + wtsMatrix.m[3][3];
+
+	if (w < 0.001f)
+		return false;
+
+	out.x /= w;
+	out.y /= w;
+
+	return true;
+}
+
+bool WorldToScreen(const Vector& in, Vector& out) {
+	if (!ScreenTransform(in, out))
+		return false;
+
+	int w, h;
+	interfaces->Engine->GetScreenSize(w, h);
+
+	out.x = (w / 2.0f) + (out.x * w) / 2.0f;
+	out.y = (h / 2.0f) - (out.y * h) / 2.0f;
+
+	return true;
+}
+
+void VectorTransform(const Vector& vecIn, const matrix3x4_t& matrixIn, Vector& vecOut) {
+	for (int i = 0; i < 3; i++)
+		vecOut[i] = vecIn.dotMultiply(matrixIn[i]) + matrixIn[i][3];
+}
+
+bool Visuals::GetBoundingBox(CBaseEntity* entity, int& x, int& y, int& w, int& h) {
 	ICollideable* collideable = entity->getCollideable();
-	min = collideable->OBBMins() + origin;
-	max = collideable->OBBMaxs() + origin;
+
+	if (!collideable)
+		return false;
+
+	Vector min, max;
+
+	min = collideable->OBBMins();
+	max = collideable->OBBMaxs();
+
+	const matrix3x4_t& trans = entity->getCoordinateFrame();
 
 	Vector points[] = {
 		Vector(min.x, min.y, min.z),
@@ -45,37 +81,44 @@ bool Visuals::GetBoundingBox(IClientEntity* entity, int& x, int& y, int& w, int&
 		Vector(max.x, min.y, max.z)
 	};
 
-	if (interfaces->DebugOverlay->ScreenPosition(points[3], flb) || interfaces->DebugOverlay->ScreenPosition(points[5], brt)
-		|| interfaces->DebugOverlay->ScreenPosition(points[0], blb) || interfaces->DebugOverlay->ScreenPosition(points[4], frt)
-		|| interfaces->DebugOverlay->ScreenPosition(points[2], frb) || interfaces->DebugOverlay->ScreenPosition(points[1], brb)
-		|| interfaces->DebugOverlay->ScreenPosition(points[6], blt) || interfaces->DebugOverlay->ScreenPosition(points[7], flt))
-		return false;
+	Vector pointsTransformed[8] = {};
 
-	Vector arr[] = { flb, brt, blb, frt, frb, brb, blt, flt };
+	for (int i = 0; i < 8; i++)
+		VectorTransform(points[i], trans, pointsTransformed[i]);
 
-	left = flb.x;
-	top = flb.y;
-	right = flb.x;
-	bottom = flb.y;
-	
-	for (int i = 0; i < 8; i++) {
-		if (left > arr[i].x)
-			left = arr[i].x;
+	Vector pointsScreen[8] = {};
 
-		if (bottom < arr[i].y)
-			bottom = arr[i].y;
+	for (int i = 0; i < 8; i++)
+		if (!WorldToScreen(pointsTransformed[i], pointsScreen[i]))
+			return false;
 
-		if (right < arr[i].x)
-			right = arr[i].x;
+	float left = pointsScreen[0].x;
+	float top = pointsScreen[0].y;
+	float right = pointsScreen[0].x;
+	float bottom = pointsScreen[0].y;
 
-		if (top > arr[i].y)
-			top = arr[i].y;
+	for (int i = 1; i < 8; i++) {
+		if (left > pointsScreen[i].x)
+			left = pointsScreen[i].x;
+
+		if (top < pointsScreen[i].y)
+			top = pointsScreen[i].y;
+
+		if (right < pointsScreen[i].x)
+			right = pointsScreen[i].x;
+
+		if (bottom > pointsScreen[i].y)
+			bottom = pointsScreen[i].y;
 	}
 
 	x = static_cast<int>(left);
-	y = static_cast<int>(top);
+	y = static_cast<int>(bottom);
 	w = static_cast<int>(right - left);
-	h = static_cast<int>(bottom - top);
+	h = static_cast<int>(top - bottom);
+
+	// Wow this took a lot of debugging, but the result is much better
+	// looking, matching up much closer than before with IVDebugOverlay.
+	// https://on.wii.golf/G61OkDBsaP.png
 
 	return true;
 }
@@ -97,7 +140,7 @@ void Visuals::DrawBombTimer(CC4* bombEntity) {
 	float length = bombEntity->getLength();
 	float ratio = time / length;
 
-	interfaces->Surface->DrawSetColor(Color(32, 32, 32, 255));
+	interfaces->Surface->DrawSetColor(Colors::DarkGrey);
 	interfaces->Surface->DrawFilledRect(w / 3, h / 3, (w / 3) * 2, (h / 3) + 3);
 
 	interfaces->Surface->DrawSetColor(Color(
@@ -122,14 +165,9 @@ void Visuals::DrawBombTimer(CC4* bombEntity) {
 }
 
 void Visuals::DrawBombBox(CC4* bombEntity) {
-	float time = bombEntity->getTimer() - memory->GlobalVars->currentTime;
-
-	if (time < 0)
-		return;
-
 	int x, y, w, h;
 
-	if (!GetBoundingBox(bombEntity, x, y, w, h))
+	if (!GetBoundingBox(reinterpret_cast<CBaseEntity*>(bombEntity), x, y, w, h))
 		return;
 
 	interfaces->Surface->DrawSetColor(Colors::White);
@@ -141,12 +179,13 @@ void Visuals::Render() {
 		return;
 
 	CBasePlayer* localPlayer = Utilities::getLocalPlayer();
+	CBaseCombatWeapon* currentWeapon = localPlayer->getCurrentWeapon();
 
 	int maxEntities = interfaces->ClientEntityList->GetHighestEntityIndex();
 	int maxClients = interfaces->Engine->GetMaxClients();
 
 	for (int idx = 0; idx < maxEntities; idx++) {
-		IClientEntity* entity = interfaces->ClientEntityList->GetClientEntity(idx);
+		CBaseEntity* entity = interfaces->ClientEntityList->GetClientEntity(idx);
 
 		if (!entity || entity == localPlayer)
 			continue;
@@ -188,6 +227,14 @@ void Visuals::Render() {
 			}
 		}
 		else if (entity->isC4()) {
+			// Don't render the bomb box if we're holding it.
+			if (!currentWeapon || currentWeapon->GetClientClass()->m_ClassID == netvars->classIdentifiers.CC4)
+				continue;
+
+			// Don't render it if we are holding it in our off-hand.
+			if (memory->IsC4Owner(reinterpret_cast<uintptr_t>(localPlayer)))
+				continue;
+
 			CC4* thisBomb = reinterpret_cast<CC4*>(entity);
 
 			if (config->visuals.entities.showBomb) {
@@ -212,93 +259,5 @@ void Visuals::Render() {
 
 			DrawBoundingBox(x, y, w, h, Colors::White);
 		}
-	}
-}
-
-void Glow::Shutdown() {
-	for (int idx = 0; idx < memory->GlowObjectManager->glowObjectDefinitions.Count(); idx++) {
-		GlowObjectDefinition_t& glowObject = memory->GlowObjectManager->glowObjectDefinitions[idx];
-		IClientEntity* entity = glowObject.entity;
-
-		if (glowObject.IsUnused())
-			continue;
-
-		if (!entity || entity->GetDormant())
-			continue;
-
-		glowObject.glowAlpha = 0.f;
-	}
-}
-
-void Glow::Render() {
-	CBasePlayer* localPlayer = Utilities::getLocalPlayer();
-	static const float rgbMult = 1.f / 256.f;
-
-	for (int idx = 0; idx < memory->GlowObjectManager->glowObjectDefinitions.Count(); idx++) {
-		GlowObjectDefinition_t& glowObject = memory->GlowObjectManager->glowObjectDefinitions[idx];
-		IClientEntity* entity = glowObject.entity;
-
-		if (glowObject.IsUnused())
-			continue;
-
-		if (!entity || entity->GetDormant())
-			continue;
-
-		int classId = entity->GetClientClass()->m_ClassID;
-		Color color{};
-
-		if (classId == netvars->classIdentifiers.CCSPlayer) {
-			CBasePlayer* thisPlayer = reinterpret_cast<CBasePlayer*>(entity);
-
-			if (!config->visuals.glow.showPlayers)
-				continue;
-
-			if (!thisPlayer->isAlive())
-				continue;
-
-			bool isEnemy = thisPlayer->getTeam() != localPlayer->getTeam();
-
-			if (isEnemy) {
-				color = thisPlayer->hasC4() ? Colors::Green : Colors::Red;
-			}
-			else {
-				color = Colors::Blue;
-			}
-		}
-		else if (classId == netvars->classIdentifiers.CChicken) {
-			if (!config->visuals.glow.showChickens)
-				continue;
-
-			*entity->shouldGlow() = true;
-			color = Colors::Blue;
-		}
-		else if (classId == netvars->classIdentifiers.CBaseAnimating) {
-			if (!config->visuals.glow.showDefuseKits)
-				continue;
-
-			color = Colors::Blue;
-		}
-		else if (classId == netvars->classIdentifiers.CPlantedC4) {
-			if (!config->visuals.glow.showPlantedC4)
-				continue;
-
-			color = Colors::Blue;
-		}
-		else if (entity->isWeapon()) {
-			if (!config->visuals.glow.showDroppedWeapons)
-				continue;
-
-			color = Colors::Blue;
-		}
-
-		glowObject.glowRed = color.r() * rgbMult;
-		glowObject.glowGreen = color.g() * rgbMult;
-		glowObject.glowBlue = color.b() * rgbMult;
-		glowObject.glowAlpha = color.a() * rgbMult;
-
-		glowObject.renderWhenOccluded = true;
-		glowObject.renderWhenUnoccluded = false;
-
-		glowObject.bloomAmount = config->visuals.glow.bloomAmount;
 	}
 }

@@ -47,7 +47,9 @@ bool Config::LoadFromFile(const char* fileName) {
 	data = nlohmann::json::parse(bsfString);
 
 	if (data["aimbot"]["enabled"].is_boolean()) aim.isEnabled = data["aimbot"]["enabled"].get<bool>();
+	if (data["aimbot"]["friendly_fire"].is_boolean()) aim.friendlyFire = data["aimbot"]["friendly_fire"].get<bool>();
 	if (data["aimbot"]["ignore_flash"].is_boolean()) aim.ignoreFlash = data["aimbot"]["ignore_flash"].get<bool>();
+	if (data["aimbot"]["ignore_smoke"].is_boolean()) aim.ignoreSmoke = data["aimbot"]["ignore_smoke"].get<bool>();
 	if (data["aimbot"]["silent_aim"].is_boolean()) aim.silentAim = data["aimbot"]["silent_aim"].get<bool>();
 	if (data["aimbot"]["auto_scope"].is_boolean()) aim.autoScope = data["aimbot"]["auto_scope"].get<bool>();
 	if (data["aimbot"]["auto_shoot"].is_boolean()) aim.autoShoot = data["aimbot"]["auto_shoot"].get<bool>();
@@ -88,7 +90,9 @@ void Config::DumpToFile(const char* fileName) {
 	nlohmann::json od = {
 		{"aimbot", {
 			{"enabled", aim.isEnabled},
+			{"friendly_fire", aim.friendlyFire},
 			{"ignore_flash", aim.ignoreFlash},
+			{"ignore_smoke", aim.ignoreSmoke},
 			{"silent_aim", aim.silentAim},
 			{"auto_scope", aim.autoScope},
 			{"auto_shoot", aim.autoShoot},
