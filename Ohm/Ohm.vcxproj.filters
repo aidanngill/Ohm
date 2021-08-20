@@ -91,5 +91,6 @@
     <ClInclude Include="Features\Glow.h" />
     <ClInclude Include="SDK\Math\VMatrix.h" />
     <ClInclude Include="SDK\Entities\CBaseEntity.h" />
+    <ClInclude Include="SDK\Interfaces\IEngineTrace.h" />
   </ItemGroup>
 </Project>

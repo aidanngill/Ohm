@@ -98,6 +98,7 @@ Interfaces::Interfaces() {
 	ClientEntityList	= reinterpret_cast<IClientEntityList*>(FindInterface("VClientEntityList0").createFn);
 	DebugOverlay		= reinterpret_cast<IVDebugOverlay*>(FindInterface("VDebugOverlay0").createFn);
 	Engine				= reinterpret_cast<IVEngineClient*>(FindInterface("VEngineClient0").createFn);
+	EngineTrace			= reinterpret_cast<IEngineTrace*>(FindInterface("EngineTraceClient0").createFn);
 	InputSystem			= reinterpret_cast<IInputSystem*>(FindInterface("InputSystemVersion0").createFn);
 	MaterialSystem		= reinterpret_cast<IMaterialSystem*>(FindInterface("VMaterialSystem0").createFn);
 	ModelRender			= reinterpret_cast<IVModelRender*>(FindInterface("VEngineModel0").createFn);

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../Interfaces/IClientEntity.h"
-
 #include "../../Netvars.h"
 
 class CBaseEntity : public IClientEntity {

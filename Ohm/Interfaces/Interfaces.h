@@ -8,6 +8,7 @@ class CClientMode;
 class InterfaceReg;
 class IBaseClientDLL;
 class IClientEntityList;
+class IEngineTrace;
 class IInputSystem;
 class IMaterialSystem;
 class IPanel;
@@ -37,6 +38,7 @@ public:
 	CClientMode* ClientMode;
 	IBaseClientDLL* BaseClient;
 	IClientEntityList* ClientEntityList;
+	IEngineTrace* EngineTrace;
 	IInputSystem* InputSystem;
 	IMaterialSystem* MaterialSystem;
 	IPanel* Panel;

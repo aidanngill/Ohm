@@ -81,7 +81,8 @@ void Aimbot::Run(CUserCmd* cmd) {
 			if (!config->aim.ignoreSmoke && memory->GoesThroughSmoke(lpEyePos, bonePos, 1))
 				continue;
 
-			// Todo: Visibility check.
+			if (!thisPlayer->isVisible(localPlayer, bonePos))
+				continue;
 
 			if (fov < bestFov) {
 				bestFov = fov;

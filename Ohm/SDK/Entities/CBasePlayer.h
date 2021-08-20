@@ -4,10 +4,13 @@
 #include "./CBaseEntity.h"
 
 #include "../Interfaces/IClientEntity.h"
+#include "../Interfaces/IEngineTrace.h"
 
 #include "../Math/Vector.h"
 
 #include "../../Netvars.h"
+
+#include "../../Interfaces/Interfaces.h"
 
 class CBasePlayer : public CBaseEntity {
 public:
@@ -76,5 +79,12 @@ public:
 	CBaseCombatWeapon* getCurrentWeapon() {
 		typedef CBaseCombatWeapon* (__thiscall* GetCurrentWeaponFn)(void*);
 		return GetVFunc<GetCurrentWeaponFn>(this, 267)(this);
+	}
+	bool isVisible(CBasePlayer* localPlayer, const Vector& vecDst) {
+		Trace trace;
+
+		interfaces->EngineTrace->traceRay({ localPlayer->getEyePosition(), vecDst.notNull() ? vecDst : this->getBonePosition(8) }, 0x46004009, { localPlayer }, trace);
+
+		return trace.entity == this || trace.fraction > .97f;
 	}
 };
