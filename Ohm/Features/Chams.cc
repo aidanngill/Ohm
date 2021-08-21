@@ -113,27 +113,36 @@ void Chams::OnDrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& s
 }
 
 unsigned char Chams::MaterialType(model_t model) {
-	// All player models.
-	// Path: models/player/...
-	if (strncmp(model.szName, "models/player/", 13) == 0)
+	char* modelName = model.szName;
+	modelName += 7;
+
+	// Most likely have a weapon.
+	if (modelName[0] == 'w') {
+		modelName += 8;
+
+		// stattrack.mdl
+		if (strncmp(modelName, "stat", 4) == 0)
+			return Chams::TYPE_WEAPON;
+
+		// v_models/arms/...
+		if (strncmp(modelName, "v_models/a", 10) == 0)
+			return Chams::TYPE_ARMS;
+
+		// v_...
+		if (strncmp(modelName, "v_", 2) == 0)
+			return Chams::TYPE_WEAPON;
+	}
+
+	// Most likely a player model.
+	else if (modelName[0] == 'p') {
+		modelName += 7;
+
+		if (strncmp(modelName, "sleeve", 6) == 0)
+			return Chams::TYPE_SLEEVES;
+
 		return Chams::TYPE_PLAYER;
+	}
 
-	// Viewmodel arms.
-	// Path: models/weapons/v_models/arms/...
-	else if (strncmp(model.szName, "models/weapons/v_models/arms/", 29) == 0)
-		return Chams::TYPE_ARMS;
-
-	// Viewmodel sleeves.
-	// Path: <unknown>
-	else if (strstr(model.szName, "sleeve") != nullptr)
-		return Chams::TYPE_SLEEVES;
-
-	// Viewmodel weapons.
-	// Path: models/weapons/v_...
-	else if (strncmp(model.szName, "models/weapons/v_", 17) == 0 || strstr(model.szName, "stattrack") != nullptr)
-		return Chams::TYPE_WEAPON;
-
-	// All other models.
-	else
-		return Chams::TYPE_UNKNOWN;
+	// Some other material.
+	return Chams::TYPE_UNKNOWN;
 }
